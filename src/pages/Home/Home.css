@@ -1,0 +1,164 @@
+@font-face {
+  font-family: "Comfortaa";
+  src: url("src/assets/fonts/Comfortaa-Light.ttf") format("truetype"), url("src/assets/fonts/Comfortaa-Light.woff") format("woff"), url("src/assets/fonts/Comfortaa-Light.woff2") format("woff2");
+  font-weight: 300;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Comfortaa";
+  src: url("src/assets/fonts/Comfortaa-Regular.ttf") format("truetype"), url("src/assets/fonts/Comfortaa-Regular.woff") format("woff"), url("src/assets/fonts/Comfortaa-Regular.woff2") format("woff2");
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Comfortaa";
+  src: url("src/assets/fonts/Comfortaa-Medium.ttf") format("truetype"), url("src/assets/fonts/Comfortaa-Medium.woff") format("woff"), url("src/assets/fonts/Comfortaa-Medium.woff2") format("woff2");
+  font-weight: 500;
+  font-style: normal;
+}
+@font-face {
+  font-family: "Comfortaa";
+  src: url("src/assets/fonts/Comfortaa-Bold.ttf") format("truetype"), url("src/assets/fonts/Comfortaa-Bold.woff") format("woff"), url("src/assets/fonts/Comfortaa-Bold.woff2") format("woff2");
+  font-weight: 700;
+  font-style: normal;
+}
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  font-size: 62.5%;
+  overflow-x: hidden;
+}
+
+body {
+  font-family: "Comfortaa", serif;
+  font-size: 1.5rem;
+  font-weight: 400;
+  line-height: 1;
+  background-color: #ffffff;
+  color: #111111;
+  overflow-x: hidden;
+}
+
+ul,
+a {
+  text-decoration: none;
+  list-style: none;
+  color: inherit;
+  padding: 0;
+}
+
+hr {
+  border: 1px solid #111111;
+  margin: 1.6rem 0;
+}
+
+h1 {
+  font-size: 1.5rem;
+  line-height: 2rem;
+  font-weight: 700;
+}
+@media screen and (min-width: 48rem) {
+  h1 {
+    font-size: 2.0625rem;
+    line-height: 2.75rem;
+  }
+}
+
+h2 {
+  font-size: 0.75rem;
+  line-height: 1.25rem;
+  font-weight: 700;
+}
+
+h3 {
+  font-size: 0.8125rem;
+  line-height: 1.125rem;
+  font-weight: 700;
+}
+@media screen and (min-width: 48rem) {
+  h3 {
+    font-size: 0.875rem;
+    line-height: 1.375rem;
+  }
+}
+
+h4 {
+  font-size: 0.625rem;
+  line-height: 1.25rem;
+  font-weight: 700;
+}
+@media screen and (min-width: 48rem) {
+  h4 {
+    font-size: 0.75rem;
+    line-height: 1.25rem;
+  }
+}
+
+p {
+  font-size: 0.8125rem;
+  line-height: 1.125rem;
+  font-weight: 400;
+}
+@media screen and (min-width: 48rem) {
+  p {
+    font-size: 0.875rem;
+    line-height: 1.375rem;
+  }
+}
+
+.container {
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  max-width: 75rem;
+  margin: auto;
+}
+@media screen and (min-width: 48rem) {
+  .container {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+}
+@media screen and (min-width: 80rem) {
+  .container {
+    padding-left: 2.5rem;
+    padding-right: 2.5rem;
+  }
+}
+
+.colors {
+  display: flex;
+  gap: 10px;
+}
+
+.colors > div {
+  width: 100px;
+  height: 50px;
+}
+
+.testColor1 {
+  background-color: #ebc26d;
+}
+
+.testColor2 {
+  background-color: #942f67;
+}
+
+.testColor3 {
+  background-color: #111111;
+}
+
+.testColor4 {
+  background-color: #9abdb8;
+}
+
+.testColor5 {
+  background-color: #ffffff;
+}
+
+.testColor6 {
+  background-color: #eec7bc;
+}
