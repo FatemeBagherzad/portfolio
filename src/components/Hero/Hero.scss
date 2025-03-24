@@ -6,7 +6,7 @@
 
 .hero {
   width: 100vw;
-  height: 45rem;
+  height: 50rem;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -43,6 +43,11 @@
     cursor: pointer;
     padding: 1rem 1rem 0 1rem;
     border-top: 2px solid $color2;
+    &:hover {
+      border-top: none;
+      width: 5.1rem;
+      height: 4rem;
+    }
   }
   &__name {
     font-family: 'Poppins', serif;
@@ -55,6 +60,12 @@
     background-color: $color2;
     color: $backColor;
     border: none;
+    position: relative;
+    outline: none;
+    transition: all 0.3s ease-in-out;
+    &:hover {
+      animation: pulse 1s infinite;
+    }
   }
 }
 
@@ -63,6 +74,19 @@
   opacity: 0;
   animation: textAnimation 4s infinite linear;
 }
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0px #00ffd9;
+  }
+  50% {
+    box-shadow: 0 0 10px 5px rgba(255, 255, 255, 0.4);
+  }
+  100% {
+    box-shadow: 0 0 0 0px rgba(255, 255, 255, 0.7);
+  }
+}
+
 @keyframes textAnimation {
   0% {
     opacity: 0;

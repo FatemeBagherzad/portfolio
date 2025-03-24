@@ -16,7 +16,8 @@
     "react-router": "^7.2.0",
     "react-router-dom": "^7.2.0",
     "sass": "^1.85.1",
-    "scss": "^0.2.4"
+    "scss": "^0.2.4",
+    "swiper": "^11.2.6"
   },
   "devDependencies": {
     "@eslint/js": "^9.8.0",

@@ -1,0 +1,67 @@
+[
+  {
+    "id": 1,
+    "title": "CampHeaven",
+    "description": "CampHeaven is a simple and easy-to-use camping site booking platform. It helps people find and book the perfect campsite without any hassle. You can explore different locations, check details, and see availability in real time. There’s also an interactive map to make searching easier, along with filters to find exactly what you need. I built it using React for the frontend and Node.js with MySQL for the backend to keep everything smooth and fast. Whether you're planning a quick weekend trip or a longer adventure, CampHeaven makes booking a campsite super easy!",
+    "images": [
+      "project-images/campheaven/campheaven-gif1.gif",
+      "project-images/campheaven/campheaven-gif2.gif",
+      "project-images/campheaven/campheaven-gif3.gif",
+      "project-images/campheaven/campheaven-image1.jpg",
+      "project-images/campheaven/campheaven-image2.jpg",
+      "project-images/campheaven/campheaven-image3.jpg",
+      "project-images/campheaven/campheaven-image4.jpg",
+      "project-images/campheaven/campheaven-image5.jpg",
+      "project-images/campheaven/campheaven-image6.jpg"
+    ]
+  },
+  {
+    "id": 2,
+    "title": "BrianFlix",
+    "description": "In this project I practiced chunking an existing site into React components and converting an existing static site into a React app. Also I used and practiced useState to add a state variable to all components.",
+    "images": ["project-images/brainflix/brainflix-gif1.gif"]
+  },
+  {
+    "id": 3,
+    "title": "BandSite",
+    "description": "This project is designed to practice front-end skills such as HTML, CSS, SCSS, and JavaScript by fetching data from an external API and displaying it in an organized, user-friendly interface.",
+    "images": [
+      "project-images/bandsite/bandsite-gif1.gif",
+      "project-images/bandsite/bandsite-gif2.gif"
+    ]
+  },
+  {
+    "id": 4,
+    "title": "FindFood",
+    "description": "FindFood is an app designed to make meal choices easier for users with specific dietary preferences or restrictions. Built in collaboration with UX/UI students during a 24-hour industry project, this app allows users to filter menus based on their desired ingredients and ingredients they wish to avoid.",
+    "images": ["project-images/findfood/findfood-gif1.gif"]
+  },
+  {
+    "id": 5,
+    "title": "CoffeeShop",
+    "description": "This project is a demonstration of my skills in HTML, CSS, and SCSS, along with version control using Git. The aim was to create a visually appealing and responsive web page while practicing the fundamentals of front-end development.",
+    "images": ["project-images/coffeeshop/coffeeshop-gif.gif"]
+  },
+  {
+    "id": 6,
+    "title": "TravelSite",
+    "description": "This project is a comprehensive demonstration of my skills in HTML, CSS, and SCSS, focused on creating a multi-page travel website. The goal was to design a responsive and visually engaging web experience with smooth animations and appealing layout styles.",
+    "images": [
+      "project-images/travelsite/travelsite-gif1.gif",
+      "project-images/travelsite/travelsite-gif2.gif"
+    ]
+  },
+  {
+    "id": 7,
+    "title": "FutureNature",
+    "description": "This is my very first project where I practiced using HTML and CSS to create a basic web page. The project is designed to help me understand the fundamentals of web development, including structuring content with HTML and styling it with CSS.",
+    "images": [
+      "project-images/futurenature/futurenature-image1.jpg",
+      "project-images/futurenature/futurenature-image2.jpg",
+      "project-images/futurenature/futurenature-image3.jpg",
+      "project-images/futurenature/futurenature-image4.jpg",
+      "project-images/futurenature/futurenature-image5.jpg",
+      "project-images/futurenature/futurenature-image6.jpg"
+    ]
+  }
+]
