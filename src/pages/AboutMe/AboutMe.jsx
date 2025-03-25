@@ -1,4 +1,8 @@
 const AboutMe = () => {
-  return <p>From AboutMe page</p>;
+  return (
+    <div className="container">
+      <p>From AboutMe page</p>
+    </div>
+  );
 };
 export default AboutMe;

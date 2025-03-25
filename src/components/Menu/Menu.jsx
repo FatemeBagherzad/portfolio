@@ -65,19 +65,19 @@ const Menu = () => {
           </li>
           <li
             className={
-              activePage === '/challenges' ? 'menu-txt__right--active-menu' : ''
-            }
-            onClick={() => handleMenuClick('/challenges')}
-          >
-            Challenges
-          </li>
-          <li
-            className={
               activePage === '/projects' ? 'menu-txt__right--active-menu' : ''
             }
             onClick={() => handleMenuClick('/projects')}
           >
             Projects
+          </li>
+          <li
+            className={
+              activePage === '/challenges' ? 'menu-txt__right--active-menu' : ''
+            }
+            onClick={() => handleMenuClick('/challenges')}
+          >
+            Challenges
           </li>
           <li
             className={
@@ -94,14 +94,6 @@ const Menu = () => {
             onClick={() => handleMenuClick('/contact')}
           >
             Contact
-          </li>
-          <li
-            className={
-              activePage === '/resume' ? 'menu-txt__right--active-menu' : ''
-            }
-            onClick={() => handleMenuClick('/resume')}
-          >
-            Resume
           </li>
         </ul>
 
@@ -126,16 +118,6 @@ const Menu = () => {
               </li>
               <li
                 className={
-                  activePage === '/challenges'
-                    ? 'menu-txt__dropdown--active-menu'
-                    : ''
-                }
-                onClick={() => handleMenuClick('/challenges')}
-              >
-                Challenges
-              </li>
-              <li
-                className={
                   activePage === '/projects'
                     ? 'menu-txt__dropdown--active-menu'
                     : ''
@@ -143,6 +125,16 @@ const Menu = () => {
                 onClick={() => handleMenuClick('/projects')}
               >
                 Projects
+              </li>
+              <li
+                className={
+                  activePage === '/challenges'
+                    ? 'menu-txt__dropdown--active-menu'
+                    : ''
+                }
+                onClick={() => handleMenuClick('/challenges')}
+              >
+                Challenges
               </li>
               <li
                 className={
@@ -163,16 +155,6 @@ const Menu = () => {
                 onClick={() => handleMenuClick('/contact')}
               >
                 Contact
-              </li>
-              <li
-                className={
-                  activePage === '/resume'
-                    ? 'menu-txt__dropdown--active-menu'
-                    : ''
-                }
-                onClick={() => handleMenuClick('/resume')}
-              >
-                Resume
               </li>
             </ul>
           </div>

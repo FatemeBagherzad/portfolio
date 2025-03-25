@@ -7,6 +7,16 @@
   display: flex;
   flex-direction: column;
   gap: 1rem;
+  &__btn {
+    background-color: $color1 !important;
+    color: $mainColor !important;
+    box-shadow: 0px 5px 5px #8e8e8e;
+    transition: transform 0.1s ease, box-shadow 0.1s ease;
+    &:active {
+      transform: translateY(4px);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+  }
   &__cards {
     display: grid;
     grid-template-columns: 1fr;

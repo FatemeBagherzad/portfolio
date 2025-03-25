@@ -123,9 +123,10 @@ p {
 
 .btn {
   padding: 0.5rem 3rem;
-  background-color: #ebc26d;
+  background-color: #942f67;
+  color: #ffffff;
   border: none;
-  color: #111111;
+  outline: none;
   border-radius: 0.3rem;
   cursor: pointer;
 }
@@ -134,6 +135,16 @@ p {
   display: flex;
   flex-direction: column;
   gap: 1rem;
+}
+.projects__btn {
+  background-color: #ebc26d !important;
+  color: #111111 !important;
+  box-shadow: 0px 5px 5px #8e8e8e;
+  transition: transform 0.1s ease, box-shadow 0.1s ease;
+}
+.projects__btn:active {
+  transform: translateY(4px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 .projects__cards {
   display: grid;

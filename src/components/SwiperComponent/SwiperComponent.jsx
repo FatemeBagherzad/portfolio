@@ -23,6 +23,7 @@ const SwiperComponent = ({ project }) => {
               src={imgSrc}
               alt={`${project.title} ${index}`}
               className="swiper__img"
+              loop
             />
           </SwiperSlide>
         ))}

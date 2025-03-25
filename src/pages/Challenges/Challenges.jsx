@@ -1,4 +1,8 @@
 const Challenges = () => {
-  return <p>From Challenges page</p>;
+  return (
+    <div className="container">
+      <p>From Challenges page</p>
+    </div>
+  );
 };
 export default Challenges;

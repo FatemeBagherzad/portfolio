@@ -55,13 +55,7 @@
   }
   //-------------------------------------
   &__btn {
-    padding: 0.5rem 3rem;
-    border-radius: 0.5rem;
-    background-color: $color2;
-    color: $backColor;
-    border: none;
     position: relative;
-    outline: none;
     transition: all 0.3s ease-in-out;
     &:hover {
       animation: pulse 1s infinite;

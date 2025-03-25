@@ -1,4 +1,8 @@
 const Contact = () => {
-  return <p>From Contact page</p>;
+  return (
+    <div className="container">
+      <p>From Contact page</p>
+    </div>
+  );
 };
 export default Contact;

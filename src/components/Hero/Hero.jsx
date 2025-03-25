@@ -4,7 +4,7 @@ import linkedinIcn from '../../assets/icons/linkedin-icon.png';
 import githubIcn from '../../assets/icons/github-icon.png';
 import fatemeImg1 from '../../assets/fateme-img/fatemeImg1.png';
 import fatemeImg2 from '../../assets/fateme-img/fatemeImg2.png';
-import resume from '../../assets/resume/FatemeBagherzad-Resume-canada.pdf';
+import resume from '/public/FatemeBagherzad-Resume-canada.pdf';
 
 const Hero = () => {
   const [position, setPosition] = useState(50);
@@ -60,10 +60,11 @@ const Hero = () => {
             src={linkedinIcn}
             alt="linkedin icon"
             className="hero__socialmedia-icon"
-            onClick={() => {}}
           />
         </a>
+
         <span className="hero__name">Fateme Bagherzad</span>
+
         <a href="https://github.com/FatemeBagherzad" target="_blank">
           <img
             src={githubIcn}
@@ -72,12 +73,12 @@ const Hero = () => {
           />
         </a>
       </div>
+
       <span className="hero__animated-text">{texts[textIndex]}</span>
-      <button className="hero__btn">
-        <a href={resume} target="_blank" rel="noopener noreferrer">
-          Resume
-        </a>
-      </button>
+
+      <a href={resume} target="_blank" rel="noopener noreferrer">
+        <button className="hero__btn btn">Resume</button>
+      </a>
     </div>
   );
 };

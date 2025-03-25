@@ -7,7 +7,6 @@ import Challenges from './pages/Challenges/Challenges';
 import Projects from './pages/Projects/Projects';
 import AboutMe from './pages/AboutMe/AboutMe';
 import Contact from './pages//Contact/Contact';
-import Resume from './pages/Resume/Resume';
 import NotFound from './pages/NotFound/NotFound';
 
 function App() {
@@ -25,7 +24,6 @@ function App() {
             <Route path="/projects" element={<Projects />} />
             <Route path="/about-me" element={<AboutMe />} />
             <Route path="/contact" element={<Contact />} />
-            <Route path="/resume" element={<Resume />} />
             <Route path={'*'} element={<NotFound />} />
           </Routes>
         </div>

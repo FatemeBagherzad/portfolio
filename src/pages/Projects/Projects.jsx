@@ -10,9 +10,12 @@ const Projects = () => {
   if (!projectsData) return <p>data loading ...</p>;
   return (
     <div className="projects container">
-      <h1>Some of my projects:</h1>
-      <button onClick={() => setSelectedProject(null)} className="btn">
-        SEE ALL
+      <h2>Some of my projects:</h2>
+      <button
+        onClick={() => setSelectedProject(null)}
+        className="btn projects__btn"
+      >
+        see all
       </button>
 
       {!selectedProject && (
