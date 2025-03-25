@@ -6,7 +6,7 @@ const Home = () => {
     <div className=" home">
       <Hero />
 
-      <div className="container">
+      {/* <div className="container">
         <h1>From Home page</h1>
 
         <div className="colors ">
@@ -17,7 +17,7 @@ const Home = () => {
           <div className="testColor5"></div>
           <div className="testColor6"></div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 };

@@ -103,8 +103,8 @@ p {
 }
 
 .container {
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
   max-width: 75rem;
   margin: auto;
 }
@@ -121,8 +121,34 @@ p {
   }
 }
 
-.projects__cards {
+.btn {
+  padding: 0.5rem 3rem;
+  background-color: #ebc26d;
+  border: none;
+  color: #111111;
+  border-radius: 0.3rem;
+  cursor: pointer;
+}
+
+.projects {
   display: flex;
   flex-direction: column;
-  gap: 3rem;
+  gap: 1rem;
+}
+.projects__cards {
+  display: grid;
+  grid-template-columns: 1fr;
+  cursor: pointer;
+  margin-top: 2rem;
+  gap: 4rem;
+}
+@media screen and (min-width: 48rem) {
+  .projects__cards {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media screen and (min-width: 80rem) {
+  .projects__cards {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
 }

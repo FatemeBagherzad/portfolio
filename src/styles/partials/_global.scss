@@ -74,8 +74,8 @@ p {
 }
 
 .container {
-  padding-left: 1.5rem;
-  padding-right: 1.5rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
   max-width: 75rem;
   margin: auto;
   @include tablet {
@@ -86,4 +86,12 @@ p {
     padding-left: 2.5rem;
     padding-right: 2.5rem;
   }
+}
+.btn {
+  padding: 0.5rem 3rem;
+  background-color: $color1;
+  border: none;
+  color: $mainColor;
+  border-radius: 0.3rem;
+  cursor: pointer;
 }

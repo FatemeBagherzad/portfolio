@@ -1,0 +1,13 @@
+@use '../../styles/partials/variables' as *;
+@use '../../styles/partials/mixins' as *;
+@use '../../styles/partials/typography' as *;
+@use '../../styles/partials/global' as *;
+
+.project-detail {
+  color: $mainColor;
+  border-radius: 0.1rem;
+  &__description {
+    padding-top: 2rem;
+    border-top: 1px solid $mainColor;
+  }
+}

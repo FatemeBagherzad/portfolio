@@ -4,40 +4,22 @@
 @use '../../styles/partials/global' as *;
 
 .project-card {
-  color: $mainColor;
-  border-radius: 0.1rem;
-  padding: 1rem 2rem;
-
-  // &__carousel {
-  // }
-
-  &__slide {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 2rem;
-  }
+  position: relative;
+  border-radius: 0.3rem;
+  box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.9), -4px -4px 10px rgba(0, 0, 0, 0.3); /* Soft shadows */
+  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth effect */
   &__img {
-    margin: auto;
-    max-width: 50rem;
-    border-radius: 0.5rem;
-    border: 1px solid $color2;
+    width: 100%;
+    border-radius: 0.2rem 0.2rem 0 0;
   }
-}
-
-.swiper-button-prev,
-.swiper-button-next {
-  width: 3rem;
-  height: 3rem;
-  color: $backColor;
-  background: $color2;
-  border-radius: 50%;
-  padding: 0.5rem;
-}
-
-.swiper-button-prev::after,
-.swiper-button-next::after {
-  font-size: 2rem;
-  color: $backColor;
-  font-weight: bold;
+  &__title {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 1rem 2rem;
+    border-radius: 0 0 0.2rem 0.2rem;
+    background-color: $color2;
+    color: $backColor;
+  }
 }
