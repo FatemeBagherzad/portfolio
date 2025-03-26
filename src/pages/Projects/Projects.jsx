@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import ProjectCard from '../../components/projectCard/projectCard';
+import ProjectCard from '../../components/ProjectCard/ProjectCard';
 import projectsData from '../../assets/projects-data/projects.json';
 import './Projects.scss';
 import ProjectDetail from '../../components/ProjectDetail/ProjectDetail';
