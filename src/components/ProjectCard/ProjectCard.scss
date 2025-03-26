@@ -6,8 +6,12 @@
 .project-card {
   position: relative;
   border-radius: 0.3rem;
-  box-shadow: 0px 5px 5px #8e8e8e; /* Soft shadows */
-  transition: transform 0.3s ease, box-shadow 0.3s ease; /* Smooth effect */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  &:hover {
+    transform: translateY(-0.5rem);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+  }
   &__img {
     width: 100%;
     border-radius: 0.2rem 0.2rem 0 0;

@@ -9,15 +9,19 @@
   height: 50rem;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
-  gap: 3rem;
+  gap: 2rem;
   position: relative;
   &__fatemeImgContainer {
     position: relative;
-    width: 30rem;
-    height: 30rem;
+    width: 25rem;
+    height: 25rem;
     overflow: hidden;
+    @include tablet {
+      width: 30rem;
+      height: 30rem;
+    }
   }
   &__fateme-img {
     width: 100%;
@@ -35,14 +39,21 @@
   &__icon-name-container {
     display: flex;
     justify-content: center;
-    align-items: end;
+    align-items: center;
     gap: 2rem;
+    @include tablet {
+      align-items: end;
+    }
   }
   &__socialmedia-icon {
-    width: 5rem;
-    cursor: pointer;
-    padding: 1rem 1rem 0 1rem;
+    width: 4rem;
+    padding: 0.5rem 0.5rem 0 0.5rem;
     border-top: 2px solid $color2;
+    cursor: pointer;
+    @include tablet {
+      padding: 1rem 1rem 0 1rem;
+      width: 5rem;
+    }
     &:hover {
       border-top: none;
       width: 5.1rem;
@@ -51,9 +62,17 @@
   }
   &__name {
     font-family: 'Poppins', serif;
-    font-size: 3rem;
+    font-size: 1.5rem;
+    @include tablet {
+      font-size: 3rem;
+    }
   }
   //-------------------------------------
+  &__animated-text {
+    display: inline-block;
+    opacity: 0;
+    animation: textAnimation 4s infinite linear;
+  }
   &__btn {
     position: relative;
     transition: all 0.3s ease-in-out;
@@ -61,12 +80,6 @@
       animation: pulse 1s infinite;
     }
   }
-}
-
-.hero__animated-text {
-  display: inline-block;
-  opacity: 0;
-  animation: textAnimation 4s infinite linear;
 }
 
 @keyframes pulse {

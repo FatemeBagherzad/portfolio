@@ -80,14 +80,14 @@ h2 {
 
 h3,
 h4 {
-  font-size: 1.7rem;
+  font-size: 1.6rem;
   line-height: 3.5rem;
   font-weight: 700;
 }
 @media screen and (min-width: 48rem) {
   h3,
   h4 {
-    font-size: 2rem;
+    font-size: 1.8rem;
   }
 }
 
@@ -133,8 +133,9 @@ p {
 
 .about__name {
   font-weight: 700;
-  width: 20rem;
-  border-bottom: 2px solid #942f67;
+  width: 30rem;
+  padding-bottom: 1rem;
+  border-bottom: 5px solid #942f67;
 }
 .about__txt {
   margin: 3rem auto;

@@ -81,14 +81,14 @@ h2 {
 
 h3,
 h4 {
-  font-size: 1.7rem;
+  font-size: 1.6rem;
   line-height: 3.5rem;
   font-weight: 700;
 }
 @media screen and (min-width: 48rem) {
   h3,
   h4 {
-    font-size: 2rem;
+    font-size: 1.8rem;
   }
 }
 
@@ -137,16 +137,22 @@ p {
   height: 50rem;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
-  gap: 3rem;
+  gap: 2rem;
   position: relative;
 }
 .hero__fatemeImgContainer {
   position: relative;
-  width: 30rem;
-  height: 30rem;
+  width: 25rem;
+  height: 25rem;
   overflow: hidden;
+}
+@media screen and (min-width: 48rem) {
+  .hero__fatemeImgContainer {
+    width: 30rem;
+    height: 30rem;
+  }
 }
 .hero__fateme-img {
   width: 100%;
@@ -165,14 +171,25 @@ p {
 .hero__icon-name-container {
   display: flex;
   justify-content: center;
-  align-items: end;
+  align-items: center;
   gap: 2rem;
 }
+@media screen and (min-width: 48rem) {
+  .hero__icon-name-container {
+    align-items: end;
+  }
+}
 .hero__socialmedia-icon {
-  width: 5rem;
-  cursor: pointer;
-  padding: 1rem 1rem 0 1rem;
+  width: 4rem;
+  padding: 0.5rem 0.5rem 0 0.5rem;
   border-top: 2px solid #942f67;
+  cursor: pointer;
+}
+@media screen and (min-width: 48rem) {
+  .hero__socialmedia-icon {
+    padding: 1rem 1rem 0 1rem;
+    width: 5rem;
+  }
 }
 .hero__socialmedia-icon:hover {
   border-top: none;
@@ -181,7 +198,17 @@ p {
 }
 .hero__name {
   font-family: "Poppins", serif;
-  font-size: 3rem;
+  font-size: 1.5rem;
+}
+@media screen and (min-width: 48rem) {
+  .hero__name {
+    font-size: 3rem;
+  }
+}
+.hero__animated-text {
+  display: inline-block;
+  opacity: 0;
+  animation: textAnimation 4s infinite linear;
 }
 .hero__btn {
   position: relative;
@@ -189,12 +216,6 @@ p {
 }
 .hero__btn:hover {
   animation: pulse 1s infinite;
-}
-
-.hero__animated-text {
-  display: inline-block;
-  opacity: 0;
-  animation: textAnimation 4s infinite linear;
 }
 
 @keyframes pulse {

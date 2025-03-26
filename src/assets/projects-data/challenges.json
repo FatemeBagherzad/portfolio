@@ -1,0 +1,52 @@
+[
+  {
+    "id": 1,
+    "title": "Migrating My App’s Database",
+    "description": "I worked on moving my app's database from MongoDB to  MySQL, which involved updating some of the server-side code and adjusting the queries to make everything work smoothly."
+  },
+  {
+    "id": 2,
+    "title": "Using useRef in React",
+    "description": "I faced a challenge while working with useRef to persist values across renders without causing unnecessary re-renders, but I learned a lot through experimenting with it."
+  },
+  {
+    "id": 3,
+    "title": "Implementing OAuth",
+    "description": "I worked on adding OAuth authentication to my app, which was tricky at first, but it’s been really useful for securing user login."
+  },
+  {
+    "id": 4,
+    "title": "Fixing Bugs with useEffect",
+    "description": "I had to troubleshoot some issues with state management and useEffect in my app to make sure the suggestion page worked as expected."
+  },
+  {
+    "id": 5,
+    "title": "Learning MySQL",
+    "description": "I spent some time improving my skills with MySQL, adding new fields to tables and making sure everything was connected properly with foreign keys."
+  },
+  {
+    "id": 6,
+    "title": "Deploying My Project",
+    "description": "I successfully deployed my front-end on Netlify and my back-end on Heroku for my capstone project, which was a pretty rewarding experience."
+  },
+  {
+    "id": 7,
+    "title": "Integrating Google Maps",
+    "description": "I figured out how to use the Google Maps API in my app to show nearby providers based on specific information like postal codes and benefit types."
+  },
+  {
+    "id": 8,
+    "title": "Building a Quiz App with Students",
+    "description": "I helped my students create a quiz app where users could pick their own TV channels. It was a great way to practice React and state management."
+  },
+  {
+    "id": 9,
+    "title": "Finding a Free Database",
+    "description": "I initially thought I found a free database to deploy my app, only to get a bill later. It taught me a lot about researching and understanding database pricing before committing."
+  },
+  {
+    "id": 10,
+    "title": "Organizing My Code",
+    "description": "I made sure to keep my code organized across my UI and API repositories so that everything was clean and easy to manage."
+  }
+]

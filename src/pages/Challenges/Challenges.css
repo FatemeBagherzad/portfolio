@@ -80,14 +80,14 @@ h2 {
 
 h3,
 h4 {
-  font-size: 1.7rem;
+  font-size: 1.6rem;
   line-height: 3.5rem;
   font-weight: 700;
 }
 @media screen and (min-width: 48rem) {
   h3,
   h4 {
-    font-size: 2rem;
+    font-size: 1.8rem;
   }
 }
 
@@ -136,14 +136,36 @@ p {
   flex-direction: column;
   justify-content: center;
   justify-items: center;
+  background: #f9f9f9;
 }
-.challenges__back1 {
-  background-color: rgba(238, 199, 188, 0.262745098);
-  padding: 2rem 0;
+.challenges__title {
+  border-bottom: 2px solid #942f67;
+  margin-bottom: 2rem;
 }
-.challenges__back2 {
-  padding: 2rem 0;
+.challenges__icn {
+  width: 5rem;
 }
-.challenges__bold {
-  font-weight: 700;
+.challenges__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(28rem, 1fr));
+  gap: 2rem;
+  margin: 0 auto;
+}
+.challenges__card {
+  background: white;
+  padding: 2rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.challenges__card:hover {
+  transform: translateY(-0.5rem);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+.challenges__card-title {
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+.challenges__card-txt {
+  color: #666;
 }

@@ -80,14 +80,14 @@ h2 {
 
 h3,
 h4 {
-  font-size: 1.7rem;
+  font-size: 1.6rem;
   line-height: 3.5rem;
   font-weight: 700;
 }
 @media screen and (min-width: 48rem) {
   h3,
   h4 {
-    font-size: 2rem;
+    font-size: 1.8rem;
   }
 }
 
@@ -139,8 +139,8 @@ p {
 .projects__btn {
   background-color: #ebc26d !important;
   color: #111111 !important;
-  box-shadow: 0px 5px 5px #8e8e8e;
-  transition: transform 0.1s ease, box-shadow 0.1s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
 .projects__btn:active {
   transform: translateY(4px);
@@ -156,10 +156,5 @@ p {
 @media screen and (min-width: 48rem) {
   .projects__cards {
     grid-template-columns: 1fr 1fr;
-  }
-}
-@media screen and (min-width: 80rem) {
-  .projects__cards {
-    grid-template-columns: 1fr 1fr 1fr;
   }
 }
