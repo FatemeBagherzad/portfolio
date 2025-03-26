@@ -130,3 +130,39 @@ p {
   border-radius: 0.3rem;
   cursor: pointer;
 }
+
+.contact {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 3rem 0;
+  gap: 5rem;
+  width: 100%;
+}
+.contact__links {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 2rem 0;
+  border: 1px solid #942f67;
+  border-radius: 0.5rem;
+  box-shadow: 0 0 10px 0.1px #8e8e8e;
+}
+.contact__link {
+  display: flex;
+  align-items: center;
+}
+.contact__link-icon {
+  width: 5rem;
+  cursor: pointer;
+  padding: 1rem 1rem 1rem 1rem;
+}
+.contact__email {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 2rem;
+}
