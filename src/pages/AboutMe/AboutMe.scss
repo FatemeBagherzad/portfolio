@@ -1,0 +1,42 @@
+@use '../../styles/partials/typography' as *;
+@use '../../styles/partials/variables' as *;
+@use '../../styles/partials/mixins' as *;
+@use '../../styles/partials/global' as *;
+
+.about {
+  &__name {
+    font-weight: 700;
+    width: 20rem;
+    border-bottom: 2px solid $color2;
+  }
+  &__txt {
+    margin: 3rem auto;
+    line-height: 2rem;
+    @include tablet {
+      line-height: 3rem;
+    }
+  }
+  &__animated-txt {
+    animation: fadeColor 5s infinite ease-in-out;
+  }
+  &__highlight-yellow {
+    background-color: $color1;
+    padding: 1rem;
+    border-radius: 0.5rem;
+  }
+}
+
+@keyframes fadeColor {
+  0% {
+    color: #942f67;
+    opacity: 1;
+  }
+  50% {
+    color: #000;
+    opacity: 0.8;
+  }
+  100% {
+    color: #942f67;
+    opacity: 1;
+  }
+}

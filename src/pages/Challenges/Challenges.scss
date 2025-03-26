@@ -1,0 +1,22 @@
+@use '../../styles/partials/typography' as *;
+@use '../../styles/partials/variables' as *;
+@use '../../styles/partials/mixins' as *;
+@use '../../styles/partials/global' as *;
+
+.challenges {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  justify-items: center;
+
+  &__back1 {
+    background-color: #eec7bc43;
+    padding: 2rem 0;
+  }
+  &__back2 {
+    padding: 2rem 0;
+  }
+  &__bold {
+    font-weight: 700;
+  }
+}
