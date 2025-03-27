@@ -18,9 +18,9 @@ const AboutMe = () => {
         className="text-lg font-medium"
       >
         <p className="about__txt">
-          Hi, I'm Fateme! I'm a passionate software developer with a background
-          in design, and I've recently earned a Software Engineering diploma
-          from BrainStation. <br /> <br />
+          Hi, I'm Fateme!👋 I'm a passionate software developer with a
+          background in design, and I've recently earned a Software Engineering
+          diploma from BrainStation. <br /> <br />
           <div className="about__animated-txt">
             My journey in tech began with working in the design field, where I
             used AutoCAD, 3ds Max, and CATIA to draw maps, create renders, and
