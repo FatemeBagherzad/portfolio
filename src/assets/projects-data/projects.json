@@ -18,7 +18,7 @@
   },
   {
     "id": 2,
-    "title": "BrianFlix",
+    "title": "BrainFlix",
     "description": "In this project I practiced chunking an existing site into React components and converting an existing static site into a React app. Also I used and practiced useState to add a state variable to all components.",
     "images": ["project-images/brainflix/brainflix-gif1.gif"],
     "repo": "https://github.com/FatemeBagherzad/Brian-Flix"
