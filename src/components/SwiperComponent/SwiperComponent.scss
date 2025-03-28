@@ -5,6 +5,7 @@
 
 .swiper {
   width: 100%;
+  padding-bottom: 1rem;
   // &__carousel {
   // }
   &__slide {
@@ -38,4 +39,8 @@
   font-size: 1rem;
   color: $backColor;
   font-weight: bold;
+}
+.swiper-pagination {
+  bottom: -0.1rem !important;
+  color: red !important;
 }

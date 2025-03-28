@@ -133,6 +133,7 @@ p {
 
 .swiper {
   width: 100%;
+  padding-bottom: 1rem;
 }
 .swiper__slide {
   display: flex;
@@ -167,4 +168,9 @@ p {
   font-size: 1rem;
   color: #ffffff;
   font-weight: bold;
+}
+
+.swiper-pagination {
+  bottom: -0.1rem !important;
+  color: red !important;
 }
