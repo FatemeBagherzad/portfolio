@@ -131,6 +131,9 @@ p {
   cursor: pointer;
 }
 
+.swiper {
+  width: 100%;
+}
 .swiper__slide {
   display: flex;
   justify-content: center;

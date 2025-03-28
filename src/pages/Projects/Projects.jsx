@@ -15,7 +15,7 @@ const Projects = () => {
         onClick={() => setSelectedProject(null)}
         className="btn projects__btn"
       >
-        see all
+        See all
       </button>
 
       {!selectedProject && (
