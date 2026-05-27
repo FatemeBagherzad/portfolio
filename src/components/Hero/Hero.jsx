@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import './Hero.scss';
 import linkedinIcn from '../../assets/icons/linkedin-icon.png';
 import githubIcn from '../../assets/icons/github-icon.png';
@@ -7,6 +8,7 @@ import fatemeImg2 from '../../assets/fateme-img/fatemeImg2.png';
 const resume = '/FatemeBagherzad-SoftwareDeveloper.pdf';
 
 const Hero = () => {
+  const navigate = useNavigate();
   const [position, setPosition] = useState(50);
   const [textIndex, setTextIndex] = useState(0);
 
@@ -76,9 +78,19 @@ const Hero = () => {
 
       <span className="hero__animated-text">{texts[textIndex]}</span>
 
-      <a href={resume} target="_blank" rel="noopener noreferrer">
-        <button className="hero__btn btn">Resume</button>
-      </a>
+      <div className="hero__info-btns-container">
+        <button className="hero__btn btn" onClick={() => navigate('/projects')}>
+          My projects
+        </button>
+
+        <a href={resume} target="_blank" rel="noopener noreferrer">
+          <button className="hero__btn btn">Resume</button>
+        </a>
+
+        <button className="hero__btn btn" onClick={() => navigate('/contact')}>
+          Contact me
+        </button>
+      </div>
     </div>
   );
 };

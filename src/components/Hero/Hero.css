@@ -158,9 +158,7 @@ p {
   width: 100%;
   position: absolute;
   top: 0;
-  transition: -webkit-clip-path 0.3s ease-out;
   transition: clip-path 0.3s ease-out;
-  transition: clip-path 0.3s ease-out, -webkit-clip-path 0.3s ease-out;
 }
 .hero__fateme-img-left {
   z-index: 2;
@@ -209,6 +207,12 @@ p {
   display: inline-block;
   opacity: 0;
   animation: textAnimation 4s infinite linear;
+}
+.hero__info-btns-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem;
 }
 .hero__btn {
   position: relative;

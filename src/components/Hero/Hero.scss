@@ -73,6 +73,12 @@
     opacity: 0;
     animation: textAnimation 4s infinite linear;
   }
+  &__info-btns-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 2rem;
+  }
   &__btn {
     position: relative;
     transition: all 0.3s ease-in-out;
