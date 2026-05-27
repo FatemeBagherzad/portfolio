@@ -4,7 +4,7 @@ import linkedinIcn from '../../assets/icons/linkedin-icon.png';
 import githubIcn from '../../assets/icons/github-icon.png';
 import fatemeImg1 from '../../assets/fateme-img/fatemeImg1.png';
 import fatemeImg2 from '../../assets/fateme-img/fatemeImg2.png';
-const resume = '/FatemeBagherzad-Resume-canada.pdf';
+const resume = '/FatemeBagherzad-SoftwareDeveloper.pdf';
 
 const Hero = () => {
   const [position, setPosition] = useState(50);
