@@ -4,11 +4,11 @@
     "title": "RABVA",
     "description": "RABVA is a full-stack Quran study web application built for readers, memorizers and researchers. The reading view shows the Quran in the classic Uthmani page layout with continuous scrolling, word-by-word translations and side-by-side comparison of multiple translations. A root search lets users click any word and find every ayah sharing the same Arabic root, with results opening in tabs so several searches can stay open at once. The Canvas and Board views let researchers place ayahs and words on a free workspace, draw connections between them, comment, and mention other users. A Learning mode supports memorization with repetition and progress tracking, and a Preferences panel controls fonts, script style (Uthmani or Simple), interface language and translation choices. Behind the scenes a Fix Data admin tool handles editing of Arabic word data with full right-to-left support. The frontend is React with SCSS; the backend is Django and MySQL, everything runs in Docker, and production is hosted on AWS EC2 behind Nginx with automatic HTTPS.",
     "images": [
+      "project-images/rabva/Rabva-board.gif",
       "project-images/rabva/Rabva-reading.gif",
       "project-images/rabva/Rabva-search.gif",
       "project-images/rabva/Rabva-tabs.gif",
       "project-images/rabva/Rabva-canvas.gif",
-      "project-images/rabva/Rabva-board.gif",
       "project-images/rabva/Rabva-learning.gif",
       "project-images/rabva/Rabva-fixdata.gif",
       "project-images/rabva/Rabva-prefs.gif"
@@ -62,7 +62,9 @@
     "id": 3,
     "title": "BrainFlix",
     "description": "In this project I practiced chunking an existing site into React components and converting an existing static site into a React app. Also I used and practiced useState to add a state variable to all components.",
-    "images": ["project-images/brainflix/brainflix-gif1.gif"],
+    "images": [
+      "project-images/brainflix/brainflix-gif1.gif"
+    ],
     "repo": "https://github.com/FatemeBagherzad/Brian-Flix",
     "icons": [
       "react.svg",
@@ -87,13 +89,21 @@
       "project-images/bandsite/bandsite-gif2.gif"
     ],
     "repo": "https://github.com/FatemeBagherzad/Band-Site",
-    "icons": ["html5.svg", "css.svg", "sass.svg", "javascript.svg", "git.svg"]
+    "icons": [
+      "html5.svg",
+      "css.svg",
+      "sass.svg",
+      "javascript.svg",
+      "git.svg"
+    ]
   },
   {
     "id": 5,
     "title": "FindFood",
     "description": "FindFood is an app designed to make meal choices easier for users with specific dietary preferences or restrictions. Built in collaboration with UX/UI students during a 24-hour industry project, this app allows users to filter menus based on their desired ingredients and ingredients they wish to avoid.",
-    "images": ["project-images/findfood/findfood-gif1.gif"],
+    "images": [
+      "project-images/findfood/findfood-gif1.gif"
+    ],
     "repo": "https://github.com/FatemeBagherzad/FindFood-client",
     "icons": [
       "react.svg",
@@ -114,9 +124,16 @@
     "id": 6,
     "title": "CoffeeShop",
     "description": "This project is a demonstration of my skills in HTML, CSS, and SCSS, along with version control using Git. The aim was to create a visually appealing and responsive web page while practicing the fundamentals of front-end development.",
-    "images": ["project-images/coffeeshop/coffeeshop-gif.gif"],
+    "images": [
+      "project-images/coffeeshop/coffeeshop-gif.gif"
+    ],
     "repo": "https://github.com/FatemeBagherzad/Coffee-Shop",
-    "icons": ["html5.svg", "css.svg", "sass.svg", "git.svg"]
+    "icons": [
+      "html5.svg",
+      "css.svg",
+      "sass.svg",
+      "git.svg"
+    ]
   },
   {
     "id": 7,
@@ -127,7 +144,12 @@
       "project-images/travelsite/travelsite-gif2.gif"
     ],
     "repo": "https://github.com/FatemeBagherzad/Travel-Site",
-    "icons": ["html5.svg", "css.svg", "sass.svg", "git.svg"]
+    "icons": [
+      "html5.svg",
+      "css.svg",
+      "sass.svg",
+      "git.svg"
+    ]
   },
   {
     "id": 8,
@@ -142,6 +164,9 @@
       "project-images/futurenature/futurenature-image6.jpg"
     ],
     "repo": "https://github.com/FatemeBagherzad/Future-Nature",
-    "icons": ["html5.svg", "css.svg"]
+    "icons": [
+      "html5.svg",
+      "css.svg"
+    ]
   }
 ]
