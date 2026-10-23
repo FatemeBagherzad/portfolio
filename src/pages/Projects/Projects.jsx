@@ -26,6 +26,7 @@ const Projects = () => {
                 key={project.id}
                 projectTitle={project.title}
                 projectCoverImg={project.images[0]}
+                icons={project.icons}
                 onClick={() => setSelectedProject(project)}
               />
             );

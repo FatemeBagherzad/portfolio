@@ -14,14 +14,40 @@
       "project-images/campheaven/campheaven-image5.jpg",
       "project-images/campheaven/campheaven-image6.jpg"
     ],
-    "repo": "https://github.com/FatemeBagherzad/camp-heaven-ui"
+    "repo": "https://github.com/FatemeBagherzad/camp-heaven-ui",
+    "icons": [
+      "react.svg",
+      "javascript.svg",
+      "sass.svg",
+      "reactrouter.svg",
+      "axios.svg",
+      "vite.svg",
+      "eslint.svg",
+      "git.svg",
+      "nodedotjs.svg",
+      "express.svg",
+      "mysql.svg"
+    ]
   },
   {
     "id": 2,
     "title": "BrainFlix",
     "description": "In this project I practiced chunking an existing site into React components and converting an existing static site into a React app. Also I used and practiced useState to add a state variable to all components.",
     "images": ["project-images/brainflix/brainflix-gif1.gif"],
-    "repo": "https://github.com/FatemeBagherzad/Brian-Flix"
+    "repo": "https://github.com/FatemeBagherzad/Brian-Flix",
+    "icons": [
+      "react.svg",
+      "reactrouter.svg",
+      "javascript.svg",
+      "html5.svg",
+      "css.svg",
+      "sass.svg",
+      "axios.svg",
+      "nodedotjs.svg",
+      "express.svg",
+      "git.svg",
+      "github.svg"
+    ]
   },
   {
     "id": 3,
@@ -31,21 +57,37 @@
       "project-images/bandsite/bandsite-gif1.gif",
       "project-images/bandsite/bandsite-gif2.gif"
     ],
-    "repo": "https://github.com/FatemeBagherzad/Band-Site"
+    "repo": "https://github.com/FatemeBagherzad/Band-Site",
+    "icons": ["html5.svg", "css.svg", "sass.svg", "javascript.svg", "git.svg"]
   },
   {
     "id": 4,
     "title": "FindFood",
     "description": "FindFood is an app designed to make meal choices easier for users with specific dietary preferences or restrictions. Built in collaboration with UX/UI students during a 24-hour industry project, this app allows users to filter menus based on their desired ingredients and ingredients they wish to avoid.",
     "images": ["project-images/findfood/findfood-gif1.gif"],
-    "repo": "https://github.com/FatemeBagherzad/FindFood-client"
+    "repo": "https://github.com/FatemeBagherzad/FindFood-client",
+    "icons": [
+      "react.svg",
+      "ionic.svg",
+      "javascript.svg",
+      "sass.svg",
+      "reactrouter.svg",
+      "axios.svg",
+      "git.svg",
+      "nodedotjs.svg",
+      "express.svg",
+      "mysql.svg",
+      "jira.svg",
+      "github.svg"
+    ]
   },
   {
     "id": 5,
     "title": "CoffeeShop",
     "description": "This project is a demonstration of my skills in HTML, CSS, and SCSS, along with version control using Git. The aim was to create a visually appealing and responsive web page while practicing the fundamentals of front-end development.",
     "images": ["project-images/coffeeshop/coffeeshop-gif.gif"],
-    "repo": "https://github.com/FatemeBagherzad/Coffee-Shop"
+    "repo": "https://github.com/FatemeBagherzad/Coffee-Shop",
+    "icons": ["html5.svg", "css.svg", "sass.svg", "git.svg"]
   },
   {
     "id": 6,
@@ -55,7 +97,8 @@
       "project-images/travelsite/travelsite-gif1.gif",
       "project-images/travelsite/travelsite-gif2.gif"
     ],
-    "repo": "https://github.com/FatemeBagherzad/Travel-Site"
+    "repo": "https://github.com/FatemeBagherzad/Travel-Site",
+    "icons": ["html5.svg", "css.svg", "sass.svg", "git.svg"]
   },
   {
     "id": 7,
@@ -69,6 +112,7 @@
       "project-images/futurenature/futurenature-image5.jpg",
       "project-images/futurenature/futurenature-image6.jpg"
     ],
-    "repo": "https://github.com/FatemeBagherzad/Future-Nature"
+    "repo": "https://github.com/FatemeBagherzad/Future-Nature",
+    "icons": ["html5.svg", "css.svg"]
   }
 ]
