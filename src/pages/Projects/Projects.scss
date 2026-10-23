@@ -23,8 +23,5 @@
     cursor: pointer;
     margin-top: 2rem;
     gap: 4rem;
-    @include tablet {
-      grid-template-columns: 1fr 1fr;
-    }
   }
 }

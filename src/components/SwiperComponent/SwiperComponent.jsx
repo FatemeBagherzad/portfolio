@@ -20,10 +20,9 @@ const SwiperComponent = ({ project }) => {
         {project.images.map((imgSrc, index) => (
           <SwiperSlide key={index} className="swiper__slide">
             <img
-              src={imgSrc}
+              src={'/' + imgSrc.replace(/^\/+/, '')}
               alt={`${project.title} ${index}`}
               className="swiper__img"
-              loop
             />
           </SwiperSlide>
         ))}
