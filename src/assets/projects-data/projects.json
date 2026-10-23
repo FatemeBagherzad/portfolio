@@ -1,6 +1,35 @@
 [
   {
     "id": 1,
+    "title": "RABVA",
+    "description": "RABVA is a full-stack Quran study web application built for readers, memorizers and researchers. The reading view shows the Quran in the classic Uthmani page layout with continuous scrolling, word-by-word translations and side-by-side comparison of multiple translations. A root search lets users click any word and find every ayah sharing the same Arabic root, with results opening in tabs so several searches can stay open at once. The Canvas and Board views let researchers place ayahs and words on a free workspace, draw connections between them, comment, and mention other users. A Learning mode supports memorization with repetition and progress tracking, and a Preferences panel controls fonts, script style (Uthmani or Simple), interface language and translation choices. Behind the scenes a Fix Data admin tool handles editing of Arabic word data with full right-to-left support. The frontend is React with SCSS; the backend is Django and MySQL, everything runs in Docker, and production is hosted on AWS EC2 behind Nginx with automatic HTTPS.",
+    "images": [
+      "project-images/rabva/Rabva-reading.gif",
+      "project-images/rabva/Rabva-search.gif",
+      "project-images/rabva/Rabva-tabs.gif",
+      "project-images/rabva/Rabva-canvas.gif",
+      "project-images/rabva/Rabva-board.gif",
+      "project-images/rabva/Rabva-learning.gif",
+      "project-images/rabva/Rabva-fixdata.gif",
+      "project-images/rabva/Rabva-prefs.gif"
+    ],
+    "repo": "https://github.com/FatemeBagherzad/Rabva",
+    "icons": [
+      "react.svg",
+      "javascript.svg",
+      "sass.svg",
+      "reactrouter.svg",
+      "axios.svg",
+      "python.svg",
+      "mysql.svg",
+      "docker-logo-svgrepo-com.svg",
+      "Amazon_Web_Services_Logo.svg",
+      "git.svg",
+      "github.svg"
+    ]
+  },
+  {
+    "id": 2,
     "title": "CampHeaven",
     "description": "CampHeaven is a simple and easy-to-use camping site booking platform. It helps people find and book the perfect campsite without any hassle. You can explore different locations, check details, and see availability in real time. There’s also an interactive map to make searching easier, along with filters to find exactly what you need. I built it using React for the frontend and Node.js with MySQL for the backend to keep everything smooth and fast. Whether you're planning a quick weekend trip or a longer adventure, CampHeaven makes booking a campsite super easy!",
     "images": [
@@ -30,7 +59,7 @@
     ]
   },
   {
-    "id": 2,
+    "id": 3,
     "title": "BrainFlix",
     "description": "In this project I practiced chunking an existing site into React components and converting an existing static site into a React app. Also I used and practiced useState to add a state variable to all components.",
     "images": ["project-images/brainflix/brainflix-gif1.gif"],
@@ -50,7 +79,7 @@
     ]
   },
   {
-    "id": 3,
+    "id": 4,
     "title": "BandSite",
     "description": "This project is designed to practice front-end skills such as HTML, CSS, SCSS, and JavaScript by fetching data from an external API and displaying it in an organized, user-friendly interface.",
     "images": [
@@ -61,7 +90,7 @@
     "icons": ["html5.svg", "css.svg", "sass.svg", "javascript.svg", "git.svg"]
   },
   {
-    "id": 4,
+    "id": 5,
     "title": "FindFood",
     "description": "FindFood is an app designed to make meal choices easier for users with specific dietary preferences or restrictions. Built in collaboration with UX/UI students during a 24-hour industry project, this app allows users to filter menus based on their desired ingredients and ingredients they wish to avoid.",
     "images": ["project-images/findfood/findfood-gif1.gif"],
@@ -82,7 +111,7 @@
     ]
   },
   {
-    "id": 5,
+    "id": 6,
     "title": "CoffeeShop",
     "description": "This project is a demonstration of my skills in HTML, CSS, and SCSS, along with version control using Git. The aim was to create a visually appealing and responsive web page while practicing the fundamentals of front-end development.",
     "images": ["project-images/coffeeshop/coffeeshop-gif.gif"],
@@ -90,7 +119,7 @@
     "icons": ["html5.svg", "css.svg", "sass.svg", "git.svg"]
   },
   {
-    "id": 6,
+    "id": 7,
     "title": "TravelSite",
     "description": "This project is a comprehensive demonstration of my skills in HTML, CSS, and SCSS, focused on creating a multi-page travel website. The goal was to design a responsive and visually engaging web experience with smooth animations and appealing layout styles.",
     "images": [
@@ -101,7 +130,7 @@
     "icons": ["html5.svg", "css.svg", "sass.svg", "git.svg"]
   },
   {
-    "id": 7,
+    "id": 8,
     "title": "FutureNature",
     "description": "This is my very first project where I practiced using HTML and CSS to create a basic web page. The project is designed to help me understand the fundamentals of web development, including structuring content with HTML and styling it with CSS.",
     "images": [
