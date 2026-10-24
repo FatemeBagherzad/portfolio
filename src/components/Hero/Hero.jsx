@@ -11,6 +11,23 @@ const Hero = () => {
   const navigate = useNavigate();
   const [position, setPosition] = useState(50);
   const [textIndex, setTextIndex] = useState(0);
+  const [copied, setCopied] = useState(false);
+  const email = 'fa.bagherzad@gmail.com';
+
+  const copyEmail = async () => {
+    try {
+      await navigator.clipboard.writeText(email);
+    } catch {
+      const ta = document.createElement('textarea');
+      ta.value = email;
+      document.body.appendChild(ta);
+      ta.select();
+      document.execCommand('copy');
+      document.body.removeChild(ta);
+    }
+    setCopied(true);
+    setTimeout(() => setCopied(false), 2000);
+  };
 
   const texts = [
     'Passionate Software Developer',
@@ -87,8 +104,12 @@ const Hero = () => {
           <button className="hero__btn btn">Resume</button>
         </a>
 
-        <button className="hero__btn btn" onClick={() => navigate('/contact')}>
-          Contact me
+        <button
+          className={`hero__btn btn hero__email-btn${copied ? ' hero__email-btn--copied' : ''}`}
+          onClick={copyEmail}
+          title="Click to copy my email"
+        >
+          {copied ? 'Copied!' : email}
         </button>
       </div>
     </div>

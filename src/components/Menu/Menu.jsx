@@ -87,14 +87,6 @@ const Menu = () => {
           >
             About
           </li>
-          <li
-            className={
-              activePage === '/contact' ? 'menu-txt__right--active-menu' : ''
-            }
-            onClick={() => handleMenuClick('/contact')}
-          >
-            Contact
-          </li>
         </ul>
 
         <img
@@ -145,16 +137,6 @@ const Menu = () => {
                 onClick={() => handleMenuClick('/about-me')}
               >
                 About
-              </li>
-              <li
-                className={
-                  activePage === '/contact'
-                    ? 'menu-txt__dropdown--active-menu'
-                    : ''
-                }
-                onClick={() => handleMenuClick('/contact')}
-              >
-                Contact
               </li>
             </ul>
           </div>

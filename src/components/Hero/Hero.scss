@@ -86,6 +86,14 @@
       animation: pulse 1s infinite;
     }
   }
+  &__email-btn {
+    min-width: 13rem;
+    &--copied {
+      background-color: $color4 !important;
+      color: $mainColor !important;
+      animation: none;
+    }
+  }
 }
 
 @keyframes pulse {
