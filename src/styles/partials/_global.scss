@@ -10,7 +10,6 @@
 
 html {
   font-size: 62.5%;
-  overflow-x: hidden;
 }
 
 body {
@@ -20,7 +19,6 @@ body {
   line-height: 1;
   background-color: $backColor;
   color: $mainColor;
-  overflow-x: hidden;
 }
 
 ul,
@@ -74,8 +72,9 @@ p {
 }
 
 .container {
-  padding-left: 1rem;
-  padding-right: 1rem;
+  width: 100%;
+  padding-left: 1.6rem;
+  padding-right: 1.6rem;
   max-width: 75rem;
   margin: auto;
   @include tablet {
@@ -88,11 +87,25 @@ p {
   }
 }
 .btn {
-  padding: 0.5rem 3rem;
+  // Inline-flex + min-height guarantees a >=44px touch target on every
+  // button, which is the minimum comfortable hit area on a phone.
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 4.4rem;
+  // Horizontal padding shrinks on narrow screens so a row of buttons
+  // can never grow wider than the viewport.
+  padding: 0.5rem clamp(1.2rem, 4vw, 3rem);
+  max-width: 100%;
+  font-family: inherit;
+  font-size: 1.4rem;
   background-color: $color2;
   color: $backColor;
   border: none;
   outline: none;
   border-radius: 0.3rem;
   cursor: pointer;
+  @include tablet {
+    font-size: 1.5rem;
+  }
 }

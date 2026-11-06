@@ -5,18 +5,25 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
 
 .hero {
-  width: 100vw;
-  height: 50rem;
+  // `100vw` includes the scrollbar gutter, which pushed the page wider than
+  // the viewport on desktop. `100%` tracks the actual content box instead.
+  width: 100%;
+  // Was a fixed `height`, which clipped the buttons once they wrapped.
+  min-height: 50rem;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  gap: 2rem;
+  gap: 1.6rem;
+  padding-bottom: 3rem;
   position: relative;
+  @include tablet {
+    gap: 2rem;
+  }
   &__fatemeImgContainer {
     position: relative;
-    width: 25rem;
-    height: 25rem;
+    width: min(25rem, 70vw);
+    height: min(25rem, 70vw);
     overflow: hidden;
     @include tablet {
       width: 30rem;
@@ -38,9 +45,14 @@
   //------------------------------------
   &__icon-name-container {
     display: flex;
+    flex-wrap: wrap;
     justify-content: center;
     align-items: center;
-    gap: 2rem;
+    gap: 1.2rem;
+    max-width: 100%;
+    @include tablet {
+      gap: 2rem;
+    }
     @include tablet {
       align-items: end;
     }
@@ -62,22 +74,43 @@
   }
   &__name {
     font-family: 'Poppins', serif;
-    font-size: 1.5rem;
+    font-size: 2rem;
+    text-align: center;
     @include tablet {
       font-size: 3rem;
     }
   }
   //-------------------------------------
+  // The slide animation moves the text a full width to each side, so it
+  // needs a clipping viewport of its own. Without this it was the widest
+  // thing on the page for part of every cycle.
+  &__animated-text-viewport {
+    width: 100%;
+    min-height: 2.4rem;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
   &__animated-text {
     display: inline-block;
+    max-width: 100%;
+    text-align: center;
     opacity: 0;
     animation: textAnimation 4s infinite linear;
   }
   &__info-btns-container {
     display: flex;
+    // Wrapping is what stops the row overflowing: three buttons that do not
+    // fit on one line stack instead of running off both edges.
+    flex-wrap: wrap;
     justify-content: center;
-    align-items: center;
-    gap: 2rem;
+    align-items: stretch;
+    gap: 1.2rem;
+    width: 100%;
+    @include tablet {
+      gap: 2rem;
+    }
   }
   &__btn {
     position: relative;
@@ -87,7 +120,9 @@
     }
   }
   &__email-btn {
-    min-width: 13rem;
+    // Was `min-width: 13rem`, which forced the row past the viewport width.
+    min-width: 0;
+    max-width: 100%;
     &--copied {
       background-color: $color4 !important;
       color: $mainColor !important;

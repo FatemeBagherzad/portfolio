@@ -95,7 +95,9 @@ const Hero = () => {
         </a>
       </div>
 
-      <span className="hero__animated-text">{texts[textIndex]}</span>
+      <div className="hero__animated-text-viewport">
+        <span className="hero__animated-text">{texts[textIndex]}</span>
+      </div>
 
       <div className="hero__info-btns-container">
         <button className="hero__btn btn" onClick={() => navigate('/projects')}>
