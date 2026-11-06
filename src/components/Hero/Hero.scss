@@ -2,186 +2,144 @@
 @use '../../styles/partials/mixins' as *;
 
 .hero {
-  // `100vw` includes the scrollbar gutter, which pushed the page wider than
-  // the viewport on desktop. `100%` tracks the actual content box instead.
-  width: 100%;
-  // Was a fixed `height`, which clipped the buttons once they wrapped.
-  min-height: auto;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-start;
-  align-items: center;
-  gap: 1.6rem;
-  padding-bottom: 3rem;
   position: relative;
-  @include tablet {
-    gap: 2rem;
-  }
-  &__fatemeImgContainer {
+  // `dvh` tracks the visible viewport as a mobile browser's address bar
+  // collapses; `vh` does not, which is what leaves a gap at the bottom.
+  min-height: min(92dvh, 86rem);
+  display: flex;
+  align-items: center;
+  padding-block: var(--space-xl) var(--space-2xl);
+  // Establishes the containing block for the absolutely-positioned field.
+  isolation: isolate;
+  overflow: clip;
+
+  &__inner {
     position: relative;
-    width: min(25rem, 70vw);
-    height: min(25rem, 70vw);
-    overflow: hidden;
-    @include tablet {
-      width: 30rem;
-      height: 30rem;
-    }
-  }
-  &__fateme-img {
-    width: 100%;
-    // Required: the width/height attributes on the <img> are presentational
-    // hints, so without this the element would take a fixed pixel height.
-    height: auto;
-    position: absolute;
-    top: 0;
-    transition: clip-path 0.3s ease-out;
-  }
-  &__fateme-img-left {
-    z-index: 2;
-  }
-  &__fateme-img-right {
     z-index: 1;
-  }
-  //------------------------------------
-  &__icon-name-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
+    display: grid;
+    gap: var(--space-l);
     align-items: center;
-    gap: 1.2rem;
-    max-width: 100%;
-    @include tablet {
-      gap: 2rem;
-    }
-    @include tablet {
-      align-items: end;
-    }
-  }
-  &__socialmedia-icon {
-    width: 4rem;
-    height: auto;
-    padding: 0.5rem 0.5rem 0 0.5rem;
-    border-top: 2px solid $color2;
-    cursor: pointer;
-    @include tablet {
-      padding: 1rem 1rem 0 1rem;
-      width: 5rem;
-    }
-    &:hover {
-      border-top: none;
-      width: 5.1rem;
-      height: 4rem;
-    }
-  }
-  &__name {
-    font-family: 'Poppins', serif;
-    // This is the page's <h1> now, so the global heading sizing has to be
-    // overridden rather than inherited.
-    font-size: 2rem;
-    line-height: 1.2;
-    margin: 0;
-    text-align: center;
-    @include tablet {
-      font-size: 3rem;
-    }
-  }
-  //-------------------------------------
-  &__role {
-    font-size: 1.8rem;
-    line-height: 1.2;
-    font-weight: 700;
-    color: $color2;
-    margin: 0;
-    text-align: center;
-    @include tablet {
-      font-size: 2.2rem;
+    grid-template-columns: 1fr;
+    @media (min-width: 56rem) {
+      grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+      gap: var(--space-xl);
     }
   }
 
-  // The stack a screener is actually scanning for, as text rather than
-  // icons, so it is readable, selectable and indexable.
+  // On a phone the portrait leads, because a face is a faster anchor than a
+  // line of type. From the two-column breakpoint up, the copy leads.
+  &__copy {
+    order: 2;
+    @media (min-width: 56rem) {
+      order: 1;
+    }
+  }
+
+  &__visual {
+    order: 1;
+    width: min(100%, 30rem);
+    margin-inline: auto;
+    @media (min-width: 56rem) {
+      order: 2;
+      width: min(100%, 42rem);
+    }
+  }
+
+  &__eyebrow {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2xs);
+    margin-bottom: var(--space-s);
+  }
+
+  &__dot {
+    width: 0.4rem;
+    height: 0.4rem;
+    border-radius: var(--radius-full);
+    background-color: var(--color-accent);
+  }
+
+  &__name {
+    font-size: var(--step-6);
+    line-height: 0.92;
+    letter-spacing: -0.045em;
+    margin-bottom: var(--space-m);
+    // Stops a long surname wrapping into an orphan on narrow screens.
+    text-wrap: balance;
+  }
+
+  &__name-line {
+    display: block;
+    color: var(--color-accent);
+  }
+
+  &__pitch {
+    font-size: var(--step-0);
+    line-height: 1.55;
+    max-width: 52ch;
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-m);
+  }
+
   &__stack {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
-    gap: 0.6rem;
-    margin: 0;
-    padding: 0;
-    list-style: none;
+    gap: var(--space-3xs);
+    margin-bottom: var(--space-l);
   }
 
   &__stack-item {
-    font-size: 1.3rem;
+    font-family: var(--font-mono);
+    font-size: var(--step--2);
     line-height: 1;
-    padding: 0.6rem 1rem;
-    border-radius: 0.3rem;
+    padding: 0.7rem 1rem;
+    border-radius: var(--radius-s);
     background-color: var(--color-chip-bg);
     color: var(--color-chip-text);
   }
 
-  &__pitch {
-    max-width: 58ch;
-    text-align: center;
-    margin: 0;
-  }
-
-  &__meta {
-    font-size: 1.4rem;
-    line-height: 1.4;
-    color: var(--color-text-muted);
-    text-align: center;
-    margin: 0;
-  }
-
-  &__info-btns-container {
+  &__actions {
     display: flex;
-    // Wrapping is what stops the row overflowing: three buttons that do not
-    // fit on one line stack instead of running off both edges.
     flex-wrap: wrap;
-    justify-content: center;
-    align-items: stretch;
-    gap: 1.2rem;
-    width: 100%;
-    @include tablet {
-      gap: 2rem;
-    }
+    gap: var(--space-2xs);
+    margin-bottom: var(--space-m);
   }
-  &__btn {
-    position: relative;
-    transition: all 0.3s ease-in-out;
-    &:hover {
-      animation: pulse 1s infinite;
-    }
-  }
-  &__email-btn {
-    // Was `min-width: 13rem`, which forced the row past the viewport width.
-    min-width: 0;
-    max-width: 100%;
+
+  &__email {
+    font-family: var(--font-mono);
+    font-size: var(--step--2);
+    color: var(--color-text-muted);
     &--copied {
-      background-color: $color4 !important;
-      color: $mainColor !important;
-      animation: none;
+      color: var(--color-accent);
+    }
+  }
+
+  &__socials {
+    display: flex;
+    gap: var(--space-3xs);
+  }
+
+  &__social {
+    display: grid;
+    place-items: center;
+    // 44px minimum hit area around a 24px mark.
+    width: 4.4rem;
+    height: 4.4rem;
+    border-radius: var(--radius-full);
+    transition: background-color var(--dur-fast) linear;
+    &:hover {
+      background-color: var(--color-chip-bg);
+    }
+    img {
+      width: 2.4rem;
+      height: auto;
     }
   }
 }
 
-@keyframes pulse {
-  0% {
-    box-shadow: 0 0 0 0px #00ffd9;
-  }
-  50% {
-    box-shadow: 0 0 10px 5px rgba(255, 255, 255, 0.4);
-  }
-  100% {
-    box-shadow: 0 0 0 0px rgba(255, 255, 255, 0.7);
-  }
-}
-
-
-
-// The GitHub mark is solid black artwork, so on the dark theme it all but
-// disappears against the page. axe cannot catch this: it only measures text
-// contrast, not the legibility of an image.
-:root[data-theme='dark'] .hero__socialmedia-icon--invert-on-dark {
+// The GitHub mark is solid black artwork and all but disappears on the dark
+// theme. axe cannot catch this: it measures text contrast, not whether an
+// image is legible.
+:root[data-theme='dark'] .hero__social--invert-on-dark img {
   filter: invert(1);
 }

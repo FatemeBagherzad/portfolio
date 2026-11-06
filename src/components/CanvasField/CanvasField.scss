@@ -1,0 +1,30 @@
+.canvas-field {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  // Decorative: it must never intercept a click meant for the content above.
+  pointer-events: none;
+  // Fades the field out before it reaches the text, so nothing has to fight
+  // it for legibility.
+  -webkit-mask-image: radial-gradient(
+    120% 100% at 50% 0%,
+    #000 45%,
+    transparent 88%
+  );
+  mask-image: radial-gradient(120% 100% at 50% 0%, #000 45%, transparent 88%);
+
+  &__canvas {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+}
+
+// The field tracks the pointer, so where there is a real pointer it needs to
+// receive the move events. Touch devices get the ambient drift only, which
+// also keeps the hero from swallowing taps.
+@media (hover: hover) and (pointer: fine) {
+  .canvas-field {
+    pointer-events: auto;
+  }
+}

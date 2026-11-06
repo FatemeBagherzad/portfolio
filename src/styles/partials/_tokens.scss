@@ -1,0 +1,170 @@
+// ===========================================================================
+// Design tokens
+// ===========================================================================
+// Everything visual resolves to a token. Components never hard-code a colour,
+// a font size or a duration, which is what makes themes, fluid type and a
+// reduced-motion pass changes to this file rather than to every component.
+//
+// NOTE: `html` is set to 62.5%, so 1rem = 10px throughout.
+
+:root {
+  // -------------------------------------------------------------------
+  // Type
+  // -------------------------------------------------------------------
+  --font-display: 'Space Grotesk', system-ui, -apple-system, sans-serif;
+  --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, 'SFMono-Regular', monospace;
+
+  // A fluid modular scale: every step interpolates between its small-screen
+  // and large-screen size, so there are no breakpoint jumps in typography.
+  --step--2: clamp(1.1rem, 1.05rem + 0.2vw, 1.25rem);
+  --step--1: clamp(1.33rem, 1.25rem + 0.38vw, 1.56rem);
+  --step-0: clamp(1.6rem, 1.49rem + 0.55vw, 1.95rem);
+  --step-1: clamp(1.92rem, 1.75rem + 0.85vw, 2.44rem);
+  --step-2: clamp(2.3rem, 2.05rem + 1.25vw, 3.05rem);
+  --step-3: clamp(2.76rem, 2.4rem + 1.8vw, 3.81rem);
+  --step-4: clamp(3.31rem, 2.81rem + 2.5vw, 4.77rem);
+  --step-5: clamp(3.98rem, 3.28rem + 3.45vw, 5.96rem);
+  --step-6: clamp(4.4rem, 3.3rem + 5.5vw, 8.2rem);
+
+  --leading-tight: 1.05;
+  --leading-snug: 1.25;
+  --leading-normal: 1.6;
+  --tracking-tight: -0.03em;
+  --tracking-wide: 0.12em;
+
+  // -------------------------------------------------------------------
+  // Space — a single scale, so rhythm stays consistent
+  // -------------------------------------------------------------------
+  --space-3xs: 0.4rem;
+  --space-2xs: 0.8rem;
+  --space-xs: 1.2rem;
+  --space-s: 1.6rem;
+  --space-m: 2.4rem;
+  --space-l: 3.2rem;
+  --space-xl: 4.8rem;
+  --space-2xl: 7.2rem;
+  --space-3xl: 10.4rem;
+
+  --radius-s: 0.4rem;
+  --radius-m: 0.8rem;
+  --radius-l: 1.6rem;
+  --radius-full: 999rem;
+
+  --measure: 68ch;
+  --page-max: 118rem;
+  --gutter: clamp(1.6rem, 1rem + 3vw, 4rem);
+
+  // -------------------------------------------------------------------
+  // Motion
+  // -------------------------------------------------------------------
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-spring: cubic-bezier(0.34, 1.4, 0.64, 1);
+  --dur-fast: 140ms;
+  --dur-base: 280ms;
+  --dur-slow: 620ms;
+}
+
+// ---------------------------------------------------------------------------
+// Themes
+// ---------------------------------------------------------------------------
+
+@mixin light-theme {
+  color-scheme: light;
+
+  --color-bg: #fbfbfc;
+  --color-bg-elevated: #ffffff;
+  --color-surface: #ffffff;
+  --color-text: #0b0b0f;
+  --color-text-muted: #5c5c66;
+  --color-border: rgba(11, 11, 15, 0.12);
+  --color-border-strong: rgba(11, 11, 15, 0.26);
+  --color-placeholder: #eeeef1;
+
+  --color-accent: #942f67;
+  --color-accent-vivid: #b93c81;
+  --color-on-accent: #ffffff;
+  --color-chip-bg: rgba(148, 47, 103, 0.1);
+  --color-chip-text: #7a2655;
+
+  --color-highlight: #ebc26d;
+  --color-on-highlight: #1a1a1a;
+  --color-confirm: #9abdb8;
+
+  --color-header-bg: rgba(251, 251, 252, 0.72);
+  --color-header-text: #0b0b0f;
+  --color-header-accent-text: #ffffff;
+  --color-header-focus: #942f67;
+
+  --color-focus: #942f67;
+
+  // The generative field reads these so it stays in step with the theme.
+  --field-ink: 11, 11, 15;
+  --field-accent: 148, 47, 103;
+  // Dark ink on a near-white page reads far stronger than light ink on a
+  // near-black one, so the light theme needs a lower alpha for the field to
+  // feel equally quiet behind the type.
+  --field-alpha: 0.3;
+
+  --shadow-card: 0 1px 2px rgba(11, 11, 15, 0.06), 0 8px 24px rgba(11, 11, 15, 0.06);
+  --shadow-card-hover: 0 2px 4px rgba(11, 11, 15, 0.08), 0 18px 40px rgba(11, 11, 15, 0.12);
+  --shadow-overlay: 0 24px 64px rgba(11, 11, 15, 0.24);
+}
+
+@mixin dark-theme {
+  color-scheme: dark;
+
+  --color-bg: #0b0b0f;
+  --color-bg-elevated: #141419;
+  --color-surface: #141419;
+  --color-text: #f4f4f5;
+  --color-text-muted: #9a9aa5;
+  --color-border: rgba(255, 255, 255, 0.14);
+  --color-border-strong: rgba(255, 255, 255, 0.3);
+  --color-placeholder: #1e1e24;
+
+  // The light-theme magenta is unreadable on a dark surface, so the accent
+  // lightens rather than the page simply inverting.
+  --color-accent: #e05c9e;
+  --color-accent-vivid: #f07ab4;
+  --color-on-accent: #190810;
+  --color-chip-bg: rgba(224, 92, 158, 0.16);
+  --color-chip-text: #f5a8cd;
+
+  --color-highlight: #ebc26d;
+  --color-on-highlight: #1a1a1a;
+  --color-confirm: #7fa9a3;
+
+  --color-header-bg: rgba(11, 11, 15, 0.68);
+  --color-header-text: #f4f4f5;
+  --color-header-accent-text: #190810;
+  --color-header-focus: #ebc26d;
+
+  --color-focus: #ebc26d;
+
+  --field-ink: 244, 244, 245;
+  --field-accent: 224, 92, 158;
+  --field-alpha: 0.6;
+
+  --shadow-card: 0 1px 2px rgba(0, 0, 0, 0.5), 0 8px 24px rgba(0, 0, 0, 0.45);
+  --shadow-card-hover: 0 2px 4px rgba(0, 0, 0, 0.6), 0 18px 40px rgba(0, 0, 0, 0.6);
+  --shadow-overlay: 0 24px 64px rgba(0, 0, 0, 0.7);
+}
+
+:root {
+  @include light-theme;
+}
+
+// An explicit choice always wins.
+:root[data-theme='dark'] {
+  @include dark-theme;
+}
+
+// Fallback for a visitor whose system prefers dark before the inline script
+// in index.html has run. An explicit light choice is still respected.
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    @include dark-theme;
+  }
+}
