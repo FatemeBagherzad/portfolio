@@ -12,7 +12,7 @@ const Projects = () => {
 
   return (
     <div className="projects container">
-      <h2>Some of my projects:</h2>
+      <h1>Projects</h1>
       <button
         onClick={() => setSelectedProject(null)}
         className="btn projects__btn"

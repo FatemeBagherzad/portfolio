@@ -1,153 +1,124 @@
 import { useState, useRef, useEffect } from 'react';
-import type { MouseEvent as ReactMouseEvent } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import './Menu.scss';
 import menuIcon from '../../assets/icons/menu-white.webp';
+
+interface NavItem {
+  path: string;
+  label: string;
+}
+
+const NAV_ITEMS: readonly NavItem[] = [
+  { path: '/', label: 'Home' },
+  { path: '/projects', label: 'Projects' },
+  { path: '/challenges', label: 'Challenges' },
+  { path: '/about-me', label: 'About' },
+];
 
 const Menu = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [mobileMenu, setMobileMenu] = useState<boolean>(false);
-  const [activePage, setActivePage] = useState<string>(location.pathname);
+  const activePage = location.pathname;
 
   const menuRef = useRef<HTMLDivElement>(null);
-  const menuIconRef = useRef<HTMLImageElement>(null);
-
-  useEffect(() => {
-    setActivePage(location.pathname);
-  }, [location]);
+  const toggleRef = useRef<HTMLButtonElement>(null);
 
   const handleMenuClick = (path: string): void => {
     navigate(path);
-    setActivePage(path);
     setMobileMenu(false);
   };
 
-  const openMobileMenu = (event: ReactMouseEvent<HTMLImageElement>): void => {
-    event.stopPropagation();
-    setMobileMenu((prev) => !prev);
-  };
-
   useEffect(() => {
+    if (!mobileMenu) return;
+
     const handleClickOutside = (event: MouseEvent): void => {
       const target = event.target as Node | null;
-      if (
-        menuRef.current &&
-        target &&
-        !menuRef.current.contains(target) &&
-        menuIconRef.current !== target
-      ) {
+      if (!target) return;
+      if (menuRef.current?.contains(target)) return;
+      if (toggleRef.current?.contains(target)) return;
+      setMobileMenu(false);
+    };
+
+    // Escape closes the menu and returns focus to the button that opened it,
+    // so a keyboard user is never left with focus inside a hidden element.
+    const handleKeyDown = (event: KeyboardEvent): void => {
+      if (event.key === 'Escape') {
         setMobileMenu(false);
+        toggleRef.current?.focus();
       }
     };
 
-    if (mobileMenu) {
-      document.addEventListener('click', handleClickOutside);
-    } else {
-      document.removeEventListener('click', handleClickOutside);
-    }
-
+    document.addEventListener('click', handleClickOutside);
+    document.addEventListener('keydown', handleKeyDown);
     return () => {
       document.removeEventListener('click', handleClickOutside);
+      document.removeEventListener('keydown', handleKeyDown);
     };
   }, [mobileMenu]);
 
+  const renderItems = (variant: 'right' | 'dropdown') =>
+    NAV_ITEMS.map((item) => {
+      const isActive = activePage === item.path;
+      return (
+        <li key={item.path}>
+          <button
+            type="button"
+            className={`menu-txt__link${
+              isActive ? ` menu-txt__${variant}--active-menu` : ''
+            }`}
+            aria-current={isActive ? 'page' : undefined}
+            onClick={() => handleMenuClick(item.path)}
+          >
+            {item.label}
+          </button>
+        </li>
+      );
+    });
+
   return (
-    <div className="menu">
+    <header className="menu">
       <div className="menu-txt container">
         <div className="menu-txt__left">
-          <span onClick={() => handleMenuClick('/')}>fatemeh</span>
-        </div>
-
-        <ul className="menu-txt__right">
-          <li
-            className={activePage === '/' ? 'menu-txt__right--active-menu' : ''}
+          <button
+            type="button"
+            className="menu-txt__home-btn"
             onClick={() => handleMenuClick('/')}
           >
-            Home
-          </li>
-          <li
-            className={
-              activePage === '/projects' ? 'menu-txt__right--active-menu' : ''
-            }
-            onClick={() => handleMenuClick('/projects')}
-          >
-            Projects
-          </li>
-          <li
-            className={
-              activePage === '/challenges' ? 'menu-txt__right--active-menu' : ''
-            }
-            onClick={() => handleMenuClick('/challenges')}
-          >
-            Challenges
-          </li>
-          <li
-            className={
-              activePage === '/about-me' ? 'menu-txt__right--active-menu' : ''
-            }
-            onClick={() => handleMenuClick('/about-me')}
-          >
-            About
-          </li>
-        </ul>
+            fatemeh
+            <span className="visually-hidden"> — go to the home page</span>
+          </button>
+        </div>
 
-        <img
-          ref={menuIconRef}
-          src={menuIcon}
-          alt="menu icon"
-          width={64}
-          height={64}
-          className="menu-txt__menuIcon"
-          onClick={openMobileMenu}
-        />
+        <nav aria-label="Main">
+          <ul className="menu-txt__right">{renderItems('right')}</ul>
 
-        {mobileMenu && (
-          <div ref={menuRef} className="menu-txt__dropdown">
-            <ul>
-              <li
-                className={
-                  activePage === '/' ? 'menu-txt__dropdown--active-menu' : ''
-                }
-                onClick={() => handleMenuClick('/')}
-              >
-                Home
-              </li>
-              <li
-                className={
-                  activePage === '/projects'
-                    ? 'menu-txt__dropdown--active-menu'
-                    : ''
-                }
-                onClick={() => handleMenuClick('/projects')}
-              >
-                Projects
-              </li>
-              <li
-                className={
-                  activePage === '/challenges'
-                    ? 'menu-txt__dropdown--active-menu'
-                    : ''
-                }
-                onClick={() => handleMenuClick('/challenges')}
-              >
-                Challenges
-              </li>
-              <li
-                className={
-                  activePage === '/about-me'
-                    ? 'menu-txt__dropdown--active-menu'
-                    : ''
-                }
-                onClick={() => handleMenuClick('/about-me')}
-              >
-                About
-              </li>
-            </ul>
-          </div>
-        )}
+          <button
+            type="button"
+            ref={toggleRef}
+            className="menu-txt__menu-toggle"
+            aria-expanded={mobileMenu}
+            aria-controls="mobile-menu"
+            aria-label={mobileMenu ? 'Close main menu' : 'Open main menu'}
+            onClick={() => setMobileMenu((prev) => !prev)}
+          >
+            <img
+              src={menuIcon}
+              alt=""
+              width={64}
+              height={64}
+              className="menu-txt__menuIcon"
+            />
+          </button>
+
+          {mobileMenu && (
+            <div ref={menuRef} id="mobile-menu" className="menu-txt__dropdown">
+              <ul>{renderItems('dropdown')}</ul>
+            </div>
+          )}
+        </nav>
       </div>
-    </div>
+    </header>
   );
 };
 

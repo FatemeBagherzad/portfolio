@@ -10,15 +10,19 @@ interface ProjectDetailProps {
 const ProjectDetail = ({ project }: ProjectDetailProps) => {
   return (
     <div className="project-detail">
-      <h3>{project.title} </h3>
+      <h2>{project.title}</h2>
       <SwiperComponent project={project} />
 
       <a
         href={project.repo}
         target="_blank"
+        rel="noopener noreferrer"
         className="project-detail__btn btn"
       >
         See the GitHub repo
+        <span className="visually-hidden">
+          {` for ${project.title} (opens in a new tab)`}
+        </span>
       </a>
 
       <p className="project-detail__description">{project.description} </p>

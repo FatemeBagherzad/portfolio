@@ -78,7 +78,11 @@
   }
   &__name {
     font-family: 'Poppins', serif;
+    // This is the page's <h1> now, so the global heading sizing has to be
+    // overridden rather than inherited.
     font-size: 2rem;
+    line-height: 1.2;
+    margin: 0;
     text-align: center;
     @include tablet {
       font-size: 3rem;
@@ -163,5 +167,16 @@
   100% {
     opacity: 0;
     transform: translateX(100%);
+  }
+}
+
+// The rotating tagline starts at `opacity: 0` and is revealed by its
+// animation. The global reduced-motion rule cancels animations, which would
+// leave it permanently invisible, so it needs an explicit static state.
+@media (prefers-reduced-motion: reduce) {
+  .hero__animated-text {
+    animation: none !important;
+    opacity: 1 !important;
+    transform: none !important;
   }
 }

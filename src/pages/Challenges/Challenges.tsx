@@ -8,14 +8,20 @@ const challenges: Challenge[] = challengesData;
 const Challenges = () => {
   return (
     <div className="challenges container">
-      <h2 className="challenges__title">
-        <img src={challengesIcn} alt="" width={96} height={96} className="challenges__icn" /> My Coding
-        Challenges
-      </h2>
+      <h1 className="challenges__title">
+        <img
+          src={challengesIcn}
+          alt=""
+          width={96}
+          height={96}
+          className="challenges__icn"
+        />{' '}
+        My Coding Challenges
+      </h1>
       <div className="challenges__grid">
         {challenges.map((challenge) => (
           <div key={challenge.id} className="challenges__card">
-            <h4 className="challenges__card-title">{challenge.title}</h4>
+            <h2 className="challenges__card-title">{challenge.title}</h2>
             <p className="challenges__card-txt">{challenge.description}</p>
           </div>
         ))}

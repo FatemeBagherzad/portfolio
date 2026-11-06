@@ -6,7 +6,8 @@
 .about {
   &__name {
     font-weight: 700;
-    width: 30rem;
+    width: 100%;
+    max-width: 30rem;
     padding-bottom: 1rem;
     border-bottom: 5px solid $color2;
   }

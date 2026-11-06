@@ -109,3 +109,69 @@ p {
     font-size: 1.5rem;
   }
 }
+
+// ---------------------------------------------------------------------------
+// Accessibility utilities
+// ---------------------------------------------------------------------------
+
+// Visible to screen readers, invisible on screen. Used to give context that
+// sighted users get from layout or icons.
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+// First tab stop on the page: lets a keyboard user jump past the nav.
+.skip-link {
+  position: absolute;
+  top: -100px;
+  left: 1rem;
+  z-index: 2000;
+  padding: 1rem 1.6rem;
+  background-color: $mainColor;
+  color: $backColor;
+  border-radius: 0 0 0.4rem 0.4rem;
+  font-size: 1.5rem;
+  transition: top 0.15s ease-in-out;
+  &:focus {
+    top: 0;
+  }
+}
+
+// A visible focus ring for every interactive element. `:focus-visible` shows
+// it for keyboard users without putting a ring on mouse clicks.
+// $color2 on white measures 7.34:1, comfortably over the 3:1 WCAG 2.2
+// minimum for focus indicators. The dark header overrides it (see Menu.scss),
+// because $color2 on #111 is only 2.57:1.
+:focus-visible {
+  outline: 3px solid $color2;
+  outline-offset: 2px;
+  border-radius: 0.2rem;
+}
+
+// `<main>` is focused programmatically on route change; it should not show a
+// ring, because the user did not tab to it.
+main:focus {
+  outline: none;
+}
+
+// ---------------------------------------------------------------------------
+// Reduced motion
+// ---------------------------------------------------------------------------
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

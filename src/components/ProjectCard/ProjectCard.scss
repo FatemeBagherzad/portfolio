@@ -4,6 +4,16 @@
 @use '../../styles/partials/global' as *;
 
 .project-card {
+  // This is a real <button> now, so the user-agent styling has to go.
+  display: block;
+  width: 100%;
+  padding: 0;
+  background: none;
+  border: none;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
   position: relative;
   border-radius: 0.3rem;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
@@ -15,7 +25,9 @@
     box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
   }
   &__img {
+    display: block;
     width: 100%;
+    height: auto;
     border-radius: 0.2rem 0.2rem 0 0;
   }
   &__title {

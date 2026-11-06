@@ -1,4 +1,5 @@
 import './ProjectCard.scss';
+import { techLabels } from '../../constants/tech';
 
 // Vite bundles every icon in this folder and gives us its final URL,
 // so the icons work both in `npm run dev` and in the Netlify build.
@@ -24,12 +25,17 @@ const ProjectCard = ({
   onClick,
   icons = [],
 }: ProjectCardProps) => {
+  const stack = techLabels(icons);
+
   return (
-    <div onClick={onClick} className="project-card">
+    // Was a <div onClick>, which no keyboard user could reach or activate.
+    <button type="button" onClick={onClick} className="project-card">
       {projectCoverImg && (
         <img
           src={'/' + projectCoverImg.replace(/^\/+/, '')}
-          alt={projectTitle}
+          alt=""
+          loading="lazy"
+          decoding="async"
           className="project-card__img"
         />
       )}
@@ -39,12 +45,17 @@ const ProjectCard = ({
           <img
             key={icon + idx}
             src={iconUrl(icon)}
-            alt={icon.replace('.svg', '')}
+            alt=""
+            aria-hidden="true"
             className="project-card__tech-icon"
           />
         ))}
       </span>
-    </div>
+      <span className="visually-hidden">
+        {stack.length > 0 ? ` Built with ${stack.join(', ')}.` : ''} View
+        project details.
+      </span>
+    </button>
   );
 };
 

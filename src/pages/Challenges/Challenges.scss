@@ -36,8 +36,14 @@
     }
   }
   &__card-title {
+    // These are <h2> now; keep the previous visual size.
+    font-size: 1.6rem;
+    line-height: 2.4rem;
     color: #333;
     margin-bottom: 0.5rem;
+    @include tablet {
+      font-size: 1.8rem;
+    }
   }
   &__card-txt {
     color: #666;

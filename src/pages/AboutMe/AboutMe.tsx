@@ -4,11 +4,11 @@ import { motion } from 'framer-motion';
 const AboutMe = () => {
   return (
     <div className="about container">
-      <p className="about__name">
+      <h1 className="about__name">
         Fatemeh
         <br />
         Bagherzad
-      </p>
+      </h1>
 
       <motion.div
         initial={{ opacity: 0, y: 20 }}

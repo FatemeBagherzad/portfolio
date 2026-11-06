@@ -9,15 +9,35 @@
   display: flex;
   align-items: center;
   justify-content: center;
-
   color: $backColor;
-  padding: 1rem 0 0 0;
+  // Tall enough to hold a 44px touch target for the menu button.
+  height: 5.6rem;
+  padding: 0;
   top: 0;
   left: 0;
   right: 0;
-  height: 4rem;
   z-index: 1000;
 }
+
+// Shared reset for every control in the bar: these are real <button>
+// elements now, so their user-agent styling has to be stripped.
+@mixin bar-button {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  color: inherit;
+  font: inherit;
+  line-height: 1;
+  cursor: pointer;
+}
+
+// On the dark bar the default magenta ring is only 2.57:1, so switch to the
+// gold, which measures 11.2:1 against #111111.
+.menu :focus-visible {
+  outline-color: $color1;
+}
+
 .menu-txt {
   display: flex;
   justify-content: space-between;
@@ -25,8 +45,30 @@
   margin-bottom: 0 !important;
   width: 100%;
   position: relative;
+
   &__left {
-    cursor: pointer;
+    display: flex;
+    align-items: center;
+  }
+
+  &__home-btn {
+    @include bar-button;
+    display: inline-flex;
+    align-items: center;
+    min-height: 4.4rem;
+    padding-right: 0.8rem;
+  }
+
+  &__link {
+    @include bar-button;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 4.4rem;
+    padding: 0 0.8rem;
+    &:hover {
+      font-weight: bold;
+    }
   }
 
   &__right {
@@ -34,22 +76,27 @@
     @include tablet {
       display: flex;
       align-items: center;
-      gap: 1rem;
-      & > li {
-        cursor: pointer;
-        &:hover {
-          font-weight: bold;
-        }
-      }
+      gap: 0.4rem;
       &--active-menu {
         color: $color6;
         font-weight: bold;
         background-color: $color2;
         border-bottom: 2px solid $backColor;
         border-top: 2px solid $backColor;
-        padding-top: 3px;
-        padding-bottom: 3px;
       }
+    }
+  }
+
+  &__menu-toggle {
+    @include bar-button;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    // 44px minimum hit area on touch screens.
+    min-width: 4.4rem;
+    min-height: 4.4rem;
+    @include tablet {
+      display: none;
     }
   }
 
@@ -57,20 +104,16 @@
     display: block;
     width: 2.5rem;
     height: auto;
-    cursor: pointer;
-    @include tablet {
-      display: none;
-    }
   }
 
   &__dropdown {
     position: absolute;
     background-color: $color2;
-    top: 3rem;
+    top: 4.6rem;
     right: 0;
     width: 100%;
     height: auto;
-    padding: 1rem;
+    padding: 0.5rem 1rem;
     display: flex;
     flex-direction: column;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
@@ -81,16 +124,20 @@
     ul {
       display: flex;
       flex-direction: column;
-      gap: 1rem;
       li {
-        padding: 0.5rem;
-        cursor: pointer;
+        display: flex;
+      }
+      .menu-txt__link {
+        width: 100%;
+        justify-content: flex-start;
+        padding: 0 0.8rem;
       }
     }
 
-    &--acive-menu {
-      color: red;
+    &--active-menu {
       font-weight: bold;
+      text-decoration: underline;
+      text-underline-offset: 0.4rem;
     }
   }
 }
