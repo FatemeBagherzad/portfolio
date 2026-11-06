@@ -1,7 +1,13 @@
 import './ProjectDetail.scss';
 import SwiperComponent from '../SwiperComponent/SwiperComponent';
+import type { Project } from '../../types';
 
-const ProjectDetail = ({ project }) => {
+interface ProjectDetailProps {
+  project: Project;
+  onClose?: () => void;
+}
+
+const ProjectDetail = ({ project }: ProjectDetailProps) => {
   return (
     <div className="project-detail">
       <h3>{project.title} </h3>

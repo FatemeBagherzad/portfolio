@@ -1,7 +1,6 @@
-import React from 'react';
-import { BrowserRouter, Route, Routes, Navigate } from 'react-router-dom';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import './App.scss';
-import Menu from '../src/components/Menu/Menu';
+import Menu from './components/Menu/Menu';
 import Home from './pages/Home/Home';
 import Challenges from './pages/Challenges/Challenges';
 import Projects from './pages/Projects/Projects';
@@ -15,8 +14,6 @@ function App() {
         <Menu />
 
         <div className="body">
-          {/* <hr /> */}
-
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/challenges" element={<Challenges />} />

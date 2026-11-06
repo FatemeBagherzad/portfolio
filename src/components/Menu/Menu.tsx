@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react';
+import type { MouseEvent as ReactMouseEvent } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import './Menu.scss';
 import menuIcon from '../../assets/icons/menu-white.png';
@@ -6,33 +7,35 @@ import menuIcon from '../../assets/icons/menu-white.png';
 const Menu = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const [mobileMenu, setMobileMenu] = useState(false);
-  const [activePage, setActivePage] = useState(location.pathname);
+  const [mobileMenu, setMobileMenu] = useState<boolean>(false);
+  const [activePage, setActivePage] = useState<string>(location.pathname);
 
-  const menuRef = useRef(null);
-  const menuIconRef = useRef(null);
+  const menuRef = useRef<HTMLDivElement>(null);
+  const menuIconRef = useRef<HTMLImageElement>(null);
 
   useEffect(() => {
     setActivePage(location.pathname);
   }, [location]);
 
-  const handleMenuClick = (path) => {
+  const handleMenuClick = (path: string): void => {
     navigate(path);
     setActivePage(path);
     setMobileMenu(false);
   };
 
-  const openMobileMenu = (event) => {
+  const openMobileMenu = (event: ReactMouseEvent<HTMLImageElement>): void => {
     event.stopPropagation();
     setMobileMenu((prev) => !prev);
   };
 
   useEffect(() => {
-    const handleClickOutside = (event) => {
+    const handleClickOutside = (event: MouseEvent): void => {
+      const target = event.target as Node | null;
       if (
         menuRef.current &&
-        !menuRef.current.contains(event.target) &&
-        menuIconRef.current !== event.target
+        target &&
+        !menuRef.current.contains(target) &&
+        menuIconRef.current !== target
       ) {
         setMobileMenu(false);
       }

@@ -25,3 +25,6 @@ dist-ssr
 
 # local backups
 _old
+
+# TypeScript incremental build cache
+*.tsbuildinfo

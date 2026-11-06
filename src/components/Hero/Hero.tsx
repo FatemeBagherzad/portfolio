@@ -1,20 +1,28 @@
 import { useState, useEffect } from 'react';
+import type { MouseEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Hero.scss';
 import linkedinIcn from '../../assets/icons/linkedin-icon.png';
 import githubIcn from '../../assets/icons/github-icon.png';
 import fatemeImg1 from '../../assets/fateme-img/fatemeImg1.png';
 import fatemeImg2 from '../../assets/fateme-img/fatemeImg2.png';
+
 const resume = '/Fatemeh Bagherzad - Full-Stack Developer Resume.pdf';
+const email = 'fa.bagherzad@gmail.com';
+
+const texts: readonly string[] = [
+  'Passionate Software Developer',
+  'Located in Toronto, North York',
+  'Former Design Lead',
+];
 
 const Hero = () => {
   const navigate = useNavigate();
-  const [position, setPosition] = useState(50);
-  const [textIndex, setTextIndex] = useState(0);
-  const [copied, setCopied] = useState(false);
-  const email = 'fa.bagherzad@gmail.com';
+  const [position, setPosition] = useState<number>(50);
+  const [textIndex, setTextIndex] = useState<number>(0);
+  const [copied, setCopied] = useState<boolean>(false);
 
-  const copyEmail = async () => {
+  const copyEmail = async (): Promise<void> => {
     try {
       await navigator.clipboard.writeText(email);
     } catch {
@@ -29,12 +37,6 @@ const Hero = () => {
     setTimeout(() => setCopied(false), 2000);
   };
 
-  const texts = [
-    'Passionate Software Developer',
-    'Located in Toronto, North York',
-    'Former Design Lead',
-  ];
-
   useEffect(() => {
     const interval = setInterval(() => {
       setTextIndex((prevIndex) => (prevIndex + 1) % texts.length);
@@ -42,7 +44,7 @@ const Hero = () => {
     return () => clearInterval(interval);
   }, []);
 
-  const handleMouseMove = (e) => {
+  const handleMouseMove = (e: MouseEvent<HTMLDivElement>): void => {
     const { clientX, currentTarget } = e;
     const rect = currentTarget.getBoundingClientRect();
     const percent = ((clientX - rect.left) / rect.width) * 100;

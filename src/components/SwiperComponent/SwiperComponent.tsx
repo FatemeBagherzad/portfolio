@@ -4,8 +4,13 @@ import 'swiper/css/navigation';
 import 'swiper/css/pagination';
 import { Navigation, Pagination } from 'swiper/modules';
 import './SwiperComponent.scss';
+import type { Project } from '../../types';
 
-const SwiperComponent = ({ project }) => {
+interface SwiperComponentProps {
+  project: Project;
+}
+
+const SwiperComponent = ({ project }: SwiperComponentProps) => {
   return (
     <div className="swiper">
       <Swiper
@@ -18,7 +23,7 @@ const SwiperComponent = ({ project }) => {
         className="swiper__carousel"
       >
         {project.images.map((imgSrc, index) => (
-          <SwiperSlide key={index} className="swiper__slide">
+          <SwiperSlide key={imgSrc} className="swiper__slide">
             <img
               src={'/' + imgSrc.replace(/^\/+/, '')}
               alt={`${project.title} ${index}`}

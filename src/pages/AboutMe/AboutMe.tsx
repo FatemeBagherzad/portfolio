@@ -19,7 +19,7 @@ const AboutMe = () => {
       >
         <div className="about__txt">
           <p>
-            Hi, I'm Fatemeh. I'm a full-stack developer in Toronto, and I build
+            Hi, I’m Fatemeh. I’m a full-stack developer in Toronto, and I build
             things that are hard to get right: interfaces in three languages,
             two of them right-to-left, on top of large data that has to stay
             fast on a cheap phone.
@@ -31,7 +31,7 @@ const AboutMe = () => {
             team and writing scripts to automate the boring parts of rendering.
             That is still how I work. When something is slow or repetitive, I
             find the pattern behind it and build a tool. After moving to Canada I
-            taught myself to code, finished BrainStation's software engineering
+            taught myself to code, finished BrainStation’s software engineering
             program at the top of my cohort, and came back the next year as a
             teaching assistant to help the following class debug their Node and
             React projects.
@@ -69,7 +69,7 @@ const AboutMe = () => {
             Before Rabva there was CampHeaven, a campsite booking app where I
             moved the database from MongoDB to MySQL halfway through, added
             GitHub OAuth and Stripe payments, and learned to read the pricing
-            page before trusting a "free" database tier. There was also
+            page before trusting a “free” database tier. There was also
             FindFood, built with UX students in a 24-hour industry sprint.
           </p>
           <br />

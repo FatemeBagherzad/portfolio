@@ -1,12 +1,15 @@
 import './Challenges.scss';
-import challenges from '../../assets/projects-data/challenges.json';
+import challengesData from '../../assets/projects-data/challenges.json';
 import challengesIcn from '../../assets/icons/challenges2.png';
+import type { Challenge } from '../../types';
+
+const challenges: Challenge[] = challengesData;
 
 const Challenges = () => {
   return (
     <div className="challenges container">
       <h2 className="challenges__title">
-        <img src={challengesIcn} className="challenges__icn" /> My Coding
+        <img src={challengesIcn} alt="" className="challenges__icn" /> My Coding
         Challenges
       </h2>
       <div className="challenges__grid">

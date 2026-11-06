@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import ProjectCard from '../../components/ProjectCard/ProjectCard';
 import projectsData from '../../assets/projects-data/projects.json';
 import './Projects.scss';
 import ProjectDetail from '../../components/ProjectDetail/ProjectDetail';
+import type { Project } from '../../types';
+
+const projects: Project[] = projectsData;
 
 const Projects = () => {
-  const [selectedProject, setSelectedProject] = useState(null);
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
-  if (!projectsData) return <p>data loading ...</p>;
   return (
     <div className="projects container">
       <h2>Some of my projects:</h2>
@@ -20,7 +22,7 @@ const Projects = () => {
 
       {!selectedProject && (
         <div className="projects__cards">
-          {projectsData.map((project) => {
+          {projects.map((project) => {
             return (
               <ProjectCard
                 key={project.id}
