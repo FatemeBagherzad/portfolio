@@ -11,7 +11,7 @@ import portraitB300 from '../../assets/fateme-img/fatemeImg2-300.webp';
 import portraitB600 from '../../assets/fateme-img/fatemeImg2-600.webp';
 import portraitB900 from '../../assets/fateme-img/fatemeImg2-900.webp';
 
-const resume = '/Fatemeh Bagherzad - Full-Stack Developer Resume.pdf';
+const resume = '/Fatemeh-Bagherzad-Full-Stack-Developer-Resume.pdf';
 const email = 'fa.bagherzad@gmail.com';
 
 /** The portrait never renders wider than 30rem, so 900w covers a 3x screen. */

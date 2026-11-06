@@ -1,1 +1,8 @@
+# Resume moved to a space-free filename; keep the old link working.
+/Fatemeh%20Bagherzad%20-%20Full-Stack%20Developer%20Resume.pdf   /Fatemeh-Bagherzad-Full-Stack-Developer-Resume.pdf   301
+
+# The Challenges page became Deep Dives.
+/challenges   /deep-dives   301
+
+# SPA fallback: everything else is handled by the router.
 /*    /index.html   200
