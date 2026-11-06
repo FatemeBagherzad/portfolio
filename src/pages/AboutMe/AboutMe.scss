@@ -3,41 +3,88 @@
 
 .about {
   &__name {
-    font-weight: 700;
-    width: 100%;
-    max-width: 30rem;
-    padding-bottom: 1rem;
-    border-bottom: 5px solid $color2;
+    font-size: var(--step-5);
+    line-height: 0.95;
+    margin-block: var(--space-2xs) var(--space-m);
   }
-  &__txt {
-    margin: 3rem auto;
-    line-height: 2rem;
-    @include tablet {
-      line-height: 3rem;
+
+  &__name-accent {
+    color: var(--color-accent);
+  }
+
+  &__lede {
+    margin-bottom: var(--space-xl);
+  }
+
+  // Numbers as a design element: a reviewer skims prose and reads figures.
+  &__stats {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-m);
+    padding-block: var(--space-l);
+    border-top: 1px solid var(--color-border);
+    border-bottom: 1px solid var(--color-border);
+    margin-bottom: var(--space-xl);
+    @media (min-width: 56rem) {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
     }
   }
-  &__animated-txt {
-    animation: fadeColor 5s infinite ease-in-out;
-  }
-  &__highlight-yellow {
-    background-color: var(--color-highlight);
-    color: var(--color-on-highlight);
-    padding: 1rem;
-    border-radius: 0.5rem;
-  }
-}
 
-@keyframes fadeColor {
-  0% {
+  &__stat-value {
+    font-family: var(--font-display);
+    font-size: var(--step-3);
+    font-weight: 700;
+    line-height: 1;
+    letter-spacing: var(--tracking-tight);
     color: var(--color-accent);
-    opacity: 1;
   }
-  50% {
-    color: var(--color-text);
-    opacity: 0.85;
+
+  &__stat-label {
+    margin-top: var(--space-2xs);
+    font-size: var(--step--1);
+    line-height: 1.4;
+    color: var(--color-text-muted);
   }
-  100% {
-    color: var(--color-accent);
-    opacity: 1;
+
+  &__prose {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-m);
+    // Caps the line length for comfortable reading regardless of window
+    // width — the page gets wider, the paragraph does not.
+    max-width: var(--measure);
+
+    p {
+      color: var(--color-text-muted);
+    }
+  }
+
+  // The Rabva paragraph is the one worth stopping on, so it is set apart
+  // rather than being another block of body copy.
+  &__pull {
+    position: relative;
+    padding: var(--space-m);
+    padding-left: var(--space-l);
+    background-color: var(--color-surface);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-l);
+
+    &::before {
+      content: '';
+      position: absolute;
+      left: var(--space-s);
+      top: var(--space-m);
+      bottom: var(--space-m);
+      width: 2px;
+      border-radius: var(--radius-full);
+      background: linear-gradient(
+        var(--color-accent),
+        var(--color-highlight)
+      );
+    }
+
+    p {
+      color: var(--color-text);
+    }
   }
 }

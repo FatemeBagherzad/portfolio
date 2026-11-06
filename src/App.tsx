@@ -6,7 +6,6 @@ import {
   Routes,
   useLocation,
 } from 'react-router-dom';
-import { MotionConfig } from 'framer-motion';
 import './App.scss';
 import Menu from './components/Menu/Menu';
 import CommandPalette from './components/CommandPalette/CommandPalette';
@@ -67,13 +66,9 @@ const AppShell = () => {
 
 function App() {
   return (
-    // `reducedMotion="user"` makes every framer-motion animation honour the
-    // operating system's "reduce motion" setting.
-    <MotionConfig reducedMotion="user">
-      <BrowserRouter>
-        <AppShell />
-      </BrowserRouter>
-    </MotionConfig>
+    <BrowserRouter>
+      <AppShell />
+    </BrowserRouter>
   );
 }
 

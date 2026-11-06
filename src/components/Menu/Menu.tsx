@@ -1,9 +1,10 @@
-import { useState, useRef, useEffect } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useTransitionNavigate } from '../../hooks/useTransitionNavigate';
 import './Menu.scss';
 import menuIcon from '../../assets/icons/menu-white.webp';
 import ThemeToggle from '../ThemeToggle/ThemeToggle';
+import BottomSheet from '../BottomSheet/BottomSheet';
 import { paletteStore } from '../../store/paletteStore';
 
 interface NavItem {
@@ -26,7 +27,6 @@ const Menu = () => {
   const [mobileMenu, setMobileMenu] = useState<boolean>(false);
   const activePage = location.pathname;
 
-  const menuRef = useRef<HTMLDivElement>(null);
   const toggleRef = useRef<HTMLButtonElement>(null);
 
   const handleMenuClick = (path: string): void => {
@@ -34,33 +34,10 @@ const Menu = () => {
     setMobileMenu(false);
   };
 
-  useEffect(() => {
-    if (!mobileMenu) return;
-
-    const handleClickOutside = (event: MouseEvent): void => {
-      const target = event.target as Node | null;
-      if (!target) return;
-      if (menuRef.current?.contains(target)) return;
-      if (toggleRef.current?.contains(target)) return;
-      setMobileMenu(false);
-    };
-
-    // Escape closes the menu and returns focus to the button that opened it,
-    // so a keyboard user is never left with focus inside a hidden element.
-    const handleKeyDown = (event: KeyboardEvent): void => {
-      if (event.key === 'Escape') {
-        setMobileMenu(false);
-        toggleRef.current?.focus();
-      }
-    };
-
-    document.addEventListener('click', handleClickOutside);
-    document.addEventListener('keydown', handleKeyDown);
-    return () => {
-      document.removeEventListener('click', handleClickOutside);
-      document.removeEventListener('keydown', handleKeyDown);
-    };
-  }, [mobileMenu]);
+  // Escape, the backdrop, the scroll lock and returning focus to this
+  // button all live in BottomSheet now, rather than being reimplemented
+  // here against document listeners.
+  const closeSheet = useCallback(() => setMobileMenu(false), []);
 
   const renderItems = (variant: 'right' | 'dropdown') =>
     NAV_ITEMS.map((item) => {
@@ -151,11 +128,14 @@ const Menu = () => {
             />
           </button>
 
-          {mobileMenu && (
-            <div ref={menuRef} id="mobile-menu" className="menu-txt__dropdown">
-              <ul>{renderItems('dropdown')}</ul>
-            </div>
-          )}
+          <BottomSheet
+            open={mobileMenu}
+            onClose={closeSheet}
+            id="mobile-menu"
+            title="Main menu"
+          >
+            <ul className="menu-txt__sheet-list">{renderItems('dropdown')}</ul>
+          </BottomSheet>
         </nav>
       </div>
     </header>
