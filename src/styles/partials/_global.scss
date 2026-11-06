@@ -110,6 +110,18 @@ p {
   }
 }
 
+// Secondary action: same shape, lower visual weight. $color2 on white
+// measures 7.34:1, so the text and border both clear WCAG AA.
+.btn--ghost {
+  background-color: transparent;
+  color: $color2;
+  border: 2px solid $color2;
+  &:hover {
+    background-color: $color2;
+    color: $backColor;
+  }
+}
+
 // ---------------------------------------------------------------------------
 // Accessibility utilities
 // ---------------------------------------------------------------------------

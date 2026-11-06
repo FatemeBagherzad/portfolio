@@ -1,11 +1,27 @@
 [
   {
     "id": 1,
-    "title": "RABVA",
-    "description": "RABVA is a full-stack Quran study web application built for readers, memorizers and researchers. The reading view shows the Quran in the classic Uthmani page layout with continuous scrolling, word-by-word translations and side-by-side comparison of multiple translations. A root search lets users click any word and find every ayah sharing the same Arabic root, with results opening in tabs so several searches can stay open at once. The Canvas and Board views let researchers place ayahs and words on a free workspace, draw connections between them, comment, and mention other users. A Learning mode supports memorization with repetition and progress tracking, and a Preferences panel controls fonts, script style (Uthmani or Simple), interface language and translation choices. Behind the scenes a Fix Data admin tool handles editing of Arabic word data with full right-to-left support. The frontend is React with SCSS; the backend is Django and MySQL, everything runs in Docker, and production is hosted on AWS EC2 behind Nginx with automatic HTTPS.",
+    "title": "Rabva",
+    "tagline": "A Quran study platform in English, Persian and Arabic, built on a 6,236-verse corpus with full right-to-left support.",
+    "category": "selected",
+    "period": "2024 – present",
+    "description": "Rabva is a full-stack study platform for readers, memorizers and researchers of the Quran. The reading view presents the classic Uthmani page layout with continuous scrolling, word-by-word translations and side-by-side comparison of several translations at once. A root search lets a reader click any word and find every verse sharing the same Arabic root, with results opening in tabs so multiple searches stay open together. The Canvas and Board views give researchers a free workspace to place verses and words, draw connections between them, comment and mention collaborators — all operable with a mouse, a finger or a keyboard alone. A Learning mode supports memorization with spaced repetition and progress tracking, and a Preferences panel controls fonts, script style, interface language and translation choices. On the front end it is 210+ React components and 40 custom hooks over an SCSS design-token system driving user-selectable themes, with accessibility built in from the component up: 270+ aria-labelled controls, semantic roles, keyboard paths and reduced-motion support. I authored the data model and endpoint contracts for the Django REST API — 14 domain modules, 92 models, 170+ documented endpoints — and directed AI coding agents to implement it against standards, tests and review gates I defined. Production runs on AWS EC2 behind Nginx, provisioned with Terraform, with nine Docker services and automatic certificate renewal.",
+    "stack": [
+      "React 18",
+      "JavaScript",
+      "SCSS",
+      "Django REST Framework",
+      "MySQL",
+      "Redis",
+      "Docker",
+      "Nginx",
+      "AWS EC2",
+      "Terraform",
+      "Playwright"
+    ],
     "images": [
-      "project-images/rabva/Rabva-board.gif",
       "project-images/rabva/Rabva-reading.gif",
+      "project-images/rabva/Rabva-board.gif",
       "project-images/rabva/Rabva-search.gif",
       "project-images/rabva/Rabva-tabs.gif",
       "project-images/rabva/Rabva-canvas.gif",
@@ -31,7 +47,21 @@
   {
     "id": 2,
     "title": "CampHeaven",
-    "description": "CampHeaven is a simple and easy-to-use camping site booking platform. It helps people find and book the perfect campsite without any hassle. You can explore different locations, check details, and see availability in real time. There’s also an interactive map to make searching easier, along with filters to find exactly what you need. I built it using React for the frontend and Node.js with MySQL for the backend to keep everything smooth and fast. Whether you're planning a quick weekend trip or a longer adventure, CampHeaven makes booking a campsite super easy!",
+    "tagline": "A campsite booking app with real-time availability, an interactive map, GitHub OAuth and Stripe payments.",
+    "category": "selected",
+    "period": "2024",
+    "description": "CampHeaven lets people find and book campsites without the usual friction: browse locations, filter by what actually matters to the trip, check real-time availability and pay in the same flow. An interactive map makes searching by area rather than by name practical. I built the React front end and a Node and Express API over MySQL, added GitHub OAuth so sign-in does not need another password, and integrated Stripe for payments. Partway through I migrated the database from MongoDB to MySQL, which meant reworking the server-side queries and the data access layer around a relational model — the right call once bookings, sites and users clearly needed joins rather than nested documents. It also taught me to read a pricing page carefully before trusting a free database tier.",
+    "stack": [
+      "React",
+      "JavaScript",
+      "SCSS",
+      "Node.js",
+      "Express",
+      "MySQL",
+      "Knex.js",
+      "Stripe",
+      "GitHub OAuth"
+    ],
     "images": [
       "project-images/campheaven/campheaven-gif1.gif",
       "project-images/campheaven/campheaven-gif2.gif",
@@ -60,47 +90,21 @@
   },
   {
     "id": 3,
-    "title": "BrainFlix",
-    "description": "In this project I practiced chunking an existing site into React components and converting an existing static site into a React app. Also I used and practiced useState to add a state variable to all components.",
-    "images": [
-      "project-images/brainflix/brainflix-gif1.gif"
-    ],
-    "repo": "https://github.com/FatemeBagherzad/Brian-Flix",
-    "icons": [
-      "react.svg",
-      "reactrouter.svg",
-      "javascript.svg",
-      "html5.svg",
-      "css.svg",
-      "sass.svg",
-      "axios.svg",
-      "nodedotjs.svg",
-      "express.svg",
-      "git.svg",
-      "github.svg"
-    ]
-  },
-  {
-    "id": 4,
-    "title": "BandSite",
-    "description": "This project is designed to practice front-end skills such as HTML, CSS, SCSS, and JavaScript by fetching data from an external API and displaying it in an organized, user-friendly interface.",
-    "images": [
-      "project-images/bandsite/bandsite-gif1.gif",
-      "project-images/bandsite/bandsite-gif2.gif"
-    ],
-    "repo": "https://github.com/FatemeBagherzad/Band-Site",
-    "icons": [
-      "html5.svg",
-      "css.svg",
-      "sass.svg",
-      "javascript.svg",
-      "git.svg"
-    ]
-  },
-  {
-    "id": 5,
     "title": "FindFood",
-    "description": "FindFood is an app designed to make meal choices easier for users with specific dietary preferences or restrictions. Built in collaboration with UX/UI students during a 24-hour industry project, this app allows users to filter menus based on their desired ingredients and ingredients they wish to avoid.",
+    "tagline": "A dietary-filter restaurant finder, designed and shipped with UX students in a 24-hour industry sprint.",
+    "category": "selected",
+    "period": "2024",
+    "description": "FindFood helps people with dietary restrictions answer a question that is harder than it sounds: what on this menu can I actually eat? Rather than filtering by cuisine or rating, it filters by ingredients a diner wants and ingredients they need to avoid, then surfaces the dishes that qualify. It was built end to end in a 24-hour industry project alongside UX and design students, which meant agreeing the data model and the API contract early and working to someone else's designs under a real deadline. I worked on the React and Ionic front end and the Express API behind it, and used Jira to keep a team that had not worked together before moving in the same direction.",
+    "stack": [
+      "React",
+      "Ionic",
+      "JavaScript",
+      "SCSS",
+      "Node.js",
+      "Express",
+      "MySQL",
+      "Jira"
+    ],
     "images": [
       "project-images/findfood/findfood-gif1.gif"
     ],
@@ -121,24 +125,79 @@
     ]
   },
   {
-    "id": 6,
-    "title": "CoffeeShop",
-    "description": "This project is a demonstration of my skills in HTML, CSS, and SCSS, along with version control using Git. The aim was to create a visually appealing and responsive web page while practicing the fundamentals of front-end development.",
-    "images": [
-      "project-images/coffeeshop/coffeeshop-gif.gif"
+    "id": 4,
+    "title": "BrainFlix",
+    "tagline": "A video platform converted from a static site into a React single-page app with its own Express API.",
+    "category": "education",
+    "period": "2023",
+    "description": "BrainFlix started as a static multi-page site and became a React single-page app. The useful part was the conversion itself: deciding where the component boundaries belonged, which state had to be lifted and which could stay local, and how to keep the video player, comment list and sidebar in sync without prop-drilling through every layer. I later replaced the mock data with a small Express API so the front end was talking to a real server over HTTP rather than importing a JSON file.",
+    "stack": [
+      "React",
+      "React Router",
+      "JavaScript",
+      "SCSS",
+      "Axios",
+      "Node.js",
+      "Express"
     ],
-    "repo": "https://github.com/FatemeBagherzad/Coffee-Shop",
+    "images": [
+      "project-images/brainflix/brainflix-gif1.gif"
+    ],
+    "repo": "https://github.com/FatemeBagherzad/Brian-Flix",
+    "icons": [
+      "react.svg",
+      "reactrouter.svg",
+      "javascript.svg",
+      "html5.svg",
+      "css.svg",
+      "sass.svg",
+      "axios.svg",
+      "nodedotjs.svg",
+      "express.svg",
+      "git.svg",
+      "github.svg"
+    ]
+  },
+  {
+    "id": 5,
+    "title": "BandSite",
+    "tagline": "A band page that loads shows and comments from a live API using vanilla JavaScript and the DOM.",
+    "category": "education",
+    "period": "2023",
+    "description": "BandSite is built without a framework on purpose. Everything the browser does for you in React — rendering a list, re-rendering it when the data changes, wiring up a form and putting the new comment in the right place — is done by hand against the DOM here, on top of data fetched from an external API. Doing it this way first is the reason React's rendering model made sense later rather than being something I just trusted.",
+    "stack": [
+      "HTML5",
+      "CSS3",
+      "SCSS",
+      "JavaScript",
+      "REST APIs"
+    ],
+    "images": [
+      "project-images/bandsite/bandsite-gif1.gif",
+      "project-images/bandsite/bandsite-gif2.gif"
+    ],
+    "repo": "https://github.com/FatemeBagherzad/Band-Site",
     "icons": [
       "html5.svg",
       "css.svg",
       "sass.svg",
+      "javascript.svg",
       "git.svg"
     ]
   },
   {
-    "id": 7,
+    "id": 6,
     "title": "TravelSite",
-    "description": "This project is a comprehensive demonstration of my skills in HTML, CSS, and SCSS, focused on creating a multi-page travel website. The goal was to design a responsive and visually engaging web experience with smooth animations and appealing layout styles.",
+    "tagline": "A multi-page travel site exploring scroll animations and layered SCSS layouts.",
+    "category": "education",
+    "period": "2023",
+    "description": "A multi-page travel site used to work through layout problems that only appear at scale: keeping type and spacing consistent across several pages, structuring SCSS so shared styles live in one place rather than being copied per page, and adding scroll-triggered animation without it becoming distracting. It is where the habit of building a small set of reusable partials before writing page styles came from.",
+    "stack": [
+      "HTML5",
+      "CSS3",
+      "SCSS",
+      "Responsive layout"
+    ],
     "images": [
       "project-images/travelsite/travelsite-gif1.gif",
       "project-images/travelsite/travelsite-gif2.gif"
@@ -152,9 +211,40 @@
     ]
   },
   {
+    "id": 7,
+    "title": "CoffeeShop",
+    "tagline": "A responsive marketing page built with semantic HTML and a structured SCSS system.",
+    "category": "education",
+    "period": "2023",
+    "description": "A single-page shop front built to practise the fundamentals properly rather than quickly: semantic HTML elements chosen for meaning rather than appearance, a mobile-first breakpoint strategy, and SCSS organised into variables, mixins and partials instead of one long stylesheet. Small enough that there was nowhere to hide sloppy markup.",
+    "stack": [
+      "HTML5",
+      "CSS3",
+      "SCSS",
+      "Mobile-first layout"
+    ],
+    "images": [
+      "project-images/coffeeshop/coffeeshop-gif.gif"
+    ],
+    "repo": "https://github.com/FatemeBagherzad/Coffee-Shop",
+    "icons": [
+      "html5.svg",
+      "css.svg",
+      "sass.svg",
+      "git.svg"
+    ]
+  },
+  {
     "id": 8,
     "title": "FutureNature",
-    "description": "This is my very first project where I practiced using HTML and CSS to create a basic web page. The project is designed to help me understand the fundamentals of web development, including structuring content with HTML and styling it with CSS.",
+    "tagline": "My first project: a static page written to learn how HTML and CSS actually fit together.",
+    "category": "education",
+    "period": "2023",
+    "description": "The first thing I built. It is here because the distance between this and Rabva is the honest picture of how quickly I pick things up, not because the code is interesting. Plain HTML and CSS, no build step, no framework — just structuring content and learning what the box model really does.",
+    "stack": [
+      "HTML5",
+      "CSS3"
+    ],
     "images": [
       "project-images/futurenature/futurenature-image1.jpg",
       "project-images/futurenature/futurenature-image2.jpg",

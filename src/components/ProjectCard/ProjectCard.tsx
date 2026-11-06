@@ -1,61 +1,73 @@
 import './ProjectCard.scss';
-import { techLabels } from '../../constants/tech';
-
-// Vite bundles every icon in this folder and gives us its final URL,
-// so the icons work both in `npm run dev` and in the Netlify build.
-const techIcons = import.meta.glob<string>(
-  '../../assets/icons/tech-icons/*.svg',
-  { eager: true, query: '?url', import: 'default' }
-);
-
-const iconUrl = (name: string): string =>
-  techIcons[`../../assets/icons/tech-icons/${name}`] ?? '';
+import type { Project } from '../../types';
 
 interface ProjectCardProps {
-  projectTitle: string;
-  /** May be `undefined` when a project has no images yet. */
-  projectCoverImg: string | undefined;
-  onClick: () => void;
-  icons?: string[];
+  project: Project;
+  onViewDetails: () => void;
 }
 
-const ProjectCard = ({
-  projectTitle,
-  projectCoverImg,
-  onClick,
-  icons = [],
-}: ProjectCardProps) => {
-  const stack = techLabels(icons);
+const ProjectCard = ({ project, onViewDetails }: ProjectCardProps) => {
+  const cover = project.images[0];
 
   return (
-    // Was a <div onClick>, which no keyboard user could reach or activate.
-    <button type="button" onClick={onClick} className="project-card">
-      {projectCoverImg && (
+    <article className="project-card">
+      {cover && (
         <img
-          src={'/' + projectCoverImg.replace(/^\/+/, '')}
+          src={'/' + cover.replace(/^\/+/, '')}
           alt=""
           loading="lazy"
           decoding="async"
           className="project-card__img"
         />
       )}
-      <span className="project-card__title">
-        {projectTitle}
-        {icons.map((icon, idx) => (
-          <img
-            key={icon + idx}
-            src={iconUrl(icon)}
-            alt=""
-            aria-hidden="true"
-            className="project-card__tech-icon"
-          />
-        ))}
-      </span>
-      <span className="visually-hidden">
-        {stack.length > 0 ? ` Built with ${stack.join(', ')}.` : ''} View
-        project details.
-      </span>
-    </button>
+
+      <div className="project-card__body">
+        <h3 className="project-card__title">{project.title}</h3>
+        <p className="project-card__period">{project.period}</p>
+        <p className="project-card__tagline">{project.tagline}</p>
+
+        <ul className="project-card__stack" aria-label="Built with">
+          {project.stack.map((tech) => (
+            <li key={tech} className="project-card__stack-item">
+              {tech}
+            </li>
+          ))}
+        </ul>
+
+        <div className="project-card__actions">
+          <button type="button" className="btn" onClick={onViewDetails}>
+            View details
+            <span className="visually-hidden"> for {project.title}</span>
+          </button>
+
+          {project.liveUrl && (
+            <a
+              className="btn btn--ghost"
+              href={project.liveUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Live demo
+              <span className="visually-hidden">
+                {` of ${project.title} (opens in a new tab)`}
+              </span>
+            </a>
+          )}
+
+          <a
+            className="btn btn--ghost"
+            href={project.repo}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Code
+            <span className="visually-hidden">
+              {` for ${project.title} on GitHub (opens in a new tab)`}
+            </span>
+          </a>
+        </div>
+      </div>
+    </article>
   );
 };
 
