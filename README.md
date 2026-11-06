@@ -1,5 +1,7 @@
 # Portfolio — Fatemeh Bagherzad
 
+[![CI](https://github.com/FatemeBagherzad/portfolio/actions/workflows/ci.yml/badge.svg)](https://github.com/FatemeBagherzad/portfolio/actions/workflows/ci.yml)
+
 The source for my personal site: a React and TypeScript single-page app
 showing selected work, written engineering notes, and how to reach me.
 
@@ -30,6 +32,13 @@ here rather than asserted:
   and can be used anywhere; `global` and `typography` are imported a single
   time in `src/styles/main.scss`.
 
+Every one of those claims is a test. `npm test` runs 37 Playwright checks
+against the production build: an axe scan of all five routes plus the project
+detail view, a horizontal-overflow assertion for each route at 320, 375, 768
+and 1280px, header tap targets measured at 44px, and keyboard coverage for the
+skip link, the nav and the mobile menu's Enter/Escape handling. CI runs them
+on every push.
+
 ## Stack
 
 React 18 · TypeScript · Vite · SCSS · React Router · Framer Motion · Swiper
@@ -49,6 +58,8 @@ npm run dev
 | `npm run build`     | Type-check, then production build         |
 | `npm run typecheck` | `tsc -b` on its own                       |
 | `npm run lint`      | ESLint across the project                 |
+| `npm test`          | Playwright suite against the built site   |
+| `npm run test:ui`   | Playwright in watch / inspector mode      |
 | `npm run preview`   | Serve the production build locally        |
 
 ## Layout
@@ -56,12 +67,13 @@ npm run dev
 ```
 src/
   components/   Hero, Menu, ProjectCard, ProjectDetail, SwiperComponent
-  pages/        Home, Projects, Challenges, AboutMe, NotFound
+  pages/        Home, Projects, DeepDives, AboutMe, NotFound
   assets/
     projects-data/   projects.json, challenges.json — the site's content
   constants/    tech.ts — readable names for stack icons
   styles/       main.scss and partials (variables, mixins, typography, global)
   types/        Project and Challenge interfaces
+tests/          Playwright specs: accessibility, responsive, keyboard
 ```
 
 Content lives in the two JSON files rather than in components, so adding a
