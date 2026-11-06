@@ -1,76 +1,94 @@
 @use '../../styles/partials/variables' as *;
 @use '../../styles/partials/mixins' as *;
 
+// Establishing a containment context lets the card lay itself out from its
+// OWN width. The same component is wide in "Selected work" and narrow in
+// "Education & practice", and it adapts to each without either section
+// passing it a prop or a media query guessing from the viewport.
 .project-card {
+  // Containment context only. The layout that responds to it lives on
+  // __layout below: a container query can style descendants of its
+  // container, never the container itself.
+  container-type: inline-size;
+  container-name: card;
+
   display: flex;
-  flex-direction: column;
   height: 100%;
+  overflow: hidden;
   background-color: var(--color-surface);
   border: 1px solid var(--color-border);
-  border-radius: 0.6rem;
-  overflow: hidden;
+  border-radius: var(--radius-l);
   box-shadow: var(--shadow-card);
   transition:
-    transform 0.3s ease,
-    box-shadow 0.3s ease;
+    border-color var(--dur-base) var(--ease-out-quint),
+    box-shadow var(--dur-base) var(--ease-out-quint);
+
   &:hover {
-    transform: translateY(-0.4rem);
+    border-color: var(--color-accent);
     box-shadow: var(--shadow-card-hover);
+  }
+
+  &__layout {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+
+  &__media {
+    position: relative;
+    overflow: hidden;
+    background-color: var(--color-placeholder);
+    flex-shrink: 0;
   }
 
   &__img {
     display: block;
     width: 100%;
     height: auto;
-    aspect-ratio: 16 / 9;
+    aspect-ratio: 16 / 10;
     object-fit: cover;
     object-position: center top;
-    background-color: var(--color-placeholder);
   }
 
   &__body {
     display: flex;
     flex-direction: column;
-    gap: 0.8rem;
-    padding: 1.6rem;
+    gap: var(--space-2xs);
+    padding: var(--space-m);
     flex: 1;
   }
 
-  &__title {
-    font-size: 2rem;
-    line-height: 1.2;
-    margin: 0;
+  &__period {
+    font-family: var(--font-mono);
+    font-size: var(--step--2);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    color: var(--color-text-muted);
   }
 
-  &__period {
-    font-size: 1.3rem;
-    line-height: 1.2;
-    color: var(--color-text-muted);
-    margin: 0;
+  &__title {
+    font-size: var(--step-2);
+    line-height: var(--leading-tight);
   }
 
   &__tagline {
-    font-size: 1.5rem;
-    line-height: 2.2rem;
-    margin: 0;
+    color: var(--color-text-muted);
+    max-width: 52ch;
   }
 
-  // Readable stack names, so a reviewer (and a search) can see the
-  // technologies without decoding icon images.
   &__stack {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.5rem;
-    margin: 0.4rem 0 0 0;
-    padding: 0;
-    list-style: none;
+    gap: var(--space-3xs);
+    margin-top: var(--space-3xs);
   }
 
   &__stack-item {
-    font-size: 1.2rem;
+    font-family: var(--font-mono);
+    font-size: var(--step--2);
     line-height: 1;
-    padding: 0.5rem 0.8rem;
-    border-radius: 0.3rem;
+    padding: 0.6rem 0.9rem;
+    border-radius: var(--radius-s);
     background-color: var(--color-chip-bg);
     color: var(--color-chip-text);
   }
@@ -78,8 +96,42 @@
   &__actions {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.8rem;
+    gap: var(--space-2xs);
     margin-top: auto;
-    padding-top: 1.2rem;
+    padding-top: var(--space-s);
+  }
+}
+
+// Wide enough to read side by side: the image takes a column of its own and
+// the copy gets the rest. This is the card reacting to its container, not to
+// the window — a narrow card in a wide window stays stacked.
+@container card (min-width: 46rem) {
+  .project-card__layout {
+    flex-direction: row;
+  }
+
+  .project-card__media {
+    width: 38%;
+    max-width: 30rem;
+  }
+
+  .project-card__img {
+    height: 100%;
+    aspect-ratio: auto;
+  }
+
+  .project-card__body {
+    padding: var(--space-l);
+  }
+}
+
+// Narrow cards tighten up rather than keeping desktop proportions.
+@container card (max-width: 28rem) {
+  .project-card__title {
+    font-size: var(--step-1);
+  }
+
+  .project-card__body {
+    padding: var(--space-s);
   }
 }

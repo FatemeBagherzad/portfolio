@@ -2,50 +2,66 @@
 @use '../../styles/partials/mixins' as *;
 
 .projects {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
+  &__title {
+    margin-block: var(--space-2xs) var(--space-s);
+  }
+
+  &__intro {
+    margin-bottom: var(--space-xl);
+  }
 
   &__section {
-    margin-top: 3rem;
+    margin-bottom: var(--space-2xl);
   }
 
   &__section-title {
-    border-bottom: 2px solid $color2;
-    padding-bottom: 0.5rem;
+    font-size: var(--step-2);
+    padding-bottom: var(--space-2xs);
+    border-bottom: 1px solid var(--color-border);
+    margin-bottom: var(--space-xs);
   }
 
   &__section-note {
-    margin: 1rem 0 2rem 0;
     color: var(--color-text-muted);
-    font-size: 1.4rem;
+    max-width: var(--measure);
+    margin-bottom: var(--space-l);
   }
 
   &__cards {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 2.4rem;
-    @include tablet {
-      grid-template-columns: repeat(auto-fit, minmax(32rem, 1fr));
+    gap: var(--space-l);
+    // Equal-height cards regardless of how much text each one has.
+    align-items: stretch;
+  }
+
+  // Feature cards get enough width that the card's own container query
+  // flips it to the side-by-side layout.
+  &__cards--feature {
+    @media (min-width: 64rem) {
+      grid-template-columns: repeat(auto-fit, minmax(46rem, 1fr));
     }
   }
 
-  // Education projects stay on the page but take less room, so they cannot
-  // visually outweigh the selected work above them.
+  // Education cards stay narrow, so the same component keeps its stacked
+  // layout and cannot visually outweigh the work above it.
   &__cards--compact {
-    @include tablet {
-      grid-template-columns: repeat(auto-fit, minmax(26rem, 1fr));
-    }
-    .project-card__title {
-      font-size: 1.7rem;
-    }
-    .project-card__img {
-      aspect-ratio: 16 / 10;
+    gap: var(--space-m);
+    @media (min-width: 48rem) {
+      grid-template-columns: repeat(auto-fit, minmax(24rem, 1fr));
     }
   }
 
   &__back {
     align-self: flex-start;
-    margin-bottom: 1.6rem;
+    margin-bottom: var(--space-l);
   }
+}
+
+// Reveal and TiltCard both wrap the card; they must not collapse its height
+// or the equal-height grid stops working.
+.projects__cards > .reveal,
+.projects__cards > .reveal > .tilt,
+.projects__cards > .tilt {
+  height: 100%;
 }

@@ -1,0 +1,41 @@
+.tilt {
+  position: relative;
+  // The 3D context lives on the wrapper, so the card inside can rotate
+  // without every nested element needing its own perspective.
+  perspective: 1000px;
+  // Promotes the card once, rather than the browser deciding per frame.
+  will-change: transform;
+
+  &__inner {
+    height: 100%;
+    transform: rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg));
+    transform-style: preserve-3d;
+    // Springs back when the pointer leaves; removed while tracking so the
+    // card follows the pointer exactly instead of lagging behind it.
+    transition: transform var(--dur-slow) var(--ease-spring);
+  }
+
+  &--tracking &__inner {
+    transition: none;
+  }
+
+  // A soft highlight that follows the pointer, which is what sells the
+  // surface as tilting rather than just skewing.
+  &__glare {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    opacity: 0;
+    pointer-events: none;
+    background: radial-gradient(
+      28rem circle at var(--glare-x, 50%) var(--glare-y, 50%),
+      rgba(255, 255, 255, 0.14),
+      transparent 60%
+    );
+    transition: opacity var(--dur-base) var(--ease-out-quint);
+  }
+
+  &--tracking &__glare {
+    opacity: 1;
+  }
+}

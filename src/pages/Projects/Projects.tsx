@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import ProjectCard from '../../components/ProjectCard/ProjectCard';
 import ProjectDetail from '../../components/ProjectDetail/ProjectDetail';
+import TiltCard from '../../components/TiltCard/TiltCard';
+import Reveal from '../../components/Reveal/Reveal';
 import projectsData from '../../assets/projects-data/projects.json';
 import './Projects.scss';
 import type { Project } from '../../types';
@@ -15,7 +17,7 @@ const Projects = () => {
 
   if (openProject) {
     return (
-      <div className="projects container">
+      <div className="projects container section">
         <button
           type="button"
           className="btn btn--ghost projects__back"
@@ -29,23 +31,28 @@ const Projects = () => {
   }
 
   return (
-    <div className="projects container">
-      <h1>Projects</h1>
+    <div className="projects container section">
+      <p className="eyebrow">Selected work</p>
+      <h1 className="projects__title">Projects</h1>
+      <p className="lede projects__intro">
+        Three I would want to talk through in an interview, and the
+        coursework that got me there.
+      </p>
 
       <section className="projects__section" aria-labelledby="selected-work">
         <h2 id="selected-work" className="projects__section-title">
           Selected work
         </h2>
-        <p className="projects__section-note">
-          The three I would want to talk through in an interview.
-        </p>
-        <div className="projects__cards">
-          {selectedWork.map((project) => (
-            <ProjectCard
-              key={project.id}
-              project={project}
-              onViewDetails={() => setOpenProject(project)}
-            />
+        <div className="projects__cards projects__cards--feature">
+          {selectedWork.map((project, index) => (
+            <Reveal key={project.id} order={index}>
+              <TiltCard>
+                <ProjectCard
+                  project={project}
+                  onViewDetails={() => setOpenProject(project)}
+                />
+              </TiltCard>
+            </Reveal>
           ))}
         </div>
       </section>
@@ -59,12 +66,15 @@ const Projects = () => {
           kept here because the progression is part of the story.
         </p>
         <div className="projects__cards projects__cards--compact">
-          {educationWork.map((project) => (
-            <ProjectCard
-              key={project.id}
-              project={project}
-              onViewDetails={() => setOpenProject(project)}
-            />
+          {educationWork.map((project, index) => (
+            <Reveal key={project.id} order={index}>
+              <TiltCard>
+                <ProjectCard
+                  project={project}
+                  onViewDetails={() => setOpenProject(project)}
+                />
+              </TiltCard>
+            </Reveal>
           ))}
         </div>
       </section>
