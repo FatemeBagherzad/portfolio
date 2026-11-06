@@ -1,0 +1,33 @@
+# Deploy settings live in the repo rather than only in the Netlify dashboard,
+# so a rebuild cannot quietly change behaviour and anyone reading the project
+# can see how it ships.
+
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  # The build runs `tsc -b` before Vite, and Vite 5 needs Node 18+.
+  # Pinning stops a change to Netlify's default from breaking the build.
+  NODE_VERSION = "20"
+
+# Vite fingerprints everything in /assets/, so those files can never change
+# under a given name and are safe to cache forever. index.html deliberately
+# keeps Netlify's default revalidation so new deploys are picked up at once.
+[[headers]]
+  for = "/assets/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/fonts/*"
+  [headers.values]
+    Cache-Control = "public, max-age=31536000, immutable"
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "DENY"
+    Referrer-Policy = "strict-origin-when-cross-origin"
+    Permissions-Policy = "geolocation=(), microphone=(), camera=()"
