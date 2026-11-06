@@ -1,97 +1,161 @@
 [
   {
     "id": 1,
-    "title": "RABVA: Rendering Arabic Script Correctly",
-    "description": "Arabic text broke in unexpected ways: words stacked one per line, erab marks changed character counts, and Safari rendered layouts differently from Chrome. I learned how right-to-left text, font metrics and browser quirks interact, and fixed each case with targeted CSS and data normalization."
+    "title": "Rendering Arabic Script Correctly",
+    "project": "Rabva",
+    "featured": true,
+    "description": "Arabic text broke in ways I did not expect: words stacked one per line, diacritics changed the character counts my data model depended on, and Safari rendered the same layout differently from Chrome. Fixing it meant learning how right-to-left text, font metrics and browser shaping engines actually interact, then handling each case with targeted CSS and data normalisation rather than guesswork."
   },
   {
     "id": 2,
-    "title": "RABVA: Two Scripts, One Data Model",
-    "description": "The Quran text exists in Uthmani and Simple script, and words are split into sub-words. Designing a database that keeps both in sync, with a permanent relation table between ayah-words and whole-words, took several iterations and careful indexing to stay fast."
+    "title": "Two Scripts, One Data Model",
+    "project": "Rabva",
+    "description": "The Quran text exists in both Uthmani and Simple script, and words are further split into sub-words. Designing a schema that keeps both in sync — with a permanent relation table between ayah-words and whole-words — took several iterations and careful indexing before lookups stayed fast at full corpus size."
   },
   {
     "id": 3,
-    "title": "RABVA: Drag-Scroll and Continuous Reading",
-    "description": "Building a reading view that scrolls continuously through Uthmani pages, remembers the exact ayah you were on, prefetches the next page and still works with swipe on mobile exposed a lot of edge cases in scroll handling, especially on large screens."
+    "title": "Continuous Reading Over 6,236 Verses",
+    "project": "Rabva",
+    "description": "The reading view scrolls continuously through the whole corpus in the classic Uthmani page layout. It works on ayah-anchored pagination that appends and prepends in batches sized to the screen, prefetches ahead so a reader never waits, and restores the exact verse they left off on. Keeping per-scroll work proportional to what is visible is what lets a low-memory phone stay responsive."
   },
   {
     "id": 4,
-    "title": "RABVA: Root Search in Tabs",
-    "description": "Letting users open many root searches at once meant the search module had to be shared between the reading view and the Canvas without duplicating code. Getting the tab state, URL sharing and the table overflow right was a real exercise in component design."
+    "title": "Designing for a Billion Rows",
+    "project": "Rabva",
+    "featured": true,
+    "description": "Every query path had to assume the data would outgrow memory. I set the design rule the implementation had to satisfy: composite indexes matched to real query patterns, keyset pagination instead of deep OFFSET, select_related and prefetch_related to eliminate N+1 queries, aggregation pushed into the database rather than the application, and Redis reserved for accelerating reads that were already index-backed instead of papering over missing indexes."
   },
   {
     "id": 5,
-    "title": "RABVA: Multilingual Interface",
-    "description": "The UI had to work in English, Persian and Arabic, two of them right-to-left. Instead of translating word by word, every string became a translation key stored in the database, with rules for RTL text that flips the text direction but not the layout or icons."
+    "title": "Input-Modality Parity on the Research Canvas",
+    "project": "Rabva",
+    "description": "The canvas supports pan, zoom, drag, marquee selection and node-to-node connection drawing, built on pointer events with ResizeObserver and requestAnimationFrame. The hard part was parity: every mouse gesture needed a touch equivalent (drag versus double-tap, right-click versus a 600 ms long-press) and a keyboard path, with hit targets of at least 44 px, so the same workspace is fully usable without a mouse."
   },
   {
     "id": 6,
-    "title": "RABVA: Running Many Docker Stacks at Once",
-    "description": "Several branches were developed in parallel, so each needed its own isolated backend, frontend and database. I set up branch-named Docker Compose stacks seeded from a database export so nothing collided with the main local environment."
+    "title": "Accessibility as a Component Contract",
+    "project": "Rabva",
+    "description": "Accessibility became part of each component rather than an audit at the end: 270+ aria-labelled controls, semantic roles, a keyboard path for every interaction, and reduced-motion support. Retrofitting any of this onto a drag-and-drop canvas or a continuously scrolling reader afterwards would have meant rewriting both."
   },
   {
     "id": 7,
-    "title": "RABVA: Byte-Exact Arabic Database Exports",
-    "description": "A plain mysqldump silently corrupted some Arabic characters. I built an export pipeline that enforces utf8mb4 end to end and a diagnostic script that catches charset problems before they reach another environment."
+    "title": "Authentication That Assumes Attack",
+    "project": "Rabva",
+    "description": "I specified the authentication and authorisation model, then validated the implementation against it: per-device sessions that can be revoked individually, login lockout, expiring verification and recovery tokens, per-endpoint throttles, and owner, admin, contributor and viewer permissions enforced server-side on every route rather than merely hidden in the interface."
   },
   {
     "id": 8,
-    "title": "RABVA: Production on AWS with Nginx and HTTPS",
-    "description": "I moved the app to an EC2 instance managed with Terraform, with staging and production kept completely separate, the React build served as static files by Nginx inside Docker, and Let's Encrypt certificates renewing automatically."
+    "title": "An Anti-Bot Gate the Audience Never Sees",
+    "project": "Rabva",
+    "description": "Much of Rabva's audience is elderly, so a CAPTCHA would have cost real users more than it cost bots. Instead the signup path carries a stateless signed ticket: a honeypot field, a timing check and a small browser-side proof of work. It filters automated signups without ever asking a person to identify a traffic light."
   },
   {
     "id": 9,
-    "title": "RABVA: A 3D View of the Quran",
-    "description": "As an experiment I built a proof of concept that shows surahs as stacked 3D layers of ayahs and words you can rotate, zoom and fly through, using react-force-graph-3d with the Arabic words drawn as flat text planes in 3D space."
+    "title": "Root Search in Tabs",
+    "project": "Rabva",
+    "description": "Letting readers open many root searches at once meant the search module had to be shared between the reading view and the Canvas without duplicating logic. Getting tab state, shareable URLs and table overflow right turned out to be a real exercise in component boundaries."
+  },
+  {
+    "id": 10,
+    "title": "A Design-Token System for Themes and RTL",
+    "project": "Rabva",
+    "description": "Colour, spacing and type live as SCSS design tokens rather than literals scattered through components. That is what makes user-selectable themes possible without forking the stylesheet, and what lets a right-to-left layout flip text direction without also flipping icons, progress indicators or the overall composition."
   },
   {
     "id": 11,
-    "title": "Migrating My App’s Database",
-    "description": "I worked on moving my app's database from MongoDB to  MySQL, which involved updating some of the server-side code and adjusting the queries to make everything work smoothly."
+    "title": "A Multilingual Interface Without Hard-Coded Strings",
+    "project": "Rabva",
+    "description": "The UI had to work in English, Persian and Arabic, two of them right-to-left. Instead of translating word by word in the markup, every string became a translation key resolved from the database, with direction rules applied at the layout level so adding a language is a data change rather than a code change."
   },
   {
     "id": 12,
-    "title": "Using useRef in React",
-    "description": "I faced a challenge while working with useRef to persist values across renders without causing unnecessary re-renders, but I learned a lot through experimenting with it."
+    "title": "Directing Coding Agents, Then Gating What They Return",
+    "project": "Rabva",
+    "featured": true,
+    "description": "I wrote the specification and let AI coding agents implement against it, which only works if the gate is real. Engineering standards are encoded as machine-readable rules every change must satisfy, repeated procedures became custom agent skills, context loading is subject-routed so a session reads only the design documents its task touches, and a tool-permission policy withholds commits, pushes and destructive commands from the agent entirely."
   },
   {
     "id": 13,
-    "title": "Implementing OAuth",
-    "description": "I worked on adding OAuth authentication to my app, which was tricky at first, but it’s been really useful for securing user login."
+    "title": "Making Agent Failures Into Permanent Rules",
+    "project": "Rabva",
+    "description": "Agents repeat mistakes unless the system remembers them for you. Recorded failures feed back into a guardrails file as permanent rules, a fix that has failed twice is reclassified as a product bug instead of being retried indefinitely, and test selection is derived from each change's import closure — so an agent verifies exactly what it touched, and a change spanning several areas widens to the full suite on its own."
   },
   {
     "id": 14,
-    "title": "Fixing Bugs with useEffect",
-    "description": "I had to troubleshoot some issues with state management and useEffect in my app to make sure the suggestion page worked as expected."
+    "title": "Proving a Change Is Actually Running",
+    "project": "Rabva",
+    "description": "An agent reporting success is not evidence. The built image tag is stamped into the served HTML, so any claim that a change works can be checked against the build actually running. On top of that, every change has to clear the test suites and Aikido, SonarQube and Snyk scanning before it is allowed to land."
   },
   {
     "id": 15,
-    "title": "Learning MySQL",
-    "description": "I spent some time improving my skills with MySQL, adding new fields to tables and making sure everything was connected properly with foreign keys."
+    "title": "Shift-Left Testing on a Single Laptop",
+    "project": "Rabva",
+    "description": "115 Playwright spec files and 500+ tests run across six browser and device profiles before anything is pushed. Making that fit on one machine meant a parameterised number of complete environments on isolated port blocks, sized to the cores and memory the host actually has free rather than a fixed number that would thrash."
   },
   {
     "id": 16,
-    "title": "Deploying My Project",
-    "description": "I successfully deployed my front-end on Netlify and my back-end on Heroku for my capstone project, which was a pretty rewarding experience."
+    "title": "Running Nine Docker Stacks at Once",
+    "project": "Rabva",
+    "description": "Several branches are developed in parallel, so each needs its own isolated backend, frontend and database. Branch-named Docker Compose stacks seeded from a database export let agents work concurrently across nine branch-scoped workspaces without shared-state collisions or disturbing the main local environment."
   },
   {
     "id": 17,
-    "title": "Integrating Google Maps",
-    "description": "I figured out how to use the Google Maps API in my app to show nearby providers based on specific information like postal codes and benefit types."
+    "title": "Byte-Exact Arabic Database Exports",
+    "project": "Rabva",
+    "description": "A plain mysqldump silently corrupted some Arabic characters — not loudly enough to fail, just enough to be wrong. I rebuilt the export pipeline to enforce utf8mb4 end to end and wrote a diagnostic script that catches charset problems before they ever reach another environment."
   },
   {
     "id": 18,
-    "title": "Building a Quiz App with Students",
-    "description": "I helped my students create a quiz app where users could pick their own TV channels. It was a great way to practice React and state management."
+    "title": "A Translation Pipeline That Respects the Reviewer",
+    "project": "Rabva",
+    "description": "Model drafts are keyed by source sentence in a committed glossary. Once a reviewer corrects an entry it is locked: never re-sent to the model, never overwritten on a later run. Automation scales the volume while human judgement stays authoritative over the words people actually read."
   },
   {
     "id": 19,
-    "title": "Finding a Free Database",
-    "description": "I initially thought I found a free database to deploy my app, only to get a bill later. It taught me a lot about researching and understanding database pricing before committing."
+    "title": "Production on AWS with Nginx and HTTPS",
+    "project": "Rabva",
+    "description": "Production and staging are kept completely separate on EC2, provisioned with Terraform — instance, security group, elastic IP and encrypted gp3 volume all expressed as code. The React build is served as static files by Nginx inside Docker, with Let's Encrypt certificates that renew themselves."
   },
   {
     "id": 20,
-    "title": "Organizing My Code",
-    "description": "I made sure to keep my code organized across my UI and API repositories so that everything was clean and easy to manage."
+    "title": "A 3D View of the Quran",
+    "project": "Rabva",
+    "description": "A proof of concept that renders surahs as stacked 3D layers of ayahs and words you can rotate, zoom and fly through, built with react-force-graph-3d and Arabic words drawn as flat text planes in 3D space. It did not ship, but it answered whether the data model could support spatial navigation at all."
+  },
+  {
+    "id": 21,
+    "title": "Migrating a Live Database from MongoDB to MySQL",
+    "project": "CampHeaven",
+    "description": "Halfway through CampHeaven it became clear that bookings, sites and users wanted joins rather than nested documents. Moving from MongoDB to MySQL meant reworking the server-side queries and the data access layer around a relational model, and learning that picking the wrong store early is cheaper to fix than to live with."
+  },
+  {
+    "id": 22,
+    "title": "Adding OAuth Without Adding Another Password",
+    "project": "CampHeaven",
+    "description": "Implementing GitHub OAuth was the first time I had to reason about a flow where my server is not the one holding the credentials: redirect URIs, state parameters, exchanging a code for a token, and deciding what the application stores once the provider has confirmed who someone is."
+  },
+  {
+    "id": 23,
+    "title": "Reading the Pricing Page Before Trusting a Free Tier",
+    "project": "CampHeaven",
+    "description": "I deployed onto what I believed was a free database tier and received a bill. The lesson stuck harder than any tutorial: check the pricing model, the egress terms and what happens at the limit before a project depends on a service."
+  },
+  {
+    "id": 24,
+    "title": "Integrating Google Maps Around Real Constraints",
+    "project": "FindFood",
+    "description": "Using the Google Maps API to surface nearby providers meant working with postal codes and benefit types rather than coordinates, which is the kind of mismatch between a real data set and a mapping API that never appears in the documentation."
+  },
+  {
+    "id": 25,
+    "title": "Teaching State Management by Building It",
+    "project": "Teaching",
+    "description": "As a teaching assistant I helped students build a quiz app where users pick their own channels. Explaining why a piece of state belongs in one component rather than another — repeatedly, to people who have not yet formed the intuition — is the fastest way I know to find the gaps in your own."
+  },
+  {
+    "id": 26,
+    "title": "Keeping UI and API Repositories Honest",
+    "project": "Early work",
+    "description": "Running separate UI and API repositories forced decisions I had avoided while everything lived in one folder: where the contract lives, how the two stay in step, and what has to happen in which repository when a field changes shape."
   }
 ]

@@ -8,10 +8,12 @@ interface NavItem {
   label: string;
 }
 
+// Deep Dives sits second on purpose: it is the strongest material on the
+// site and was previously third, where almost nobody reached it.
 const NAV_ITEMS: readonly NavItem[] = [
   { path: '/', label: 'Home' },
+  { path: '/deep-dives', label: 'Deep Dives' },
   { path: '/projects', label: 'Projects' },
-  { path: '/challenges', label: 'Challenges' },
   { path: '/about-me', label: 'About' },
 ];
 

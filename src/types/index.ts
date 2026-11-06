@@ -33,4 +33,8 @@ export interface Challenge {
   id: number;
   title: string;
   description: string;
+  /** Which project the problem came from, e.g. "Rabva". */
+  project: string;
+  /** Surfaced on the home page as a preview. */
+  featured?: boolean;
 }

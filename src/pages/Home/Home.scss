@@ -1,0 +1,73 @@
+@use '../../styles/partials/variables' as *;
+@use '../../styles/partials/mixins' as *;
+
+.home {
+  &__dives {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 4rem;
+  }
+
+  &__dives-title {
+    border-bottom: 2px solid $color2;
+    padding-bottom: 0.6rem;
+  }
+
+  &__dives-intro {
+    margin: 1.2rem 0 2rem 0;
+    color: #4a4a4a;
+    max-width: 62ch;
+  }
+
+  &__dives-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 2rem;
+    @include tablet {
+      grid-template-columns: repeat(auto-fit, minmax(28rem, 1fr));
+    }
+  }
+
+  &__dive {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    padding: 2rem;
+    border: 1px solid rgba(17, 17, 17, 0.1);
+    border-radius: 0.6rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+  }
+
+  &__dive-tag {
+    align-self: flex-start;
+    font-size: 1.2rem;
+    line-height: 1;
+    padding: 0.5rem 0.8rem;
+    border-radius: 0.3rem;
+    background-color: rgba(148, 47, 103, 0.1);
+    color: #7a2655;
+    margin: 0;
+  }
+
+  &__dive-title {
+    font-size: 1.7rem;
+    line-height: 2.4rem;
+    margin: 0;
+  }
+
+  // Previews only: the full text lives on the Deep Dives page.
+  &__dive-txt {
+    margin: 0;
+    color: #4a4a4a;
+    display: -webkit-box;
+    -webkit-line-clamp: 5;
+    line-clamp: 5;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  &__dives-cta {
+    align-self: flex-start;
+    margin-top: 2.4rem;
+  }
+}

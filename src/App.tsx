@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import {
   BrowserRouter,
+  Navigate,
   Route,
   Routes,
   useLocation,
@@ -9,7 +10,7 @@ import { MotionConfig } from 'framer-motion';
 import './App.scss';
 import Menu from './components/Menu/Menu';
 import Home from './pages/Home/Home';
-import Challenges from './pages/Challenges/Challenges';
+import DeepDives from './pages/DeepDives/DeepDives';
 import Projects from './pages/Projects/Projects';
 import AboutMe from './pages/AboutMe/AboutMe';
 import NotFound from './pages/NotFound/NotFound';
@@ -44,7 +45,12 @@ const AppShell = () => {
       <main id="main-content" ref={mainRef} tabIndex={-1} className="body">
         <Routes>
           <Route path="/" element={<Home />} />
-          <Route path="/challenges" element={<Challenges />} />
+          <Route path="/deep-dives" element={<DeepDives />} />
+          {/* Old path kept so links shared before the rename still land. */}
+          <Route
+            path="/challenges"
+            element={<Navigate to="/deep-dives" replace />}
+          />
           <Route path="/projects" element={<Projects />} />
           <Route path="/about-me" element={<AboutMe />} />
           <Route path={'*'} element={<NotFound />} />
