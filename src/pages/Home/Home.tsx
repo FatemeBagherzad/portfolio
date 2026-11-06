@@ -1,5 +1,5 @@
-import { Link } from 'react-router-dom';
 import Hero from '../../components/Hero/Hero';
+import TransitionLink from '../../components/TransitionLink/TransitionLink';
 import './Home.scss';
 import challengesData from '../../assets/projects-data/challenges.json';
 import type { Challenge } from '../../types';
@@ -34,9 +34,9 @@ const Home = () => {
           ))}
         </div>
 
-        <Link className="btn btn--ghost home__dives-cta" to="/deep-dives">
+        <TransitionLink className="btn btn--ghost home__dives-cta" to="/deep-dives">
           Read all deep dives
-        </Link>
+        </TransitionLink>
       </section>
     </div>
   );

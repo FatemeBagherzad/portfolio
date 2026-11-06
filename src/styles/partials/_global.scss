@@ -274,3 +274,53 @@ main:focus {
     scroll-behavior: auto !important;
   }
 }
+
+// ---------------------------------------------------------------------------
+// View transitions
+// ---------------------------------------------------------------------------
+// Browsers without the API simply skip all of this and navigate normally;
+// nothing here is required for the app to work.
+
+// The header is given its own snapshot so it stays put during a route
+// change instead of cross-fading with the page body underneath it.
+.menu {
+  view-transition-name: site-header;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  ::view-transition-old(root) {
+    animation: vt-leave 200ms var(--ease-out-quint) both;
+  }
+  ::view-transition-new(root) {
+    animation: vt-enter 320ms var(--ease-out-quint) both;
+  }
+}
+
+@keyframes vt-leave {
+  to {
+    opacity: 0;
+    transform: translateY(-0.8rem);
+  }
+}
+
+@keyframes vt-enter {
+  from {
+    opacity: 0;
+    transform: translateY(1.4rem);
+  }
+}
+
+// Theme change is a different gesture: a circle grows out of the toggle and
+// paints the new theme over the old one. The default cross-fade would muddy
+// that, so it is suppressed for this transition only.
+:root[data-vt='theme']::view-transition-old(root),
+:root[data-vt='theme']::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+:root[data-vt='theme']::view-transition-old(root) {
+  z-index: 0;
+}
+:root[data-vt='theme']::view-transition-new(root) {
+  z-index: 1;
+}

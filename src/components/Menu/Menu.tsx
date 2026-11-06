@@ -1,8 +1,10 @@
 import { useState, useRef, useEffect } from 'react';
-import { useNavigate, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
+import { useTransitionNavigate } from '../../hooks/useTransitionNavigate';
 import './Menu.scss';
 import menuIcon from '../../assets/icons/menu-white.webp';
 import ThemeToggle from '../ThemeToggle/ThemeToggle';
+import { paletteStore } from '../../store/paletteStore';
 
 interface NavItem {
   path: string;
@@ -19,7 +21,7 @@ const NAV_ITEMS: readonly NavItem[] = [
 ];
 
 const Menu = () => {
-  const navigate = useNavigate();
+  const transitionNavigate = useTransitionNavigate();
   const location = useLocation();
   const [mobileMenu, setMobileMenu] = useState<boolean>(false);
   const activePage = location.pathname;
@@ -28,7 +30,7 @@ const Menu = () => {
   const toggleRef = useRef<HTMLButtonElement>(null);
 
   const handleMenuClick = (path: string): void => {
-    navigate(path);
+    transitionNavigate(path);
     setMobileMenu(false);
   };
 
@@ -95,6 +97,39 @@ const Menu = () => {
 
         <nav aria-label="Main">
           <ul className="menu-txt__right">{renderItems('right')}</ul>
+
+          <button
+            type="button"
+            className="menu-txt__search"
+            onClick={() => paletteStore.open()}
+            aria-label="Open the command palette. Keyboard shortcut: Control or Command K"
+          >
+            <svg
+              viewBox="0 0 24 24"
+              width="18"
+              height="18"
+              aria-hidden="true"
+              focusable="false"
+            >
+              <circle
+                cx="11"
+                cy="11"
+                r="7"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+              />
+              <path
+                d="m20 20-3.5-3.5"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+              />
+            </svg>
+            <kbd className="menu-txt__kbd" aria-hidden="true">
+              &#8984;K
+            </kbd>
+          </button>
 
           <ThemeToggle />
 

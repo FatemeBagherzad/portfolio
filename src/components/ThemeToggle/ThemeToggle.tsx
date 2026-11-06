@@ -1,66 +1,41 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useRef } from 'react';
 import './ThemeToggle.scss';
-
-export type Theme = 'light' | 'dark';
-
-const STORAGE_KEY = 'theme';
-
-/**
- * Reads the theme the inline script in index.html already applied, so the
- * component starts in agreement with what is on screen instead of flashing.
- */
-const readAppliedTheme = (): Theme =>
-  document.documentElement.getAttribute('data-theme') === 'dark'
-    ? 'dark'
-    : 'light';
+import { useTheme } from '../../store/themeStore';
+import {
+  useSystemThemeSync,
+  useThemeTransition,
+} from '../../hooks/useThemeTransition';
 
 const ThemeToggle = () => {
-  const [theme, setTheme] = useState<Theme>(readAppliedTheme);
+  const theme = useTheme();
+  const toggleTheme = useThemeTransition();
+  const buttonRef = useRef<HTMLButtonElement>(null);
+  useSystemThemeSync();
 
-  useEffect(() => {
-    document.documentElement.setAttribute('data-theme', theme);
-    try {
-      localStorage.setItem(STORAGE_KEY, theme);
-    } catch {
-      // Private browsing can refuse storage; the toggle still works for
-      // this visit, it just will not be remembered.
-    }
-  }, [theme]);
-
-  // Follow the operating system while the visitor has not chosen for
-  // themselves. Once they have, their choice wins.
-  useEffect(() => {
-    const query = window.matchMedia('(prefers-color-scheme: dark)');
-    const handleChange = (event: MediaQueryListEvent): void => {
-      let stored: string | null = null;
-      try {
-        stored = localStorage.getItem(STORAGE_KEY);
-      } catch {
-        stored = null;
-      }
-      if (stored === null) setTheme(event.matches ? 'dark' : 'light');
-    };
-    query.addEventListener('change', handleChange);
-    return () => query.removeEventListener('change', handleChange);
-  }, []);
-
-  const toggle = useCallback(() => {
-    setTheme((current) => (current === 'dark' ? 'light' : 'dark'));
-  }, []);
+  const handleClick = (): void => {
+    const rect = buttonRef.current?.getBoundingClientRect();
+    // The reveal grows out of this button, so pass its centre as the origin.
+    toggleTheme(
+      rect
+        ? { x: rect.left + rect.width / 2, y: rect.top + rect.height / 2 }
+        : undefined
+    );
+  };
 
   const goingDark = theme === 'light';
 
   return (
     <button
       type="button"
+      ref={buttonRef}
       className="theme-toggle"
-      onClick={toggle}
+      onClick={handleClick}
       aria-pressed={theme === 'dark'}
       aria-label={goingDark ? 'Switch to dark theme' : 'Switch to light theme'}
       title={goingDark ? 'Switch to dark theme' : 'Switch to light theme'}
     >
       {goingDark ? (
-        // Moon: clicking now gives you the dark theme.
+        // Moon: pressing this now gives you the dark theme.
         <svg
           className="theme-toggle__icon"
           viewBox="0 0 24 24"
@@ -79,7 +54,7 @@ const ThemeToggle = () => {
           />
         </svg>
       ) : (
-        // Sun: clicking now returns you to the light theme.
+        // Sun: pressing this now returns you to the light theme.
         <svg
           className="theme-toggle__icon"
           viewBox="0 0 24 24"

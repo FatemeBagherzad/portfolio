@@ -9,6 +9,7 @@ import {
 import { MotionConfig } from 'framer-motion';
 import './App.scss';
 import Menu from './components/Menu/Menu';
+import CommandPalette from './components/CommandPalette/CommandPalette';
 import Home from './pages/Home/Home';
 import DeepDives from './pages/DeepDives/DeepDives';
 import Projects from './pages/Projects/Projects';
@@ -41,6 +42,7 @@ const AppShell = () => {
       </a>
 
       <Menu />
+      <CommandPalette />
 
       <main id="main-content" ref={mainRef} tabIndex={-1} className="body">
         <Routes>

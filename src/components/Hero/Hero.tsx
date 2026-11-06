@@ -1,7 +1,7 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
 import './Hero.scss';
 import CanvasField from '../CanvasField/CanvasField';
+import TransitionLink from '../TransitionLink/TransitionLink';
 import CompareSlider from '../CompareSlider/CompareSlider';
 import linkedinIcn from '../../assets/icons/linkedin-icon.webp';
 import githubIcn from '../../assets/icons/github-icon.webp';
@@ -85,9 +85,9 @@ const Hero = () => {
           </ul>
 
           <div className="hero__actions">
-            <Link className="btn" to="/projects">
+            <TransitionLink className="btn" to="/projects">
               See my work
-            </Link>
+            </TransitionLink>
 
             <a
               className="btn btn--ghost"

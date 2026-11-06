@@ -1,35 +1,54 @@
 import { useCallback } from 'react';
 import { usePrefersReducedMotion } from './useMediaQuery';
 
-type ViewTransitionCapableDocument = Document & {
-  startViewTransition?: (callback: () => void | Promise<void>) => {
-    finished: Promise<void>;
-  };
+export interface ViewTransition {
+  ready: Promise<void>;
+  finished: Promise<void>;
+  updateCallbackDone: Promise<void>;
+  skipTransition: () => void;
+}
+
+export type ViewTransitionDocument = Document & {
+  startViewTransition?: (
+    callback: () => void | Promise<void>
+  ) => ViewTransition;
 };
 
 /**
- * Runs a DOM update inside a View Transition when the browser supports one.
+ * True when the browser can run a View Transition and the visitor has not
+ * asked for reduced motion.
  *
- * Feature detection matters here: `document.startViewTransition` is missing
- * in Firefox and older Safari, and calling it blindly throws. Reduced motion
- * also opts out, because a cross-fade of the whole page is exactly the kind
- * of movement the setting is asking us not to make.
- *
- * The update always runs — the transition is decoration on top of it, never
- * a prerequisite.
+ * Both halves matter. `document.startViewTransition` is still missing in
+ * Firefox and older Safari, so calling it unguarded throws; and a cross-fade
+ * of the entire page is exactly the kind of movement reduced motion is
+ * asking us not to make.
+ */
+export const useCanViewTransition = (): boolean => {
+  const prefersReducedMotion = usePrefersReducedMotion();
+  return (
+    !prefersReducedMotion &&
+    typeof (document as ViewTransitionDocument).startViewTransition ===
+      'function'
+  );
+};
+
+/**
+ * Runs a DOM update inside a View Transition where one is available, and
+ * plainly where it is not. The update always happens — the transition is
+ * decoration on top of it, never a prerequisite.
  */
 export const useViewTransition = () => {
-  const prefersReducedMotion = usePrefersReducedMotion();
+  const canTransition = useCanViewTransition();
 
   return useCallback(
     (update: () => void): void => {
-      const doc = document as ViewTransitionCapableDocument;
-      if (prefersReducedMotion || typeof doc.startViewTransition !== 'function') {
+      const doc = document as ViewTransitionDocument;
+      if (!canTransition || !doc.startViewTransition) {
         update();
         return;
       }
       doc.startViewTransition(update);
     },
-    [prefersReducedMotion]
+    [canTransition]
   );
 };

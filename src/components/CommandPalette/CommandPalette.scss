@@ -1,0 +1,144 @@
+.palette {
+  position: fixed;
+  inset: 0;
+  z-index: 4000;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  // Clears the notch on a phone, and leaves the dialog under the thumb
+  // rather than pinned to the very top of a tall screen.
+  padding: max(8vh, env(safe-area-inset-top)) var(--space-s) var(--space-s);
+
+  &__backdrop {
+    position: absolute;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+    animation: palette-fade var(--dur-fast) var(--ease-out-quint) both;
+  }
+
+  &__dialog {
+    position: relative;
+    width: min(100%, 62rem);
+    max-height: min(68vh, 56rem);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background-color: var(--color-bg-elevated);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-l);
+    box-shadow: var(--shadow-overlay);
+    animation: palette-rise var(--dur-base) var(--ease-out-expo) both;
+  }
+
+  &__field {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2xs);
+    padding: var(--space-xs) var(--space-s);
+    border-bottom: 1px solid var(--color-border);
+    flex-shrink: 0;
+  }
+
+  &__search-icon {
+    color: var(--color-text-muted);
+    flex-shrink: 0;
+  }
+
+  &__input {
+    flex: 1;
+    min-width: 0;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-size: var(--step-0);
+    // 16px minimum, or iOS Safari zooms the page when the field is focused.
+    padding-block: 0.8rem;
+    color: var(--color-text);
+    &::placeholder {
+      color: var(--color-text-muted);
+    }
+  }
+
+  &__kbd {
+    font-family: var(--font-mono);
+    font-size: var(--step--2);
+    padding: 0.3rem 0.6rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-s);
+    color: var(--color-text-muted);
+    flex-shrink: 0;
+  }
+
+  &__list {
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding: var(--space-2xs);
+    // Momentum scrolling without the list handing the gesture to the page.
+    -webkit-overflow-scrolling: touch;
+  }
+
+  &__option {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2xs);
+    flex-wrap: wrap;
+    min-height: 4.4rem;
+    padding: var(--space-2xs) var(--space-xs);
+    border-radius: var(--radius-m);
+    cursor: pointer;
+    scroll-margin-block: var(--space-2xs);
+
+    &--active {
+      background-color: var(--color-chip-bg);
+    }
+  }
+
+  &__group {
+    flex-basis: 100%;
+    font-family: var(--font-mono);
+    font-size: var(--step--2);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    padding-top: var(--space-2xs);
+  }
+
+  &__label {
+    flex: 1;
+    min-width: 0;
+    font-size: var(--step--1);
+    // Long write-up titles truncate rather than reflowing the whole row.
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &__hint {
+    font-family: var(--font-mono);
+    font-size: var(--step--2);
+    color: var(--color-text-muted);
+    flex-shrink: 0;
+  }
+
+  &__empty {
+    padding: var(--space-m) var(--space-xs);
+    text-align: center;
+    color: var(--color-text-muted);
+    font-size: var(--step--1);
+  }
+}
+
+@keyframes palette-fade {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes palette-rise {
+  from {
+    opacity: 0;
+    transform: translateY(1.2rem) scale(0.985);
+  }
+}
