@@ -324,3 +324,46 @@ main:focus {
 :root[data-vt='theme']::view-transition-new(root) {
   z-index: 1;
 }
+
+// ---------------------------------------------------------------------------
+// Scroll progress
+// ---------------------------------------------------------------------------
+// A scroll-driven animation with no JavaScript at all: the browser ties the
+// animation's timeline to the document's scroll position, so it costs nothing
+// on the main thread. Browsers without `animation-timeline` simply never show
+// the bar, which is why it lives behind @supports and carries no fallback.
+
+.scroll-progress {
+  display: none;
+}
+
+@supports (animation-timeline: scroll()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .scroll-progress {
+      display: block;
+      position: fixed;
+      top: calc(5.6rem + env(safe-area-inset-top));
+      left: 0;
+      right: 0;
+      height: 2px;
+      z-index: 1001;
+      transform-origin: 0 50%;
+      background: linear-gradient(
+        90deg,
+        var(--color-accent),
+        var(--color-highlight)
+      );
+      animation: scroll-progress-grow linear both;
+      animation-timeline: scroll(root block);
+    }
+  }
+}
+
+@keyframes scroll-progress-grow {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}

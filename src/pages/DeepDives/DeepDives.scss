@@ -2,88 +2,172 @@
 @use '../../styles/partials/mixins' as *;
 
 .deep-dives {
-  display: flex;
-  flex-direction: column;
-
   &__title {
-    display: flex;
-    align-items: center;
-    gap: 0.8rem;
-    line-height: 1.2;
-    margin: 0;
-    border-bottom: 2px solid $color2;
-    padding-bottom: 0.8rem;
-  }
-
-  &__icn {
-    width: 4rem;
-    height: auto;
-    @include tablet {
-      width: 5rem;
-    }
+    margin-block: var(--space-2xs) var(--space-s);
   }
 
   &__intro {
-    margin: 1.6rem 0 0 0;
-    color: var(--color-text-muted);
-    max-width: 62ch;
+    margin-bottom: var(--space-l);
   }
 
-  &__section {
-    margin-top: 3rem;
-  }
-
-  &__section-title {
-    margin-bottom: 1.6rem;
-  }
-
-  &__grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 2rem;
-    @include tablet {
-      grid-template-columns: repeat(auto-fit, minmax(30rem, 1fr));
+  &__controls {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-s);
+    margin-bottom: var(--space-s);
+    // Keeps search and filters reachable while scrolling a long list.
+    position: sticky;
+    top: calc(5.6rem + env(safe-area-inset-top));
+    z-index: 2;
+    padding-block: var(--space-xs);
+    background-color: var(--color-bg);
+    @media (min-width: 48rem) {
+      flex-direction: row;
+      align-items: center;
+      justify-content: space-between;
     }
+  }
+
+  &__search {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2xs);
+    flex: 1;
+    min-width: 0;
+    max-width: 38rem;
+    padding: 0 var(--space-s);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-full);
+    color: var(--color-text-muted);
+    background-color: var(--color-surface);
+    &:focus-within {
+      border-color: var(--color-accent);
+    }
+  }
+
+  &__input {
+    flex: 1;
+    min-width: 0;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: var(--color-text);
+    // Never below 16px, or iOS Safari zooms the page on focus.
+    font-size: max(1.6rem, var(--step--1));
+    padding-block: 1.1rem;
+    &::placeholder {
+      color: var(--color-text-muted);
+    }
+    // The browser's own clear button sits oddly inside a pill.
+    &::-webkit-search-cancel-button {
+      appearance: none;
+    }
+  }
+
+  &__filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3xs);
+  }
+
+  &__filter {
+    font-family: var(--font-mono);
+    font-size: var(--step--2);
+    min-height: 3.6rem;
+    padding: 0 1.2rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-full);
+    background: transparent;
+    color: var(--color-text-muted);
+    cursor: pointer;
+    transition:
+      color var(--dur-fast) linear,
+      border-color var(--dur-fast) linear,
+      background-color var(--dur-fast) linear;
+    &:hover {
+      color: var(--color-text);
+    }
+    &--on {
+      background-color: var(--color-accent);
+      border-color: var(--color-accent);
+      color: var(--color-on-accent);
+    }
+  }
+
+  &__count {
+    font-family: var(--font-mono);
+    font-size: var(--step--2);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-m);
+  }
+
+  // Windowed: rows are positioned by transform rather than `top`, which
+  // keeps them on the compositor instead of triggering layout per scroll.
+  &__list {
+    position: relative;
+    max-width: 78ch;
+  }
+
+  &__row {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    padding-bottom: var(--space-m);
+    will-change: transform;
+  }
+
+  &__list-static {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-m);
+    max-width: 78ch;
   }
 
   &__card {
     display: flex;
     flex-direction: column;
-    gap: 0.6rem;
-    background: var(--color-surface);
-    padding: 2rem;
+    gap: var(--space-2xs);
+    padding: var(--space-m);
+    background-color: var(--color-surface);
     border: 1px solid var(--color-border);
-    border-radius: 0.6rem;
+    border-radius: var(--radius-l);
     box-shadow: var(--shadow-card);
     transition:
-      transform 0.3s ease,
-      box-shadow 0.3s ease;
+      border-color var(--dur-base) var(--ease-out-quint),
+      box-shadow var(--dur-base) var(--ease-out-quint);
     &:hover {
-      transform: translateY(-0.4rem);
+      border-color: var(--color-accent);
       box-shadow: var(--shadow-card-hover);
     }
   }
 
   &__card-tag {
     align-self: flex-start;
-    font-size: 1.2rem;
-    line-height: 1;
-    padding: 0.5rem 0.8rem;
-    border-radius: 0.3rem;
+    font-family: var(--font-mono);
+    font-size: var(--step--2);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    padding: 0.4rem 0.8rem;
+    border-radius: var(--radius-s);
     background-color: var(--color-chip-bg);
     color: var(--color-chip-text);
-    margin: 0;
   }
 
   &__card-title {
-    font-size: 1.7rem;
-    line-height: 2.4rem;
-    color: $mainColor;
-    margin: 0;
+    font-size: var(--step-1);
+    line-height: var(--leading-snug);
   }
 
   &__card-txt {
     color: var(--color-text-muted);
-    margin: 0;
+    max-width: var(--measure);
+  }
+
+  &__empty {
+    padding-block: var(--space-xl);
+    color: var(--color-text-muted);
   }
 }

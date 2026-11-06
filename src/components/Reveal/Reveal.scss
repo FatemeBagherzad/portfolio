@@ -1,0 +1,23 @@
+.reveal {
+  opacity: 0;
+  transform: translateY(1.6rem);
+  transition:
+    opacity var(--dur-slow) var(--ease-out-expo),
+    transform var(--dur-slow) var(--ease-out-expo);
+
+  &--shown {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+// If motion is reduced the component sets itself shown immediately, but the
+// initial paint happens before that effect runs. Neutralising the hidden
+// state here means there is never a flash of displaced content.
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}

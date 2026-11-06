@@ -32,7 +32,7 @@ test.describe('keyboard operation', () => {
     await page.keyboard.press('Enter');
     await expect(page).toHaveURL(/\/deep-dives$/);
     await expect(
-      page.getByRole('heading', { level: 1, name: /Engineering Deep Dives/i })
+      page.getByRole('heading', { level: 1, name: /^Deep Dives$/i })
     ).toBeVisible();
   });
 

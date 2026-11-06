@@ -44,6 +44,9 @@ const AppShell = () => {
       <Menu />
       <CommandPalette />
 
+      {/* Purely decorative, and purely CSS where the browser supports it. */}
+      <div className="scroll-progress" aria-hidden="true" />
+
       <main id="main-content" ref={mainRef} tabIndex={-1} className="body">
         <Routes>
           <Route path="/" element={<Home />} />
