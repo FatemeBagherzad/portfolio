@@ -1,39 +1,74 @@
-# My Portfolio
+# Portfolio — Fatemeh Bagherzad
 
-## Project Overview
+The source for my personal site: a React and TypeScript single-page app
+showing selected work, written engineering notes, and how to reach me.
 
-This portfolio website showcases my skills, projects, and experience as a Software Engineer. Built using React and Vite for a fast, dynamic experience, the website highlights key projects with interactive effects to make browsing engaging and user-friendly. The homepage features a unique pointer-driven image reveal effect, making it visually appealing and interactive. Each project has dedicated pages with project descriptions, links to GitHub repositories, and images or GIFs that visually represent the work.
+**Live:** https://fateme-bagherzad-portfolio.netlify.app/
 
-## Live Demo
+## Why it is built this way
 
-You can view the live version of the project here: [Live Demo on Netlify](https://fateme-bagherzad-portfolio.netlify.app/)
+A portfolio is the one project a reviewer can inspect without being given
+access, so the things I claim to care about professionally are demonstrated
+here rather than asserted:
 
-## Features
+- **Accessibility is verified, not assumed.** Every page has one `<h1>`,
+  `header` / `nav` / `main` landmarks and a skip link; the whole interface is
+  operable from the keyboard, including the mobile menu, which supports
+  `Escape` and returns focus to the button that opened it. Route changes move
+  focus to `<main>`, which a single-page app does not do on its own. Focus
+  rings are checked for contrast: magenta on white at 7.34:1, gold on the dark
+  header at 11.2:1, both above the 3:1 WCAG 2.2 minimum. `axe-core` reports
+  **zero violations** on every route.
+- **Mobile-first is measured.** The layout is asserted to have no horizontal
+  overflow at 320px and 375px, not just eyeballed.
+- **Images are served at the size they are displayed.** The portraits ship as
+  WebP at 300w / 600w / 900w behind `srcset`, so a 1× phone downloads about
+  32 KB where the original PNGs were 1.7 MB.
+- **TypeScript runs in strict mode**, including `noUncheckedIndexedAccess`
+  and `exactOptionalPropertyTypes`.
+- **Global styles are emitted once.** `variables` and `mixins` render nothing
+  and can be used anywhere; `global` and `typography` are imported a single
+  time in `src/styles/main.scss`.
 
-- **Interactive Homepage**: The homepage includes an effect where moving the pointer to the right reveals an image from the left, and moving it to the left reveals an image from the right, creating an engaging user experience.
-- **Project Showcases**: The project page displays various projects, each with a description, related images/GIFs, and GitHub repo links.
-- **Responsive Design**: The portfolio is mobile-first, ensuring that it works seamlessly on both desktop and mobile devices.
-- **Fast Load Time**: Deployed on AWS, ensuring quick load times and reliable hosting.
+## Stack
 
-## Technologies Used
+React 18 · TypeScript · Vite · SCSS · React Router · Framer Motion · Swiper
 
-- **React, Vite**
-- **SCSS**
-- **Git, GitHub**
-- **AWS**
+Tooling: ESLint (typescript-eslint) · axe-core · Netlify
 
-## Challenges Faced:
+## Running it
 
-- Designing the interactive homepage with a smooth and dynamic pointer effect.
-- Organizing and mapping project data efficiently using a JSON file for easy updating and management.
-- Hosting and deploying the portfolio on AWS for scalability and performance.
+```bash
+npm install
+npm run dev
+```
 
-## Contributing
+| Script              | Does                                      |
+| ------------------- | ----------------------------------------- |
+| `npm run dev`       | Vite dev server                           |
+| `npm run build`     | Type-check, then production build         |
+| `npm run typecheck` | `tsc -b` on its own                       |
+| `npm run lint`      | ESLint across the project                 |
+| `npm run preview`   | Serve the production build locally        |
 
-If you have suggestions or improvements for this project, feel free to create an issue or submit a pull request.
+## Layout
+
+```
+src/
+  components/   Hero, Menu, ProjectCard, ProjectDetail, SwiperComponent
+  pages/        Home, Projects, Challenges, AboutMe, NotFound
+  assets/
+    projects-data/   projects.json, challenges.json — the site's content
+  constants/    tech.ts — readable names for stack icons
+  styles/       main.scss and partials (variables, mixins, typography, global)
+  types/        Project and Challenge interfaces
+```
+
+Content lives in the two JSON files rather than in components, so adding a
+project or a write-up does not mean touching JSX.
 
 ## Contact
 
-- **Email**: fa.bagherzad@gmail.com
-- **GitHub**: [Fatemeh Bagherzad](https://github.com/FatemeBagherzad)
-- **Linkedin**: [Fatemeh Bagherzad](https://www.linkedin.com/in/fatemeh-bagherzad/)
+- **Email:** fa.bagherzad@gmail.com
+- **GitHub:** [FatemeBagherzad](https://github.com/FatemeBagherzad)
+- **LinkedIn:** [fatemeh-bagherzad](https://www.linkedin.com/in/fatemeh-bagherzad/)

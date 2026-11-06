@@ -46,9 +46,10 @@ const AboutMe = () => {
               my data model depended on, and a plain database export quietly
               corrupted characters until I rebuilt the export pipeline around
               utf8mb4 and wrote a script to catch it. The reading view scrolls
-              continuously through all 6,236 verses, so I wrote the
-              virtualization myself to keep the DOM small and restore the exact
-              verse a reader left off on. The research canvas lets people drag
+              continuously through all 6,236 verses on ayah-anchored
+              pagination that appends and prepends in screen-sized batches,
+              prefetching ahead so a reader never waits, and restoring the
+              exact verse they left off on. The research canvas lets people drag
               verses around, draw connections between words, and undo it all,
               and it had to work the same with a mouse, a finger and a keyboard.
             </p>
@@ -57,7 +58,7 @@ const AboutMe = () => {
               On the back end I designed the data model and REST contracts for a
               Django API, then used AI coding agents to implement it while I
               wrote the standards, the tests and the review gates that decide
-              what gets merged. Running eight isolated Docker stacks in parallel
+              what gets merged. Running nine isolated Docker stacks in parallel
               on one machine, with Playwright suites across six browser
               profiles, taught me more about environments than any course did.
               Production runs on AWS behind Nginx, provisioned with Terraform,

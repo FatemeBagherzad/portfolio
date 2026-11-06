@@ -22,7 +22,7 @@
   {
     "id": 5,
     "title": "RABVA: Multilingual Interface",
-    "description": "The UI had to work in thirteen languages, three of them right-to-left. Instead of translating word by word, every string became a translation key stored in the database, with rules for RTL text that flips the text direction but not the layout or icons."
+    "description": "The UI had to work in English, Persian and Arabic, two of them right-to-left. Instead of translating word by word, every string became a translation key stored in the database, with rules for RTL text that flips the text direction but not the layout or icons."
   },
   {
     "id": 6,
@@ -43,11 +43,6 @@
     "id": 9,
     "title": "RABVA: A 3D View of the Quran",
     "description": "As an experiment I built a proof of concept that shows surahs as stacked 3D layers of ayahs and words you can rotate, zoom and fly through, using react-force-graph-3d with the Arabic words drawn as flat text planes in 3D space."
-  },
-  {
-    "id": 10,
-    "title": "Deploying My Portfolio on AWS EC2 🔥",
-    "description": "Deploying my portfolio on AWS EC2 was a complex but rewarding process. I configured the EC2 instance, set up Node.js and Nginx, managed file permissions, and troubleshot deployment issues. Connecting my project to GitHub allowed for easy updates. Overcoming challenges like SSH authentication, firewall rules, and static file access gave me hands-on experience with cloud hosting and server management."
   },
   {
     "id": 11,
