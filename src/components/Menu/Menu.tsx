@@ -2,7 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import type { MouseEvent as ReactMouseEvent } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import './Menu.scss';
-import menuIcon from '../../assets/icons/menu-white.png';
+import menuIcon from '../../assets/icons/menu-white.webp';
 
 const Menu = () => {
   const navigate = useNavigate();
@@ -96,6 +96,8 @@ const Menu = () => {
           ref={menuIconRef}
           src={menuIcon}
           alt="menu icon"
+          width={64}
+          height={64}
           className="menu-txt__menuIcon"
           onClick={openMobileMenu}
         />

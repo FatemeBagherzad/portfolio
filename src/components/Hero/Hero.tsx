@@ -2,10 +2,19 @@ import { useState, useEffect } from 'react';
 import type { MouseEvent } from 'react';
 import { useNavigate } from 'react-router-dom';
 import './Hero.scss';
-import linkedinIcn from '../../assets/icons/linkedin-icon.png';
-import githubIcn from '../../assets/icons/github-icon.png';
-import fatemeImg1 from '../../assets/fateme-img/fatemeImg1.png';
-import fatemeImg2 from '../../assets/fateme-img/fatemeImg2.png';
+import linkedinIcn from '../../assets/icons/linkedin-icon.webp';
+import githubIcn from '../../assets/icons/github-icon.webp';
+import portraitA300 from '../../assets/fateme-img/fatemeImg1-300.webp';
+import portraitA600 from '../../assets/fateme-img/fatemeImg1-600.webp';
+import portraitA900 from '../../assets/fateme-img/fatemeImg1-900.webp';
+import portraitB300 from '../../assets/fateme-img/fatemeImg2-300.webp';
+import portraitB600 from '../../assets/fateme-img/fatemeImg2-600.webp';
+import portraitB900 from '../../assets/fateme-img/fatemeImg2-900.webp';
+
+/** The portrait never renders wider than 30rem, so 900w covers a 3x screen. */
+const PORTRAIT_SIZES = '(min-width: 48rem) 30rem, 25rem';
+const portraitASrcSet = `${portraitA300} 300w, ${portraitA600} 600w, ${portraitA900} 900w`;
+const portraitBSrcSet = `${portraitB300} 300w, ${portraitB600} 600w, ${portraitB900} 900w`;
 
 const resume = '/Fatemeh Bagherzad - Full-Stack Developer Resume.pdf';
 const email = 'fa.bagherzad@gmail.com';
@@ -55,7 +64,12 @@ const Hero = () => {
     <div className="hero container">
       <div onMouseMove={handleMouseMove} className="hero__fatemeImgContainer">
         <img
-          src={fatemeImg1}
+          src={portraitA600}
+          srcSet={portraitASrcSet}
+          sizes={PORTRAIT_SIZES}
+          width={900}
+          height={889}
+          decoding="async"
           alt="user photo"
           className="hero__fateme-img hero__fateme-img-right"
           style={{
@@ -63,7 +77,12 @@ const Hero = () => {
           }}
         />
         <img
-          src={fatemeImg2}
+          src={portraitB600}
+          srcSet={portraitBSrcSet}
+          sizes={PORTRAIT_SIZES}
+          width={900}
+          height={889}
+          decoding="async"
           alt="user photo"
           className="hero__fateme-img hero__fateme-img-left"
           style={{
@@ -80,6 +99,8 @@ const Hero = () => {
           <img
             src={linkedinIcn}
             alt="linkedin icon"
+            width={96}
+            height={96}
             className="hero__socialmedia-icon"
           />
         </a>
@@ -90,6 +111,8 @@ const Hero = () => {
           <img
             src={githubIcn}
             alt="github icon"
+            width={96}
+            height={96}
             className="hero__socialmedia-icon"
           />
         </a>

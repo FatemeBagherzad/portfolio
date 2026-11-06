@@ -32,6 +32,9 @@
   }
   &__fateme-img {
     width: 100%;
+    // Required: the width/height attributes on the <img> are presentational
+    // hints, so without this the element would take a fixed pixel height.
+    height: auto;
     position: absolute;
     top: 0;
     transition: clip-path 0.3s ease-out;
@@ -59,6 +62,7 @@
   }
   &__socialmedia-icon {
     width: 4rem;
+    height: auto;
     padding: 0.5rem 0.5rem 0 0.5rem;
     border-top: 2px solid $color2;
     cursor: pointer;

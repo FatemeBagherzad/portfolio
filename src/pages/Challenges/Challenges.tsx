@@ -1,6 +1,6 @@
 import './Challenges.scss';
 import challengesData from '../../assets/projects-data/challenges.json';
-import challengesIcn from '../../assets/icons/challenges2.png';
+import challengesIcn from '../../assets/icons/challenges2.webp';
 import type { Challenge } from '../../types';
 
 const challenges: Challenge[] = challengesData;
@@ -9,7 +9,7 @@ const Challenges = () => {
   return (
     <div className="challenges container">
       <h2 className="challenges__title">
-        <img src={challengesIcn} alt="" className="challenges__icn" /> My Coding
+        <img src={challengesIcn} alt="" width={96} height={96} className="challenges__icn" /> My Coding
         Challenges
       </h2>
       <div className="challenges__grid">
