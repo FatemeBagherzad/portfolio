@@ -53,7 +53,7 @@ const Menu = () => {
     <div className="menu">
       <div className="menu-txt container">
         <div className="menu-txt__left">
-          <span onClick={() => handleMenuClick('/')}>fateme</span>
+          <span onClick={() => handleMenuClick('/')}>fatemeh</span>
         </div>
 
         <ul className="menu-txt__right">

@@ -82,7 +82,7 @@ const Hero = () => {
           />
         </a>
 
-        <span className="hero__name">Fateme Bagherzad</span>
+        <span className="hero__name">Fatemeh Bagherzad</span>
 
         <a href="https://github.com/FatemeBagherzad" target="_blank">
           <img

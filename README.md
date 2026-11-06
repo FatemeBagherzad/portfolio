@@ -35,5 +35,5 @@ If you have suggestions or improvements for this project, feel free to create an
 ## Contact
 
 - **Email**: fa.bagherzad@gmail.com
-- **GitHub**: [Fateme Bagherzad](https://github.com/FatemeBagherzad)
-- **Linkedin**: [Fateme Bagherzad](https://www.linkedin.com/in/fatemeh-bagherzad/)
+- **GitHub**: [Fatemeh Bagherzad](https://github.com/FatemeBagherzad)
+- **Linkedin**: [Fatemeh Bagherzad](https://www.linkedin.com/in/fatemeh-bagherzad/)

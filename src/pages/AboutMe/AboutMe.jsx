@@ -5,7 +5,7 @@ const AboutMe = () => {
   return (
     <div className="about container">
       <p className="about__name">
-        Fateme
+        Fatemeh
         <br />
         Bagherzad
       </p>
@@ -19,7 +19,7 @@ const AboutMe = () => {
       >
         <div className="about__txt">
           <p>
-            Hi, I'm Fateme. I'm a full-stack developer in Toronto, and I build
+            Hi, I'm Fatemeh. I'm a full-stack developer in Toronto, and I build
             things that are hard to get right: interfaces in three languages,
             two of them right-to-left, on top of large data that has to stay
             fast on a cheap phone.
