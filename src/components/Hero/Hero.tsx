@@ -116,7 +116,7 @@ const Hero = () => {
             alt=""
             width={96}
             height={96}
-            className="hero__socialmedia-icon"
+            className="hero__socialmedia-icon hero__socialmedia-icon--invert-on-dark"
           />
         </a>
       </div>

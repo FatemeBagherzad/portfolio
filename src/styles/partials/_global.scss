@@ -2,6 +2,98 @@
 @use './mixins' as *;
 @use './typography' as *;
 
+// ---------------------------------------------------------------------------
+// Design tokens
+// ---------------------------------------------------------------------------
+// One definition per colour, themed in one place. Components reference the
+// tokens (directly, or via the Sass aliases in _variables.scss) and never
+// hard-code a hex value, which is what makes a second theme a data change
+// rather than a rewrite.
+
+@mixin light-theme {
+  color-scheme: light;
+
+  --color-bg: #ffffff;
+  --color-surface: #ffffff;
+  --color-text: #111111;
+  --color-text-muted: #595959;
+  --color-border: rgba(17, 17, 17, 0.14);
+  --color-placeholder: #f2f2f2;
+
+  --color-accent: #942f67;
+  --color-on-accent: #ffffff;
+  --color-chip-bg: rgba(148, 47, 103, 0.1);
+  --color-chip-text: #7a2655;
+
+  --color-highlight: #ebc26d;
+  --color-on-highlight: #1a1a1a;
+  --color-confirm: #9abdb8;
+
+  // The bar is dark in the light theme by design, so it needs its own
+  // tokens rather than inheriting the page background.
+  --color-header-bg: #111111;
+  --color-header-text: #ffffff;
+  --color-header-accent-text: #eec7bc;
+  --color-header-focus: #ebc26d;
+
+  // $color2 on white measures 7.34:1, well over the 3:1 WCAG 2.2 minimum
+  // for a focus indicator.
+  --color-focus: #942f67;
+
+  --shadow-card: 0 4px 8px rgba(0, 0, 0, 0.08);
+  --shadow-card-hover: 0 8px 16px rgba(0, 0, 0, 0.16);
+}
+
+@mixin dark-theme {
+  color-scheme: dark;
+
+  --color-bg: #121212;
+  --color-surface: #1c1c1e;
+  --color-text: #f2f2f2;
+  --color-text-muted: #a8a8a8;
+  --color-border: rgba(255, 255, 255, 0.16);
+  --color-placeholder: #2a2a2d;
+
+  // The light-theme magenta is far too dark to read on a dark surface, so
+  // the accent lightens rather than simply inverting the page.
+  --color-accent: #d96ba6;
+  --color-on-accent: #16090f;
+  --color-chip-bg: rgba(217, 107, 166, 0.16);
+  --color-chip-text: #f0a8cb;
+
+  --color-highlight: #ebc26d;
+  --color-on-highlight: #1a1a1a;
+  --color-confirm: #7fa9a3;
+
+  --color-header-bg: #000000;
+  --color-header-text: #f2f2f2;
+  --color-header-accent-text: #16090f;
+  --color-header-focus: #ebc26d;
+
+  --color-focus: #ebc26d;
+
+  --shadow-card: 0 4px 8px rgba(0, 0, 0, 0.5);
+  --shadow-card-hover: 0 8px 16px rgba(0, 0, 0, 0.65);
+}
+
+:root {
+  @include light-theme;
+}
+
+// An explicit choice always wins.
+:root[data-theme='dark'] {
+  @include dark-theme;
+}
+
+// Fallback for a visitor whose system prefers dark before (or without) the
+// toggle script running. `:not([data-theme='light'])` means an explicit
+// light choice is still respected.
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme='light']) {
+    @include dark-theme;
+  }
+}
+
 * {
   margin: 0;
   padding: 0;
@@ -99,8 +191,8 @@ p {
   max-width: 100%;
   font-family: inherit;
   font-size: 1.4rem;
-  background-color: $color2;
-  color: $backColor;
+  background-color: var(--color-accent);
+  color: var(--color-on-accent);
   border: none;
   outline: none;
   border-radius: 0.3rem;
@@ -114,11 +206,11 @@ p {
 // measures 7.34:1, so the text and border both clear WCAG AA.
 .btn--ghost {
   background-color: transparent;
-  color: $color2;
-  border: 2px solid $color2;
+  color: var(--color-accent);
+  border: 2px solid var(--color-accent);
   &:hover {
-    background-color: $color2;
-    color: $backColor;
+    background-color: var(--color-accent);
+    color: var(--color-on-accent);
   }
 }
 
@@ -147,8 +239,8 @@ p {
   left: 1rem;
   z-index: 2000;
   padding: 1rem 1.6rem;
-  background-color: $mainColor;
-  color: $backColor;
+  background-color: var(--color-header-bg);
+  color: var(--color-header-text);
   border-radius: 0 0 0.4rem 0.4rem;
   font-size: 1.5rem;
   transition: top 0.15s ease-in-out;
@@ -163,7 +255,7 @@ p {
 // minimum for focus indicators. The dark header overrides it (see Menu.scss),
 // because $color2 on #111 is only 2.57:1.
 :focus-visible {
-  outline: 3px solid $color2;
+  outline: 3px solid var(--color-focus);
   outline-offset: 2px;
   border-radius: 0.2rem;
 }

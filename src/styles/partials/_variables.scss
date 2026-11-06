@@ -1,10 +1,18 @@
+// Breakpoints stay Sass variables: CSS custom properties cannot be used
+// inside a media query condition.
 $tablet-min-width: 48rem;
 $desktop-min-width: 80rem;
 $mobile-max-width: 47.9375rem;
 
-$backColor: #ffffff;
-$mainColor: #111111;
-$color1: #ebc26d;
-$color2: #942f67;
-$color4: #9abdb8;
-$color6: #eec7bc;
+// Colours are CSS custom properties so the whole theme can be swapped at
+// runtime. The original Sass names are kept as aliases pointing at tokens,
+// so existing component styles keep working unchanged.
+//
+// Never pass these to a Sass colour function (lighten, rgba, etc.) — they
+// resolve in the browser, not at build time.
+$backColor: var(--color-bg);
+$mainColor: var(--color-text);
+$color1: var(--color-highlight);
+$color2: var(--color-accent);
+$color4: var(--color-confirm);
+$color6: var(--color-header-accent-text);

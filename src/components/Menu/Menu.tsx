@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import './Menu.scss';
 import menuIcon from '../../assets/icons/menu-white.webp';
+import ThemeToggle from '../ThemeToggle/ThemeToggle';
 
 interface NavItem {
   path: string;
@@ -94,6 +95,8 @@ const Menu = () => {
 
         <nav aria-label="Main">
           <ul className="menu-txt__right">{renderItems('right')}</ul>
+
+          <ThemeToggle />
 
           <button
             type="button"

@@ -20,7 +20,8 @@
     animation: fadeColor 5s infinite ease-in-out;
   }
   &__highlight-yellow {
-    background-color: $color1;
+    background-color: var(--color-highlight);
+    color: var(--color-on-highlight);
     padding: 1rem;
     border-radius: 0.5rem;
   }
@@ -28,15 +29,15 @@
 
 @keyframes fadeColor {
   0% {
-    color: #942f67;
+    color: var(--color-accent);
     opacity: 1;
   }
   50% {
-    color: #000;
-    opacity: 0.8;
+    color: var(--color-text);
+    opacity: 0.85;
   }
   100% {
-    color: #942f67;
+    color: var(--color-accent);
     opacity: 1;
   }
 }

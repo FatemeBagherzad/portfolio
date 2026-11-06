@@ -15,7 +15,7 @@
 
   &__period {
     font-size: 1.3rem;
-    color: #595959;
+    color: var(--color-text-muted);
     margin: 0;
   }
 
@@ -29,7 +29,7 @@
     font-size: 1.8rem;
     line-height: 2.6rem;
     margin-top: 1.5rem;
-    border-bottom: 1px solid rgba(17, 17, 17, 0.15);
+    border-bottom: 1px solid var(--color-border);
     padding-bottom: 0.4rem;
   }
 
@@ -51,8 +51,8 @@
     line-height: 1;
     padding: 0.6rem 1rem;
     border-radius: 0.3rem;
-    background-color: rgba(148, 47, 103, 0.1);
-    color: #7a2655;
+    background-color: var(--color-chip-bg);
+    color: var(--color-chip-text);
   }
 
   &__actions {

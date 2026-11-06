@@ -26,18 +26,25 @@ here rather than asserted:
 - **Images are served at the size they are displayed.** The portraits ship as
   WebP at 300w / 600w / 900w behind `srcset`, so a 1× phone downloads about
   32 KB where the original PNGs were 1.7 MB.
+- **Theming is a data change, not a rewrite.** Every colour is a CSS custom
+  property defined once in `_global.scss`; components reference tokens and
+  never a hex value. A light/dark toggle swaps the set at runtime, remembers
+  the choice, follows the operating system until the visitor overrides it,
+  and is applied by an inline script before first paint so the page never
+  flashes the wrong theme.
 - **TypeScript runs in strict mode**, including `noUncheckedIndexedAccess`
   and `exactOptionalPropertyTypes`.
 - **Global styles are emitted once.** `variables` and `mixins` render nothing
   and can be used anywhere; `global` and `typography` are imported a single
   time in `src/styles/main.scss`.
 
-Every one of those claims is a test. `npm test` runs 37 Playwright checks
+Every one of those claims is a test. `npm test` runs 47 Playwright checks
 against the production build: an axe scan of all five routes plus the project
-detail view, a horizontal-overflow assertion for each route at 320, 375, 768
-and 1280px, header tap targets measured at 44px, and keyboard coverage for the
-skip link, the nav and the mobile menu's Enter/Escape handling. CI runs them
-on every push.
+detail view, the same scan again in dark mode, a horizontal-overflow assertion
+for each route at 320, 375, 768 and 1280px, header tap targets measured at
+44px, keyboard coverage for the skip link, the nav and the mobile menu's
+Enter/Escape handling, and theme persistence across reloads. CI runs them on
+every push.
 
 ## Stack
 
@@ -66,7 +73,7 @@ npm run dev
 
 ```
 src/
-  components/   Hero, Menu, ProjectCard, ProjectDetail, SwiperComponent
+  components/   Hero, Menu, ThemeToggle, ProjectCard, ProjectDetail, Swiper
   pages/        Home, Projects, DeepDives, AboutMe, NotFound
   assets/
     projects-data/   projects.json, challenges.json — the site's content

@@ -3,11 +3,11 @@
 
 .menu {
   position: fixed;
-  background-color: $mainColor;
+  background-color: var(--color-header-bg);
   display: flex;
   align-items: center;
   justify-content: center;
-  color: $backColor;
+  color: var(--color-header-text);
   // Tall enough to hold a 44px touch target for the menu button.
   height: 5.6rem;
   padding: 0;
@@ -30,10 +30,16 @@
   cursor: pointer;
 }
 
-// On the dark bar the default magenta ring is only 2.57:1, so switch to the
-// gold, which measures 11.2:1 against #111111.
+// On the dark bar the page focus colour is too low-contrast, so the header
+// supplies its own: gold measures 11.2:1 against #111111.
 .menu :focus-visible {
-  outline-color: $color1;
+  outline-color: var(--color-header-focus);
+}
+
+.menu nav {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
 }
 
 .menu-txt {
@@ -76,11 +82,11 @@
       align-items: center;
       gap: 0.4rem;
       &--active-menu {
-        color: $color6;
+        color: var(--color-header-accent-text);
         font-weight: bold;
-        background-color: $color2;
-        border-bottom: 2px solid $backColor;
-        border-top: 2px solid $backColor;
+        background-color: var(--color-accent);
+        border-bottom: 2px solid var(--color-header-text);
+        border-top: 2px solid var(--color-header-text);
       }
     }
   }
@@ -106,7 +112,9 @@
 
   &__dropdown {
     position: absolute;
-    background-color: $color2;
+    // Text here sits on the accent, not on the header background.
+    background-color: var(--color-accent);
+    color: var(--color-on-accent);
     top: 4.6rem;
     right: 0;
     width: 100%;
