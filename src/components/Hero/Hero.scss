@@ -1,8 +1,5 @@
 @use '../../styles/partials/variables' as *;
 @use '../../styles/partials/mixins' as *;
-@use '../../styles/partials/typography' as *;
-@use '../../styles/partials/global' as *;
-@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
 
 .hero {
   // `100vw` includes the scrollbar gutter, which pushed the page wider than

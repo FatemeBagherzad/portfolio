@@ -1,7 +1,5 @@
 @use '../../styles/partials/variables' as *;
 @use '../../styles/partials/mixins' as *;
-@use '../../styles/partials/typography' as *;
-@use '../../styles/partials/global' as *;
 
 .project-card {
   // This is a real <button> now, so the user-agent styling has to go.

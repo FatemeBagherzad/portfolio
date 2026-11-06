@@ -1,0 +1,7 @@
+// The only place `global` (and, through it, `typography`) is pulled in.
+//
+// `variables` and `mixins` define nothing that renders, so components can
+// `@use` those freely. `global` and `typography` DO emit rules, so every
+// component that used them made Vite emit another full copy of the reset
+// and every @font-face into the bundle.
+@use './partials/global';
