@@ -21,8 +21,9 @@ here rather than asserted:
   rings are checked for contrast: magenta on white at 7.34:1, gold on the dark
   header at 11.2:1, both above the 3:1 WCAG 2.2 minimum. `axe-core` reports
   **zero violations** on every route.
-- **Mobile-first is measured.** The layout is asserted to have no horizontal
-  overflow at 320px and 375px, not just eyeballed.
+- **Mobile-first is measured.** Every route is asserted to have no horizontal
+  overflow at 320, 375, 768 and 1280px, and the test names the offending
+  elements when it fails rather than just reporting a number.
 - **Images are served at the size they are displayed.** The portraits ship as
   WebP at 300w / 600w / 900w behind `srcset`, so a 1× phone downloads about
   32 KB where the original PNGs were 1.7 MB.
@@ -80,7 +81,7 @@ src/
   constants/    tech.ts — readable names for stack icons
   styles/       main.scss and partials (variables, mixins, typography, global)
   types/        Project and Challenge interfaces
-tests/          Playwright specs: accessibility, responsive, keyboard
+tests/          Playwright specs: accessibility, responsive, keyboard, theme
 ```
 
 Content lives in the two JSON files rather than in components, so adding a
