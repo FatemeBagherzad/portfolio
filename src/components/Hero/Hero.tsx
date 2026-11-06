@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import type { MouseEvent } from 'react';
 import { Link } from 'react-router-dom';
 import './Hero.scss';
@@ -19,15 +19,16 @@ const PORTRAIT_SIZES = '(min-width: 48rem) 30rem, 25rem';
 const portraitASrcSet = `${portraitA300} 300w, ${portraitA600} 600w, ${portraitA900} 900w`;
 const portraitBSrcSet = `${portraitB300} 300w, ${portraitB600} 600w, ${portraitB900} 900w`;
 
-const texts: readonly string[] = [
-  'Passionate Software Developer',
-  'Located in Toronto, North York',
-  'Former Design Lead',
+const STACK = [
+  'React',
+  'TypeScript',
+  'Node.js',
+  'Python',
+  'AI-directed development',
 ];
 
 const Hero = () => {
   const [position, setPosition] = useState<number>(50);
-  const [textIndex, setTextIndex] = useState<number>(0);
   const [copied, setCopied] = useState<boolean>(false);
 
   const copyEmail = async (): Promise<void> => {
@@ -44,13 +45,6 @@ const Hero = () => {
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setTextIndex((prevIndex) => (prevIndex + 1) % texts.length);
-    }, 4000);
-    return () => clearInterval(interval);
-  }, []);
 
   const handleMouseMove = (e: MouseEvent<HTMLDivElement>): void => {
     const { clientX, currentTarget } = e;
@@ -127,19 +121,31 @@ const Hero = () => {
         </a>
       </div>
 
-      {/* The rotating line is decorative motion. Screen readers get the same
-          three facts once, as static text, instead of a surprise every 4s. */}
-      <div className="hero__animated-text-viewport" aria-hidden="true">
-        <span className="hero__animated-text">{texts[textIndex]}</span>
-      </div>
-      <p className="visually-hidden">{texts.join('. ')}.</p>
+      <p className="hero__role">Full-Stack Developer</p>
+
+      <ul className="hero__stack" aria-label="Core technologies">
+        {STACK.map((tech) => (
+          <li key={tech} className="hero__stack-item">
+            {tech}
+          </li>
+        ))}
+      </ul>
+
+      <p className="hero__pitch">
+        I build complex interactive interfaces — multilingual, right-to-left,
+        accessible, mobile-first — and design the APIs and data models behind
+        them.
+      </p>
+
+      <p className="hero__meta">
+        Toronto, ON · Open to full-time front-end or full-stack roles
+      </p>
 
       <div className="hero__info-btns-container">
         <Link className="hero__btn btn" to="/projects">
           My projects
         </Link>
 
-        {/* Was a <button> nested inside an <a>, which is invalid HTML. */}
         <a
           className="hero__btn btn"
           href={resume}

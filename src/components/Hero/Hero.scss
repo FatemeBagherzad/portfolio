@@ -6,7 +6,7 @@
   // the viewport on desktop. `100%` tracks the actual content box instead.
   width: 100%;
   // Was a fixed `height`, which clipped the buttons once they wrapped.
-  min-height: 50rem;
+  min-height: auto;
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -86,24 +86,53 @@
     }
   }
   //-------------------------------------
-  // The slide animation moves the text a full width to each side, so it
-  // needs a clipping viewport of its own. Without this it was the widest
-  // thing on the page for part of every cycle.
-  &__animated-text-viewport {
-    width: 100%;
-    min-height: 2.4rem;
-    overflow: hidden;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  &__animated-text {
-    display: inline-block;
-    max-width: 100%;
+  &__role {
+    font-size: 1.8rem;
+    line-height: 1.2;
+    font-weight: 700;
+    color: $color2;
+    margin: 0;
     text-align: center;
-    opacity: 0;
-    animation: textAnimation 4s infinite linear;
+    @include tablet {
+      font-size: 2.2rem;
+    }
   }
+
+  // The stack a screener is actually scanning for, as text rather than
+  // icons, so it is readable, selectable and indexable.
+  &__stack {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.6rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  &__stack-item {
+    font-size: 1.3rem;
+    line-height: 1;
+    padding: 0.6rem 1rem;
+    border-radius: 0.3rem;
+    background-color: rgba(148, 47, 103, 0.1);
+    color: #7a2655;
+  }
+
+  &__pitch {
+    max-width: 58ch;
+    text-align: center;
+    margin: 0;
+  }
+
+  &__meta {
+    font-size: 1.4rem;
+    line-height: 1.4;
+    color: #595959;
+    text-align: center;
+    margin: 0;
+  }
+
   &__info-btns-container {
     display: flex;
     // Wrapping is what stops the row overflowing: three buttons that do not
@@ -148,32 +177,4 @@
   }
 }
 
-@keyframes textAnimation {
-  0% {
-    opacity: 0;
-    transform: translateX(-100%);
-  }
-  25% {
-    opacity: 1;
-    transform: translateX(0);
-  }
-  75% {
-    opacity: 1;
-    transform: translateX(0);
-  }
-  100% {
-    opacity: 0;
-    transform: translateX(100%);
-  }
-}
 
-// The rotating tagline starts at `opacity: 0` and is revealed by its
-// animation. The global reduced-motion rule cancels animations, which would
-// leave it permanently invisible, so it needs an explicit static state.
-@media (prefers-reduced-motion: reduce) {
-  .hero__animated-text {
-    animation: none !important;
-    opacity: 1 !important;
-    transform: none !important;
-  }
-}
