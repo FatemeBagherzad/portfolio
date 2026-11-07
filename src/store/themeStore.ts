@@ -7,9 +7,10 @@ const STORAGE_KEY = 'theme';
 /**
  * Theme as an external store rather than React state.
  *
- * Two things read and write it — the header toggle and the command palette —
- * and the real source of truth is the `data-theme` attribute that the inline
- * script in index.html sets before React has run at all. Lifting it into
+ * The header toggle reads and writes it, and the real source of truth is the
+ * `data-theme` attribute that the inline script in index.html sets before
+ * React has run at all — which is what stops the page flashing the wrong
+ * theme on first paint. Lifting the value into
  * component state would mean either prop drilling or a context that re-renders
  * the whole tree; an external store read through `useSyncExternalStore` keeps
  * one source of truth and cannot tear between consumers mid-render.

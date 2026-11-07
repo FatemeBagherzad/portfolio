@@ -55,9 +55,16 @@
   width: 100%;
   position: relative;
 
+  // The name and the search field read as one cluster on the left, which is
+  // where a search box is looked for first.
   &__left {
     display: flex;
     align-items: center;
+    gap: var(--space-2xs);
+    // Without this the field refuses to shrink and pushes the navigation
+    // off the right edge on a narrow laptop.
+    min-width: 0;
+    flex: 1 1 auto;
   }
 
   &__home-btn {
@@ -111,33 +118,6 @@
           background-color: var(--color-accent);
         }
       }
-    }
-  }
-
-  &__search {
-    @include bar-button;
-    display: inline-flex;
-    align-items: center;
-    gap: var(--space-3xs);
-    min-height: 4.4rem;
-    padding-inline: var(--space-2xs);
-    color: var(--color-text-muted);
-    border-radius: var(--radius-full);
-    transition: color var(--dur-fast) linear;
-    &:hover {
-      color: var(--color-text);
-    }
-  }
-
-  &__kbd {
-    display: none;
-    font-family: var(--font-mono);
-    font-size: var(--step--2);
-    padding: var(--space-3xs) var(--space-2xs);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-s);
-    @include tablet {
-      display: inline-block;
     }
   }
 

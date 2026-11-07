@@ -4,8 +4,7 @@ import { useTransitionNavigate } from '../../hooks/useTransitionNavigate';
 import './Menu.scss';
 import ThemeToggle from '../ThemeToggle/ThemeToggle';
 import NavDrawer from '../NavDrawer/NavDrawer';
-import { paletteStore } from '../../store/paletteStore';
-import { paletteShortcutLabel } from '../../utils/platform';
+import SiteSearch from '../SiteSearch/SiteSearch';
 
 interface NavItem {
   path: string;
@@ -70,45 +69,12 @@ const Menu = () => {
             Fatemeh
             <span className="visually-hidden"> — go to the home page</span>
           </button>
+
+          <SiteSearch />
         </div>
 
         <nav aria-label="Main">
           <ul className="menu-txt__right">{renderItems('right')}</ul>
-
-          <button
-            type="button"
-            className="menu-txt__search"
-            onClick={() => paletteStore.open()}
-            aria-label="Open the command palette. Keyboard shortcut: Control or Command K"
-          >
-            <svg
-              viewBox="0 0 24 24"
-              width="18"
-              height="18"
-              aria-hidden="true"
-              focusable="false"
-            >
-              <circle
-                cx="11"
-                cy="11"
-                r="7"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-              />
-              <path
-                d="m20 20-3.5-3.5"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-              />
-            </svg>
-            {/* Printed from the actual platform: a Windows keyboard has no
-                Command key, so showing it there is just wrong. */}
-            <kbd className="menu-txt__kbd" aria-hidden="true">
-              {paletteShortcutLabel()}
-            </kbd>
-          </button>
 
           <ThemeToggle />
 
@@ -159,6 +125,10 @@ const Menu = () => {
             id="mobile-menu"
             title="Menu"
           >
+            {/* The bar has no room for a text field at phone widths, so
+                search lives at the top of the drawer instead of being
+                dropped from small screens altogether. */}
+            <SiteSearch variant="drawer" onNavigate={closeSheet} />
             <ul className="menu-txt__drawer-list">{renderItems('dropdown')}</ul>
           </NavDrawer>
         </nav>

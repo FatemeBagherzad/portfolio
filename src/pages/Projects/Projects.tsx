@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import ProjectCard from '../../components/ProjectCard/ProjectCard';
 import ProjectDetail from '../../components/ProjectDetail/ProjectDetail';
 import TiltCard from '../../components/TiltCard/TiltCard';
@@ -13,7 +13,25 @@ const selectedWork = projects.filter((p) => p.category === 'selected');
 const educationWork = projects.filter((p) => p.category === 'education');
 
 const Projects = () => {
-  const [openProject, setOpenProject] = useState<Project | null>(null);
+  /**
+   * Which project is open lives in the URL rather than in component state.
+   *
+   * That is what lets the header search link straight to one, and it comes
+   * with two things state could not give: the detail view can be linked to
+   * and reloaded, and the browser's back button closes it instead of
+   * leaving the page entirely.
+   */
+  const [searchParams, setSearchParams] = useSearchParams();
+  const requestedId = Number(searchParams.get('project'));
+  const openProject =
+    projects.find((project) => project.id === requestedId) ?? null;
+
+  const openDetail = (project: Project): void => {
+    setSearchParams({ project: String(project.id) });
+  };
+  const closeDetail = (): void => {
+    setSearchParams({});
+  };
 
   if (openProject) {
     return (
@@ -21,7 +39,7 @@ const Projects = () => {
         <button
           type="button"
           className="btn btn--ghost projects__back"
-          onClick={() => setOpenProject(null)}
+          onClick={closeDetail}
         >
           &larr; Back to all projects
         </button>
@@ -48,7 +66,7 @@ const Projects = () => {
             <Reveal key={project.id} order={index}>
               <ProjectCard
                 project={project}
-                onViewDetails={() => setOpenProject(project)}
+                onViewDetails={() => openDetail(project)}
               />
             </Reveal>
           ))}
@@ -69,7 +87,7 @@ const Projects = () => {
               <TiltCard>
                 <ProjectCard
                   project={project}
-                  onViewDetails={() => setOpenProject(project)}
+                  onViewDetails={() => openDetail(project)}
                 />
               </TiltCard>
             </Reveal>

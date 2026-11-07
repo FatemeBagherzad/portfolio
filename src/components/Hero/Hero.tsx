@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import './Hero.scss';
+import { HERO_STACK } from '../../constants/stack';
 import CanvasField from '../CanvasField/CanvasField';
 import TransitionLink from '../TransitionLink/TransitionLink';
 import CompareSlider from '../CompareSlider/CompareSlider';
@@ -26,14 +27,6 @@ const portraitB = {
   srcSet: portraitB300 + ' 300w, ' + portraitB600 + ' 600w, ' + portraitB900 + ' 900w',
   alt: 'Fatemeh Bagherzad',
 };
-
-const STACK = [
-  'React',
-  'TypeScript',
-  'Node.js',
-  'Python',
-  'AI-directed development',
-];
 
 const Hero = () => {
   const [copied, setCopied] = useState<boolean>(false);
@@ -77,7 +70,7 @@ const Hero = () => {
           </p>
 
           <ul className="hero__stack" aria-label="Core technologies">
-            {STACK.map((tech) => (
+            {HERO_STACK.map((tech) => (
               <li key={tech} className="chip">
                 {tech}
               </li>

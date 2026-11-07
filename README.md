@@ -33,19 +33,27 @@ here rather than asserted:
   the choice, follows the operating system until the visitor overrides it,
   and is applied by an inline script before first paint so the page never
   flashes the wrong theme.
+- **Search covers the whole site, not one page.** A technology typed in the
+  header is matched against every project, write-up and page at once, ranked
+  so the work outranks the coursework that merely repeats the word more
+  often. It is a real combobox: the input keeps focus while
+  `aria-activedescendant` moves the selection, so each result is announced as
+  you arrow through it. Results deep-link — a write-up opens Deep Dives
+  already filtered, a project opens its own URL — which also means the
+  browser's back button now closes a project instead of leaving the page.
 - **TypeScript runs in strict mode**, including `noUncheckedIndexedAccess`
   and `exactOptionalPropertyTypes`.
 - **Global styles are emitted once.** `variables` and `mixins` render nothing
   and can be used anywhere; `global` and `typography` are imported a single
   time in `src/styles/main.scss`.
 
-Every one of those claims is a test. `npm test` runs 47 Playwright checks
+Every one of those claims is a test. `npm test` runs 90 Playwright checks
 against the production build: an axe scan of all five routes plus the project
 detail view, the same scan again in dark mode, a horizontal-overflow assertion
 for each route at 320, 375, 768 and 1280px, header tap targets measured at
 44px, keyboard coverage for the skip link, the nav and the mobile menu's
-Enter/Escape handling, and theme persistence across reloads. CI runs them on
-every push.
+Enter/Escape handling, theme persistence across reloads, and the search's
+ranking, deep links and keyboard selection. CI runs them on every push.
 
 ## Stack
 
@@ -74,11 +82,12 @@ npm run dev
 
 ```
 src/
-  components/   Hero, Menu, ThemeToggle, ProjectCard, ProjectDetail, Swiper
+  components/   Hero, Menu, SiteSearch, ThemeToggle, ProjectCard, Swiper
   pages/        Home, Projects, DeepDives, AboutMe, NotFound
   assets/
     projects-data/   projects.json, challenges.json — the site's content
-  constants/    tech.ts — readable names for stack icons
+  constants/    tech.ts — readable names for stack icons; stack.ts
+  utils/        searchIndex.ts — one flat index over the site's content
   styles/       main.scss and partials (variables, mixins, typography, global)
   types/        Project and Challenge interfaces
 tests/          Playwright specs: accessibility, responsive, keyboard, theme
