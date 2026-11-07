@@ -33,8 +33,10 @@ here rather than asserted:
   the choice, follows the operating system until the visitor overrides it,
   and is applied by an inline script before first paint so the page never
   flashes the wrong theme.
-- **Search covers the whole site, not one page.** A technology typed in the
-  header is matched against every project, write-up and page at once, ranked
+- **Search covers the whole site, not one page, at every width.** A
+  technology typed in the header — which is a field on a phone too, not a
+  magnifying glass behind the menu button — is matched against every
+  project, write-up, tool and page at once, ranked
   so the work outranks the coursework that merely repeats the word more
   often. It is a real combobox: the input keeps focus while
   `aria-activedescendant` moves the selection, so each result is announced as
@@ -49,17 +51,23 @@ here rather than asserted:
   Arabic. Both run entirely in the browser with no backend, and both are
   code-split so the homepage embed costs the first paint nothing. The parser
   has 30 tests of its own that never open a browser.
+- **Type is readable on a phone, not only in a screenshot.** One fluid
+  scale in `_tokens.scss` sets every size on the site: body text is 16px at
+  every width, nothing visible goes below 12.5px, and anything typed into is
+  at least 16px — under that, iOS Safari zooms the page on focus and leaves
+  you scrolled sideways. The floors are asserted against the rendered page,
+  so a component that quietly invents a size of its own fails the build.
 - **TypeScript runs in strict mode**, including `noUncheckedIndexedAccess`
   and `exactOptionalPropertyTypes`.
 - **Global styles are emitted once.** `variables` and `mixins` render nothing
   and can be used anywhere; `global` and `typography` are imported a single
   time in `src/styles/main.scss`.
 
-Every one of those claims is a test. `npm test` runs 157 Playwright checks
+Every one of those claims is a test. `npm test` runs 188 Playwright checks
 against the production build: an axe scan of every route plus the project
 detail view, the same scan again in dark mode, a horizontal-overflow assertion
-for each route at 320, 375, 768 and 1280px, header tap targets measured at
-44px, keyboard coverage for the skip link, the nav and the mobile menu's
+and a type-size floor for each route at 320, 375, 768 and 1280px, header tap
+targets measured at 44px, keyboard coverage for the skip link, the nav and the mobile menu's
 Enter/Escape handling, theme persistence across reloads, and the search's
 ranking, deep links and keyboard selection, and the tools — the parser's
 arithmetic, unit and currency rules as pure unit tests, plus the pages they
