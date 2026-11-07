@@ -28,6 +28,7 @@
   }
 
   &__dive {
+    position: relative;
     display: flex;
     flex-direction: column;
     gap: var(--space-2xs);
@@ -35,6 +36,56 @@
     border: 1px solid var(--color-border);
     border-radius: var(--radius-l);
     box-shadow: var(--shadow-card);
+    transition:
+      border-color var(--dur-fast) linear,
+      box-shadow var(--dur-base) var(--ease-out-quint),
+      transform var(--dur-base) var(--ease-out-quint);
+
+    &:hover {
+      border-color: var(--color-accent);
+      box-shadow: var(--shadow-card-hover);
+      transform: translateY(-2px);
+    }
+
+    // The ring belongs to the card, because the link inside it is invisibly
+    // stretched across the whole tile — outlining the anchor itself would
+    // draw a box around the heading text only.
+    &:has(.home__dive-link:focus-visible) {
+      outline: 2px solid var(--color-focus);
+      outline-offset: 3px;
+    }
+  }
+
+  &__dive-link {
+    color: inherit;
+
+    // Covers the tile, which is what makes the whole card clickable while
+    // the anchor's text stays just the title.
+    &::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      border-radius: inherit;
+    }
+
+    // Suppressed in favour of the ring on the card above.
+    &:focus-visible {
+      outline: none;
+    }
+  }
+
+  &__dive-more {
+    margin: 0;
+    margin-top: auto;
+    padding-top: var(--space-2xs);
+    font-family: var(--font-display);
+    font-size: var(--step--1);
+    font-weight: 500;
+    color: var(--color-accent);
+  }
+
+  .home__dive:hover &__dive-more {
+    text-decoration: underline;
   }
 
   &__dive-tag {
@@ -53,8 +104,8 @@
     margin: 0;
     color: var(--color-text-muted);
     display: -webkit-box;
-    -webkit-line-clamp: 5;
-    line-clamp: 5;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
   }

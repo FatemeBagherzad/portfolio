@@ -197,6 +197,25 @@ test.describe('header search', () => {
     }
   });
 
+  test('a write-up is findable by what it was solved with', async ({ page }) => {
+    // Terraform appears in exactly one write-up's own stack and in no
+    // project's prose, so it can only be found through the dive's tags.
+    await search(page, 'terraform');
+    const options = page.getByRole('option');
+    expect(await options.count()).toBeGreaterThan(0);
+
+    const text = (await options.allInnerTexts()).join(' ').toLowerCase();
+    expect(text).toContain('nginx');
+    expect(text).toContain('terraform');
+  });
+
+  test('an agent tool is findable across the site', async ({ page }) => {
+    // Claude Code is on her resume and is genuinely how Rabva was built;
+    // it has to resolve to the write-ups that describe that work.
+    await search(page, 'claude');
+    expect(await page.getByRole('option').count()).toBeGreaterThan(0);
+  });
+
   test('the open list has no accessibility violations', async ({ page }) => {
     await search(page, 'docker');
     const results = await new AxeBuilder({ page })

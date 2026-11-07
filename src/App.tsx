@@ -32,10 +32,16 @@ const AppShell = () => {
       return;
     }
 
+    // A URL that names one item on the page is asking for that item, not
+    // for the top of the page — so the destination gets to do its own
+    // scrolling. Without this the two fight, and this effect wins: it runs
+    // after the page's, because a parent's effects run after its children's.
+    const pointsAtItem = new URLSearchParams(location.search).has('dive');
+
     // Only a new navigation starts at the top. Back and forward are a POP,
     // and the browser already restores the position the visitor left — so
     // overriding it there would throw away where they were.
-    if (navigationType !== 'POP') {
+    if (navigationType !== 'POP' && !pointsAtItem) {
       // `instant` rather than the stylesheet's smooth scrolling: animating
       // a jump between pages is slow and disorienting, and on a long page
       // the old content visibly streaks past.
