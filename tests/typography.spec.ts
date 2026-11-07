@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test';
-import { ROUTES, VIEWPORTS } from './routes';
+import { PAGE_STATES, VIEWPORTS } from './routes';
 import { settleAnimations } from './settle';
 
 /**
@@ -86,7 +86,7 @@ const describe = (found: Offender[]): string =>
 
 test.describe('type is readable at every width', () => {
   for (const viewport of VIEWPORTS) {
-    for (const route of ROUTES) {
+    for (const route of PAGE_STATES) {
       test(`${route} at ${viewport.width}px (${viewport.name})`, async ({
         page,
       }) => {

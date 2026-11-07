@@ -151,13 +151,17 @@ test.describe('tools page', () => {
     await settleAnimations(page);
 
     const tabs = page.getByRole('tab');
-    await expect(tabs).toHaveCount(2);
+    await expect(tabs).toHaveCount(3);
 
     await tabs.first().focus();
     await page.keyboard.press('ArrowRight');
     await expect(tabs.nth(1)).toHaveAttribute('aria-selected', 'true');
     await expect(tabs.nth(1)).toBeFocused();
     await expect(page.locator('.inspector')).toBeVisible();
+
+    await page.keyboard.press('ArrowRight');
+    await expect(tabs.nth(2)).toHaveAttribute('aria-selected', 'true');
+    await expect(page.locator('.bench')).toBeVisible();
 
     // And it wraps back round.
     await page.keyboard.press('ArrowRight');
@@ -187,8 +191,12 @@ test.describe('tools page', () => {
     await expect(values.nth(2)).toHaveText('3');
   });
 
-  test('has no accessibility violations on either tool', async ({ page }) => {
-    for (const url of ['/tools', '/tools?tool=text-inspector']) {
+  test('has no accessibility violations on any tool', async ({ page }) => {
+    for (const url of [
+      '/tools',
+      '/tools?tool=text-inspector',
+      '/tools?tool=eval-bench',
+    ]) {
       await page.goto(url);
       await settleAnimations(page);
       const results = await new AxeBuilder({ page })
@@ -202,6 +210,83 @@ test.describe('tools page', () => {
 // ---------------------------------------------------------------------------
 // The homepage embed
 // ---------------------------------------------------------------------------
+
+// ---------------------------------------------------------------------------
+// The eval bench, on the page
+// ---------------------------------------------------------------------------
+
+test.describe('eval bench', () => {
+  const open = async (page: Page) => {
+    await page.goto('/tools?tool=eval-bench');
+    await settleAnimations(page);
+  };
+
+  test('says plainly that no model is called', async ({ page }) => {
+    await open(page);
+    // The claim this tool must never make is that these are real runs.
+    await expect(page.locator('.bench__note')).toContainText(/no model runs/i);
+    await expect(page.locator('.bench__note')).toContainText(
+      /written by hand/i
+    );
+  });
+
+  test('scores a version and switches to the other', async ({ page }) => {
+    await open(page);
+    await expect(page.locator('.bench__score-value')).toHaveText('67%');
+
+    await page.getByRole('radio', { name: /contract restated/i }).check();
+    await expect(page.locator('.bench__score-value')).toHaveText('83%');
+  });
+
+  test('loosening a gate moves the number with no new output', async ({
+    page,
+  }) => {
+    await open(page);
+    await page.getByRole('radio', { name: /contract restated/i }).check();
+    await expect(page.locator('.bench__score-value')).toHaveText('83%');
+
+    // Nothing about the samples changes — only what the gate accepts.
+    await page
+      .getByRole('checkbox', { name: /normalise arabic/i })
+      .check();
+    await expect(page.locator('.bench__score-value')).toHaveText('89%');
+  });
+
+  test('the comparison names the case that got worse', async ({ page }) => {
+    await open(page);
+    await page.getByRole('radio', { name: /compare the two/i }).check();
+
+    await expect(page.locator('.bench__diff-headline')).toContainText(
+      '67% → 83%'
+    );
+    // The point of the whole tool: the summary improved and something
+    // still broke.
+    await expect(page.locator('.bench__row--regressed th')).toHaveText(
+      'Short gloss'
+    );
+    await expect(page.locator('.bench__move--bad')).toContainText(
+      'fits the card'
+    );
+  });
+
+  test('a failing run can be opened and read', async ({ page }) => {
+    await open(page);
+    await page.locator('.bench__case').first().locator('summary').click();
+
+    const failed = page.locator('.bench__sample--failed').first();
+    await expect(failed).toBeVisible();
+    // The Arabic normalisation gate explains itself rather than saying
+    // "not found", which would be true and useless. Scoped by name: a
+    // closed <details> keeps its contents in the DOM, so every other
+    // case's gates are matchable too.
+    await expect(
+      page
+        .locator('.bench__gate--failed')
+        .filter({ hasText: 'Arabic comes back' })
+        .first()
+    ).toContainText(/normalisation form/);
+  });
+});
 
 // ---------------------------------------------------------------------------
 // The home page carries one tool: short, and it hands the text over

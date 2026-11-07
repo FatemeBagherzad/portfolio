@@ -44,14 +44,19 @@ here rather than asserted:
   already filtered, a project opens its own URL — which also means the
   browser's back button now closes a project instead of leaving the page.
 - **There are working apps on here, not only case studies.** `/tools` holds
-  two: a Scratchpad that evaluates lines like `3 nights at $180` through a
+  three: a Scratchpad that evaluates lines like `3 nights at $180` through a
   hand-written tokeniser and precedence-climbing parser — no parsing library
-  — and a Text Inspector that shows what a string is actually made of, which
+  — a Text Inspector that shows what a string is actually made of, which
   exists because "how long is this word" has four different answers in
-  Arabic. Both run entirely in the browser with no backend, and both are
-  code-split, so the Text Inspector embedded on the home page costs the
-  first paint nothing and the scratchpad is not fetched there at all. The
-  parser has 30 tests of its own that never open a browser.
+  Arabic, and an Eval Bench, a regression harness for prompts that reports a
+  pass rate with its spread and diffs one prompt version against another.
+  All three run entirely in the browser with no backend — the bench calls no
+  model and needs no key, because the harness is the engineering and
+  fabricating a record of real runs is the one thing the discipline exists
+  to prevent. They are code-split, so the Text Inspector embedded on the
+  home page costs the first paint nothing and the other two are not fetched
+  there at all. The parser and the bench carry 44 tests between them that
+  never open a browser.
 - **Type is readable on a phone, not only in a screenshot.** One fluid
   scale in `_tokens.scss` sets every size on the site: body text is 16px at
   every width, nothing visible goes below 12.5px, and anything typed into is
@@ -64,11 +69,12 @@ here rather than asserted:
   and can be used anywhere; `global` and `typography` are imported a single
   time in `src/styles/main.scss`.
 
-Every one of those claims is a test. `npm test` runs 188 Playwright checks
+Every one of those claims is a test. `npm test` runs 224 Playwright checks
 against the production build: an axe scan of every route plus the project
 detail view, the same scan again in dark mode, a horizontal-overflow assertion
-and a type-size floor for each route at 320, 375, 768 and 1280px, header tap
-targets measured at 44px, keyboard coverage for the skip link, the nav and the mobile menu's
+and a type-size floor for each page state at 320, 375, 768 and 1280px —
+including each tool's own tab, where the tables and preformatted blocks live
+— header tap targets measured at 44px, keyboard coverage for the skip link, the nav and the mobile menu's
 Enter/Escape handling, theme persistence across reloads, and the search's
 ranking, deep links and keyboard selection, and the tools — the parser's
 arithmetic, unit and currency rules as pure unit tests, plus the pages they

@@ -1,5 +1,5 @@
 import { expect, test } from '@playwright/test';
-import { ROUTES, VIEWPORTS } from './routes';
+import { PAGE_STATES, VIEWPORTS } from './routes';
 import { settleAnimations } from './settle';
 
 /**
@@ -35,7 +35,7 @@ const measureOverflow = async (page: import('@playwright/test').Page) =>
 // stated as a test: the page is never wider than the screen it is on.
 test.describe('no horizontal overflow', () => {
   for (const viewport of VIEWPORTS) {
-    for (const route of ROUTES) {
+    for (const route of PAGE_STATES) {
       test(`${route} at ${viewport.width}px (${viewport.name})`, async ({
         page,
       }) => {

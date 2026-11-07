@@ -45,4 +45,19 @@ export const TOOLS: ToolEntry[] = [
       'React 18',
     ],
   },
+  {
+    id: 'eval-bench',
+    name: 'Eval Bench',
+    tagline:
+      'A regression bench for prompts: cases, gates, and a pass rate with the spread beside it — because one green run proves nothing.',
+    note: 'This is the method I used to build Rabva’s API with coding agents. An answer is not judged good or bad; it either clears the gates written for it or it does not, and it has to clear them on every run rather than on the run you happened to watch. No model is called here — the outputs are fixed samples written to exercise the harness, and the harness is the part worth reading. The gate that will not normalise Arabic before comparing is the one that caught real bugs: text that renders identically and compares unequal.',
+    stack: [
+      'TypeScript',
+      'Evals',
+      'Regression testing',
+      'Agent workflows',
+      'Unicode',
+      'React 18',
+    ],
+  },
 ];
