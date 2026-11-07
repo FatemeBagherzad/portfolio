@@ -32,6 +32,9 @@
   padding: var(--space-2xs);
 }
 
+// Swiper draws its arrows as an icon font, and this is the glyph fitted to
+// the 20px circle above rather than a text size — hence a bare value and no
+// step from the type scale.
 .swiper-button-prev::after,
 .swiper-button-next::after {
   font-size: 1rem;
@@ -40,5 +43,4 @@
 }
 .swiper-pagination {
   bottom: -0.1rem !important;
-  color: red !important;
 }
