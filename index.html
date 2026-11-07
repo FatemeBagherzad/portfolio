@@ -13,30 +13,24 @@
     />
     <meta name="author" content="Fatemeh Bagherzad" />
     <link rel="canonical" href="https://fateme-bagherzad.com/" />
-    <meta name="theme-color" content="#111111" />
+    <!-- Matches the dark theme's page background, which is the default. -->
+    <meta name="theme-color" content="#0b0b0f" />
 
     <!--
-      Applies the saved (or system) theme before the first paint. Without
-      this the page renders light and then flips, which is worse than
-      having no dark mode at all.
+      Applies the saved theme before the first paint. Dark is the default, so
+      only a saved choice of light needs writing here — and the stylesheet
+      already starts dark, which means a visitor with scripting turned off
+      gets the default rather than a half-themed page.
     -->
     <script>
       (function () {
         try {
-          var stored = localStorage.getItem('theme');
-          var prefersDark =
-            window.matchMedia &&
-            window.matchMedia('(prefers-color-scheme: dark)').matches;
           document.documentElement.setAttribute(
             'data-theme',
-            stored === 'dark' || stored === 'light'
-              ? stored
-              : prefersDark
-                ? 'dark'
-                : 'light'
+            localStorage.getItem('theme') === 'light' ? 'light' : 'dark'
           );
         } catch (e) {
-          document.documentElement.setAttribute('data-theme', 'light');
+          document.documentElement.setAttribute('data-theme', 'dark');
         }
       })();
     </script>

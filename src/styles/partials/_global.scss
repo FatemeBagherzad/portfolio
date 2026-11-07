@@ -186,10 +186,16 @@ p {
   border: 1px solid transparent;
   border-radius: var(--radius-full);
   cursor: pointer;
+  // `color` travels with `background-color` deliberately. Leaving it out
+  // looks harmless, because both ends of the hover are legible — but the
+  // text would snap while the wash faded, so for one frame-run on the way
+  // out a ghost button showed its accent text on a still-full accent tint,
+  // at 4.45:1. Moving them together keeps the whole path above 5.4:1.
   transition:
     transform var(--dur-fast) var(--ease-out-quint),
     background-color var(--dur-fast) linear,
-    border-color var(--dur-fast) linear;
+    border-color var(--dur-fast) linear,
+    color var(--dur-fast) linear;
 
   &:hover {
     background-color: var(--color-accent-vivid);
@@ -206,6 +212,13 @@ p {
   &:hover {
     background-color: var(--color-chip-bg);
     border-color: var(--color-accent);
+    // The wash is accent-tinted, so accent text sits on a version of
+    // itself: 4.43:1 over a card in the dark theme, 4.07:1 over a sunken
+    // panel — both under the floor, and only while hovered, which is why
+    // no route-level scan ever saw it. `--color-chip-text` is the colour
+    // already designed to sit on `--color-chip-bg`; pairing them takes it
+    // to 8.1:1 dark and 8.0:1 light.
+    color: var(--color-chip-text);
   }
 }
 
@@ -313,11 +326,17 @@ main:focus {
 }
 
 // Search hits. The browser default is a hard yellow with forced black text;
-// this keeps the page's own colour and leaves the text colour alone, so the
-// contrast of the highlighted words is unchanged from the words around them.
+// this keeps the page's own colour instead.
+//
+// The text colour is set rather than inherited. Inheriting looks like the
+// neutral choice, but a result snippet is muted text, and muted text on the
+// accent tint measures 4.46:1 in the dark theme — under the floor, and
+// only on the one word the visitor actually searched for. Full-strength text
+// takes it to 11.3:1 and makes the match the most legible part of the line,
+// which is what a highlight is for.
 mark {
   background-color: var(--color-mark-bg);
-  color: inherit;
+  color: var(--color-text);
   border-radius: var(--radius-s);
   padding: 0 var(--space-3xs);
 }

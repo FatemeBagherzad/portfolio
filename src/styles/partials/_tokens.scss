@@ -196,19 +196,15 @@
   --shadow-overlay: 0 24px 64px rgba(0, 0, 0, 0.7);
 }
 
+// Dark is the default — not a fallback for a dark system preference but the
+// unconditional starting point, so a first visit looks the same whatever the
+// visitor's operating system is set to.
 :root {
-  @include light-theme;
-}
-
-// An explicit choice always wins.
-:root[data-theme='dark'] {
   @include dark-theme;
 }
 
-// Fallback for a visitor whose system prefers dark before the inline script
-// in index.html has run. An explicit light choice is still respected.
-@media (prefers-color-scheme: dark) {
-  :root:not([data-theme='light']) {
-    @include dark-theme;
-  }
+// Only an explicit choice of light switches back, which makes 'light' the one
+// value the inline script in index.html ever has to write.
+:root[data-theme='light'] {
+  @include light-theme;
 }

@@ -5,6 +5,10 @@ import { settleAnimations } from './settle';
 
 // The resume claims accessibility is built in from the component up, so it
 // is asserted here rather than left to a one-off manual audit.
+//
+// These run with no colour scheme emulated, which means the dark theme — the
+// default. The light theme is swept in theme.spec.ts, where a saved choice
+// can be seeded before the first paint.
 test.describe('accessibility', () => {
   for (const route of ROUTES) {
     test(`${route} has no axe violations`, async ({ page }) => {
