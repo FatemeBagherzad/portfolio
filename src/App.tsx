@@ -9,7 +9,6 @@ import {
 } from 'react-router-dom';
 import './App.scss';
 import Menu from './components/Menu/Menu';
-import CommandPalette from './components/CommandPalette/CommandPalette';
 import Home from './pages/Home/Home';
 import DeepDives from './pages/DeepDives/DeepDives';
 import Projects from './pages/Projects/Projects';
@@ -46,7 +45,11 @@ const AppShell = () => {
     // preventScroll matters on a POP: focusing an element scrolls it into
     // view by default, which would undo the restoration we just preserved.
     mainRef.current?.focus({ preventScroll: true });
-  }, [location.pathname, navigationType]);
+    // `search` is in here as well as the path: picking a search result
+    // can change only the query string — opening a project while already on
+    // the projects page — and that is still a new page as far as the visitor
+    // is concerned.
+  }, [location.pathname, location.search, navigationType]);
 
   return (
     <>
@@ -55,7 +58,6 @@ const AppShell = () => {
       </a>
 
       <Menu />
-      <CommandPalette />
 
       {/* Purely decorative, and purely CSS where the browser supports it. */}
       <div className="scroll-progress" aria-hidden="true" />

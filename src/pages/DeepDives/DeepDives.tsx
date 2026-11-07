@@ -1,4 +1,5 @@
-import { useId, useMemo, useRef, useState } from 'react';
+import { useEffect, useId, useMemo, useRef, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import './DeepDives.scss';
 import challengesData from '../../assets/projects-data/challenges.json';
 import type { Challenge } from '../../types';
@@ -65,7 +66,16 @@ const DeepDiveCard = ({ challenge, position, total, query }: CardProps) => (
 );
 
 const DeepDives = () => {
-  const [query, setQuery] = useState<string>('');
+  // `?q=` lets the header search hand this page a term: the field arrives
+  // filled in and the matches arrive highlighted, which also makes a
+  // filtered view something you can link to or reload.
+  const [searchParams] = useSearchParams();
+  const urlQuery = searchParams.get('q') ?? '';
+  const [query, setQuery] = useState<string>(urlQuery);
+
+  useEffect(() => {
+    setQuery(urlQuery);
+  }, [urlQuery]);
   const [project, setProject] = useState<string>(ALL);
   const listRef = useRef<HTMLDivElement>(null);
   const searchId = useId();
