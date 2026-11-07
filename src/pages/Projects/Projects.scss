@@ -23,7 +23,6 @@
 
   &__section-note {
     color: var(--color-text-muted);
-    max-width: var(--measure);
     margin-bottom: var(--space-l);
   }
 
@@ -35,12 +34,10 @@
     align-items: stretch;
   }
 
-  // Feature cards get enough width that the card's own container query
-  // flips it to the side-by-side layout.
+  // One per row, spanning the page. These two carry wide screen-capture
+  // GIFs, which a side-by-side or square crop mangles.
   &__cards--feature {
-    @media (min-width: 64rem) {
-      grid-template-columns: repeat(auto-fit, minmax(46rem, 1fr));
-    }
+    grid-template-columns: 1fr;
   }
 
   // Education cards stay narrow, so the same component keeps its stacked

@@ -78,7 +78,7 @@ const Hero = () => {
 
           <ul className="hero__stack" aria-label="Core technologies">
             {STACK.map((tech) => (
-              <li key={tech} className="hero__stack-item">
+              <li key={tech} className="chip">
                 {tech}
               </li>
             ))}

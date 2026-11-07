@@ -348,7 +348,15 @@ const CommandPalette = () => {
             spellCheck="false"
           />
 
-          <kbd className="palette__kbd">Esc</kbd>
+          {/* Was a decorative <kbd>, which looked pressable and was not. */}
+          <button
+            type="button"
+            className="palette__close"
+            onClick={() => paletteStore.close()}
+            aria-label="Close the command palette"
+          >
+            <span aria-hidden="true">Esc</span>
+          </button>
         </div>
 
         <ul className="palette__list" id={listId} role="listbox" ref={listRef}>

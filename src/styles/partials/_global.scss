@@ -120,7 +120,6 @@ p {
 .lede {
   font-size: var(--step-1);
   line-height: 1.45;
-  max-width: var(--measure);
   color: var(--color-text-muted);
 }
 
@@ -162,9 +161,11 @@ p {
   align-items: center;
   justify-content: center;
   gap: var(--space-2xs);
-  // >=44px touch target on every control.
-  min-height: 4.4rem;
-  padding: 0.6rem clamp(1.6rem, 1rem + 2vw, 2.6rem);
+  // 36px is the control height developer tools settle on; a 44px button
+  // reads as chunky with a mouse. Touch devices get the larger target back
+  // below, where it actually matters.
+  min-height: 3.6rem;
+  padding: 0.4rem var(--space-s);
   max-width: 100%;
   font-family: var(--font-display);
   font-size: var(--step--1);
@@ -205,6 +206,39 @@ p {
   &:hover {
     background-color: var(--color-chip-bg);
   }
+}
+
+// Where the pointer is a finger, every button goes back to a 44px target.
+@media (hover: none) and (pointer: coarse) {
+  .btn {
+    min-height: 4.4rem;
+    padding-inline: var(--space-m);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Chips
+// ---------------------------------------------------------------------------
+// Stack tags, project tags and metadata badges all use this. They had each
+// grown their own padding — 0.7/1, 0.6/0.9, 0.5/0.8, 0.4/0.8 — which is
+// exactly how a design drifts out of alignment with itself.
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  font-family: var(--font-mono);
+  font-size: var(--step--2);
+  line-height: 1;
+  padding: var(--space-3xs) var(--space-2xs);
+  border-radius: var(--radius-s);
+  background-color: var(--color-chip-bg);
+  color: var(--color-chip-text);
+}
+
+/* A chip used as a label rather than a value. */
+.chip--label {
+  letter-spacing: var(--tracking-wide);
+  text-transform: uppercase;
 }
 
 // ---------------------------------------------------------------------------
@@ -254,6 +288,16 @@ main:focus {
 ::selection {
   background-color: var(--color-accent);
   color: var(--color-on-accent);
+}
+
+// Search hits. The browser default is a hard yellow with forced black text;
+// this keeps the page's own colour and leaves the text colour alone, so the
+// contrast of the highlighted words is unchanged from the words around them.
+mark {
+  background-color: var(--color-mark-bg);
+  color: inherit;
+  border-radius: var(--radius-s);
+  padding: 0 var(--space-3xs);
 }
 
 // ---------------------------------------------------------------------------
@@ -342,7 +386,7 @@ main:focus {
     .scroll-progress {
       display: block;
       position: fixed;
-      top: calc(5.6rem + env(safe-area-inset-top));
+      top: calc(var(--header-h) + env(safe-area-inset-top));
       left: 0;
       right: 0;
       height: 2px;

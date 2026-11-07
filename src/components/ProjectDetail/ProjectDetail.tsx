@@ -32,7 +32,7 @@ const ProjectDetail = ({ project }: ProjectDetailProps) => {
       <h2 className="project-detail__subheading">Built with</h2>
       <ul className="project-detail__stack">
         {project.stack.map((tech) => (
-          <li key={tech} className="project-detail__stack-item">
+          <li key={tech} className="chip">
             {tech}
           </li>
         ))}

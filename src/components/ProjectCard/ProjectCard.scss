@@ -45,9 +45,10 @@
     display: block;
     width: 100%;
     height: auto;
-    aspect-ratio: 16 / 10;
+    // The box is the picture's own ratio, so `cover` has nothing to trim.
+    // Reserving it here also keeps the card from jumping as the GIF loads.
+    aspect-ratio: var(--cover-aspect, 16 / 10);
     object-fit: cover;
-    object-position: center top;
   }
 
   &__body {
@@ -73,7 +74,6 @@
 
   &__tagline {
     color: var(--color-text-muted);
-    max-width: 52ch;
   }
 
   &__stack {
@@ -81,16 +81,6 @@
     flex-wrap: wrap;
     gap: var(--space-3xs);
     margin-top: var(--space-3xs);
-  }
-
-  &__stack-item {
-    font-family: var(--font-mono);
-    font-size: var(--step--2);
-    line-height: 1;
-    padding: 0.6rem 0.9rem;
-    border-radius: var(--radius-s);
-    background-color: var(--color-chip-bg);
-    color: var(--color-chip-text);
   }
 
   &__actions {
@@ -102,22 +92,25 @@
   }
 }
 
-// Wide enough to read side by side: the image takes a column of its own and
-// the copy gets the rest. This is the card reacting to its container, not to
-// the window — a narrow card in a wide window stays stacked.
-@container card (min-width: 46rem) {
+// Side by side only once the card is genuinely wide. Below this the media
+// column is too narrow to show a landscape recording, which is what used to
+// break the layout between roughly 650 and 800px: the card flipped to two
+// columns while the picture still needed the full width.
+//
+// Measured against the CARD, so it holds whether the window is landscape or
+// portrait — the card's width is what decides, not the device.
+@container card (min-width: 76rem) {
   .project-card__layout {
     flex-direction: row;
+    // Not `stretch`: a stretched media column would be taller than the
+    // picture and force it to crop to fill. Centred, the picture keeps its
+    // own height and stays whole.
+    align-items: center;
   }
 
   .project-card__media {
-    width: 38%;
-    max-width: 30rem;
-  }
-
-  .project-card__img {
-    height: 100%;
-    aspect-ratio: auto;
+    width: 46%;
+    flex-shrink: 0;
   }
 
   .project-card__body {

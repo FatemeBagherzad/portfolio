@@ -5,7 +5,7 @@
   position: relative;
   // `dvh` tracks the visible viewport as a mobile browser's address bar
   // collapses; `vh` does not, which is what leaves a gap at the bottom.
-  min-height: min(92dvh, 86rem);
+  min-height: min(86dvh, 68rem);
   display: flex;
   align-items: center;
   padding-block: var(--space-xl) var(--space-2xl);
@@ -86,16 +86,6 @@
     flex-wrap: wrap;
     gap: var(--space-3xs);
     margin-bottom: var(--space-l);
-  }
-
-  &__stack-item {
-    font-family: var(--font-mono);
-    font-size: var(--step--2);
-    line-height: 1;
-    padding: 0.7rem 1rem;
-    border-radius: var(--radius-s);
-    background-color: var(--color-chip-bg);
-    color: var(--color-chip-text);
   }
 
   &__actions {

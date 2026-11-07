@@ -1,5 +1,5 @@
 .body {
   // Clears the fixed header (5.6rem tall).
-  margin-top: 5.6rem;
-  padding-top: 2rem;
+  margin-top: var(--header-h);
+  padding-top: var(--space-s);
 }

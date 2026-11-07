@@ -4,6 +4,7 @@ import challengesData from '../../assets/projects-data/challenges.json';
 import type { Challenge } from '../../types';
 import Reveal from '../../components/Reveal/Reveal';
 import { useWindowVirtualList } from '../../hooks/useWindowVirtualList';
+import { highlight } from '../../utils/highlight';
 
 const challenges = challengesData as Challenge[];
 
@@ -41,9 +42,11 @@ interface CardProps {
   challenge: Challenge;
   position: number;
   total: number;
+  /** Current search text, so matches can be marked in the card. */
+  query: string;
 }
 
-const DeepDiveCard = ({ challenge, position, total }: CardProps) => (
+const DeepDiveCard = ({ challenge, position, total, query }: CardProps) => (
   <article
     className="deep-dives__card"
     // A windowed list only has some of its rows in the DOM, so assistive
@@ -51,9 +54,13 @@ const DeepDiveCard = ({ challenge, position, total }: CardProps) => (
     aria-setsize={total}
     aria-posinset={position}
   >
-    <p className="deep-dives__card-tag">{challenge.project}</p>
-    <h2 className="deep-dives__card-title">{challenge.title}</h2>
-    <p className="deep-dives__card-txt">{challenge.description}</p>
+    <p className="chip chip--label deep-dives__card-tag">{challenge.project}</p>
+    <h2 className="deep-dives__card-title">
+      {highlight(challenge.title, query)}
+    </h2>
+    <p className="deep-dives__card-txt">
+      {highlight(challenge.description, query)}
+    </p>
   </article>
 );
 
@@ -181,6 +188,7 @@ const DeepDives = () => {
                   challenge={challenge}
                   position={item.index + 1}
                   total={results.length}
+                  query={query}
                 />
               </div>
             );
@@ -200,6 +208,7 @@ const DeepDives = () => {
                   challenge={challenge}
                   position={index + 1}
                   total={results.length}
+                  query={query}
                 />
               </div>
             </Reveal>

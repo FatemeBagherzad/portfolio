@@ -29,8 +29,10 @@
     top: 0;
     bottom: 0;
     // The visible divider is 2px; the hit area around it is 44px.
-    width: 4.4rem;
-    margin-left: -2.2rem;
+    width: var(--compare-handle, 4.4rem);
+    // Not spacing: pulls the hit area back by half its own width so it
+    // straddles the divider instead of sitting to one side of it.
+    margin-left: calc(var(--compare-handle, 4.4rem) / -2);
     display: flex;
     // Sits in the lower third rather than dead centre, so the grip never
     // lands on the face it is revealing.
