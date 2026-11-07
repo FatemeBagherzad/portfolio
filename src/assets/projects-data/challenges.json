@@ -336,5 +336,18 @@
       "TypeScript"
     ],
     "description": "The Text Inspector exists because three Rabva bugs had the same root: in Arabic, string length is not character count. Diacritics are separate code points, so the number changes when a reader turns them on and every index built on it moves. The same word stored in NFC and NFD renders identically and compares unequal. And a right-to-left override is invisible, survives copy and paste, and silently reorders everything after it. The tool shows all four counts at once — UTF-16 units, code points, graphemes and bytes — and names the invisible characters it finds."
+  },
+  {
+    "id": 29,
+    "title": "One Green Run Proves Nothing",
+    "project": "Tools",
+    "stack": [
+      "Evals",
+      "Regression testing",
+      "Agent workflows",
+      "Unicode",
+      "TypeScript"
+    ],
+    "description": "Directing coding agents against a 170-endpoint contract taught me that reading an answer and judging it good is not a test. The same prompt, asked the same question six times, does not answer the same way — so the number worth reporting is a pass rate with its spread beside it, and the failure worth chasing is the gate that fails sometimes rather than the one that fails always. The Eval Bench is that method as a tool: cases, gates, a rate, and a diff between two wordings of a prompt. Its sharpest gate is the one that refuses to normalise Arabic before comparing. Normalising first would make a decomposed copy pass, and a decomposed copy is a real defect — it renders identically, compares unequal, and breaks every lookup built on the stored form. The demo suite shows a prompt change that lifts the suite from 67% to 83% while quietly breaking a case that used to pass every time, which is the shape of nearly every real prompt change and is invisible to anyone reporting a single number."
   }
 ]

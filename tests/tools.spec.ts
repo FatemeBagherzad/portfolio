@@ -151,13 +151,17 @@ test.describe('tools page', () => {
     await settleAnimations(page);
 
     const tabs = page.getByRole('tab');
-    await expect(tabs).toHaveCount(2);
+    await expect(tabs).toHaveCount(3);
 
     await tabs.first().focus();
     await page.keyboard.press('ArrowRight');
     await expect(tabs.nth(1)).toHaveAttribute('aria-selected', 'true');
     await expect(tabs.nth(1)).toBeFocused();
     await expect(page.locator('.inspector')).toBeVisible();
+
+    await page.keyboard.press('ArrowRight');
+    await expect(tabs.nth(2)).toHaveAttribute('aria-selected', 'true');
+    await expect(page.locator('.bench')).toBeVisible();
 
     // And it wraps back round.
     await page.keyboard.press('ArrowRight');
@@ -187,8 +191,12 @@ test.describe('tools page', () => {
     await expect(values.nth(2)).toHaveText('3');
   });
 
-  test('has no accessibility violations on either tool', async ({ page }) => {
-    for (const url of ['/tools', '/tools?tool=text-inspector']) {
+  test('has no accessibility violations on any tool', async ({ page }) => {
+    for (const url of [
+      '/tools',
+      '/tools?tool=text-inspector',
+      '/tools?tool=eval-bench',
+    ]) {
       await page.goto(url);
       await settleAnimations(page);
       const results = await new AxeBuilder({ page })
@@ -202,6 +210,158 @@ test.describe('tools page', () => {
 // ---------------------------------------------------------------------------
 // The homepage embed
 // ---------------------------------------------------------------------------
+
+// ---------------------------------------------------------------------------
+// The eval bench, on the page
+// ---------------------------------------------------------------------------
+
+test.describe('eval bench', () => {
+  const open = async (page: Page) => {
+    await page.goto('/tools?tool=eval-bench');
+    await settleAnimations(page);
+  };
+
+  test('says plainly that no model is called', async ({ page }) => {
+    await open(page);
+    // The claim this tool must never make is that these are real runs.
+    await expect(page.locator('.bench__note')).toContainText(/no model runs/i);
+    await expect(page.locator('.bench__note')).toContainText(
+      /written by hand/i
+    );
+  });
+
+  test('scores a version and switches to the other', async ({ page }) => {
+    await open(page);
+    await expect(page.locator('.bench__score-value')).toHaveText('67%');
+
+    await page.getByRole('radio', { name: /contract restated/i }).check();
+    await expect(page.locator('.bench__score-value')).toHaveText('83%');
+  });
+
+  test('loosening a gate moves the number with no new output', async ({
+    page,
+  }) => {
+    await open(page);
+    await page.getByRole('radio', { name: /contract restated/i }).check();
+    await expect(page.locator('.bench__score-value')).toHaveText('83%');
+
+    // Nothing about the samples changes — only what the gate accepts.
+    await page
+      .getByRole('checkbox', { name: /normalise arabic/i })
+      .check();
+    await expect(page.locator('.bench__score-value')).toHaveText('89%');
+  });
+
+  test('the comparison names the case that got worse', async ({ page }) => {
+    await open(page);
+    await page.getByRole('radio', { name: /compare the two/i }).check();
+
+    await expect(page.locator('.bench__diff-headline')).toContainText(
+      '67% → 83%'
+    );
+    // The point of the whole tool: the summary improved and something
+    // still broke.
+    await expect(page.locator('.bench__row--regressed th')).toHaveText(
+      'Short gloss'
+    );
+    await expect(page.locator('.bench__move--bad')).toContainText(
+      'fits the card'
+    );
+  });
+
+  test('scores answers someone pastes in', async ({ page }) => {
+    await open(page);
+    await page.getByRole('button', { name: /score your own answers/i }).click();
+
+    // Opens prefilled, so there is a score before anything is typed.
+    await expect(page.locator('.bench__score-value')).toHaveText('33%');
+    await expect(page.locator('.own__count').first()).toContainText(
+      '3 runs found'
+    );
+
+    // Replace with answers that all clear the gates.
+    await page
+      .locator('.own__input')
+      .first()
+      .fill('{"ayah":1,"word":"a"}\n---\n{"ayah":2,"word":"b"}');
+    await expect(page.locator('.bench__score-value')).toHaveText('100%');
+
+    // And one that does not, which should take the rate down, not break it.
+    await page
+      .locator('.own__input')
+      .first()
+      .fill('{"ayah":1,"word":"a"}\n---\n{"ayah":900,"word":"b"}');
+    await expect(page.locator('.bench__score-value')).toHaveText('50%');
+  });
+
+  test('a gate can be added and removed', async ({ page }) => {
+    await open(page);
+    await page.getByRole('button', { name: /score your own answers/i }).click();
+    await expect(page.locator('.gates__row')).toHaveCount(2);
+
+    await page.getByRole('button', { name: 'Add a gate' }).click();
+    await expect(page.locator('.gates__row')).toHaveCount(3);
+
+    // A new gate looks for empty text, which every answer contains, so the
+    // score must not move.
+    await expect(page.locator('.bench__score-value')).toHaveText('33%');
+
+    await page.getByRole('button', { name: /remove gate 3/i }).click();
+    await expect(page.locator('.gates__row')).toHaveCount(2);
+  });
+
+  test('what you paste survives a reload and stays in the browser', async ({
+    page,
+  }) => {
+    await open(page);
+    await page.getByRole('button', { name: /score your own answers/i }).click();
+    await page.locator('.own__input').first().fill('{"ayah":5,"word":"x"}');
+
+    await page.reload();
+    await settleAnimations(page);
+    await page.getByRole('button', { name: /score your own answers/i }).click();
+    await expect(page.locator('.own__input').first()).toHaveValue(
+      '{"ayah":5,"word":"x"}'
+    );
+  });
+
+  test('the paste panel is clean at 320px and to axe', async ({ page }) => {
+    // The URL sweeps can only reach the worked example, because the panel
+    // is a mode rather than a route — so its own checks live here.
+    await page.setViewportSize({ width: 320, height: 760 });
+    await open(page);
+    await page.getByRole('button', { name: /score your own answers/i }).click();
+    await expect(page.locator('.gates__row').first()).toBeVisible();
+
+    const overflow = await page.evaluate(
+      () => document.documentElement.scrollWidth - window.innerWidth
+    );
+    expect(overflow).toBeLessThanOrEqual(0);
+
+    const results = await new AxeBuilder({ page })
+      .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'])
+      .analyze();
+    expect(results.violations).toEqual([]);
+  });
+
+  test('a failing run can be opened and read', async ({ page }) => {
+    await open(page);
+    await page.locator('.bench__case').first().locator('summary').click();
+
+    const failed = page.locator('.bench__sample--failed').first();
+    await expect(failed).toBeVisible();
+    // The Arabic normalisation gate explains itself rather than saying
+    // "not found", which would be true and useless. Scoped by name: a
+    // closed <details> keeps its contents in the DOM, so every other
+    // case's gates are matchable too.
+    await expect(
+      page
+        .locator('.bench__gate--failed')
+        .filter({ hasText: 'Arabic comes back' })
+        .first()
+    ).toContainText(/normalisation form/);
+  });
+});
 
 // ---------------------------------------------------------------------------
 // The home page carries one tool: short, and it hands the text over

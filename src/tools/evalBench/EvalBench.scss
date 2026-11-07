@@ -1,0 +1,558 @@
+@use '../../styles/partials/variables' as *;
+
+.bench {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-s);
+
+  // What this is and is not, said before anything else on the page.
+  &__note {
+    padding: var(--space-xs) var(--space-s);
+    border-left: 3px solid var(--color-border-strong);
+    border-radius: 0 var(--radius-s) var(--radius-s) 0;
+    background-color: var(--color-surface-sunken);
+    color: var(--color-text-muted);
+  }
+
+  // -------------------------------------------------------------------------
+  // Mode
+  // -------------------------------------------------------------------------
+  // Two buttons rather than tabs: the tools page already owns a tablist, and
+  // nesting a second one inside a tab panel gives a screen reader two sets
+  // of tabs to tell apart.
+
+  &__modes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3xs);
+  }
+
+  &__mode {
+    min-height: 3.6rem;
+    padding-inline: var(--space-s);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-full);
+    background: none;
+    color: var(--color-text-muted);
+    font-family: var(--font-display);
+    font-size: var(--step--1);
+    font-weight: 500;
+    cursor: pointer;
+
+    &:hover {
+      border-color: var(--color-border-strong);
+      color: var(--color-text);
+    }
+
+    // After the :hover rule above, and deliberately so. `.bench__mode:hover`
+    // carries a pseudo-class and so outranks a bare modifier class — which
+    // meant hovering the *selected* button repainted its text in the body
+    // colour on top of the accent fill, at 2.67:1. It needs its own hover
+    // state rather than a higher-specificity patch.
+    &--on {
+      border-color: var(--color-accent);
+      background-color: var(--color-accent);
+      color: var(--color-on-accent);
+
+      &:hover {
+        background-color: var(--color-accent-vivid);
+        border-color: var(--color-accent-vivid);
+        color: var(--color-on-accent);
+      }
+    }
+  }
+
+  @media (hover: none) and (pointer: coarse) {
+    &__mode {
+      min-height: 4.4rem;
+    }
+  }
+
+  &__switch--loose {
+    align-self: flex-start;
+  }
+
+  // -------------------------------------------------------------------------
+  // Controls
+  // -------------------------------------------------------------------------
+
+  &__controls {
+    display: flex;
+    flex-wrap: wrap;
+    // The legend sits above its pills, so aligning to the bottom is what
+    // puts the switch on the same line as the things it applies to.
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: var(--space-s);
+  }
+
+  &__field {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2xs);
+    border: none;
+  }
+
+  &__legend {
+    // A legend is not a flex child, so it sits above rather than inline.
+    font-family: var(--font-mono);
+    font-size: var(--step--2);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-2xs);
+  }
+
+  &__radio,
+  &__switch {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-3xs);
+    // 44px where the pointer is a finger; the input itself is small, so
+    // the whole label carries the target.
+    min-height: 3.6rem;
+    padding-inline: var(--space-2xs);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-full);
+    font-size: var(--step--1);
+    cursor: pointer;
+
+    &:hover {
+      border-color: var(--color-border-strong);
+    }
+
+    // The ring belongs on the pill, not on the 13px dot inside it.
+    &:has(input:focus-visible) {
+      outline: 2px solid var(--color-focus);
+      outline-offset: 2px;
+    }
+
+    &:has(input:checked) {
+      border-color: var(--color-accent);
+      background-color: var(--color-chip-bg);
+      color: var(--color-chip-text);
+      font-weight: 600;
+    }
+
+    input {
+      accent-color: var(--color-accent);
+      // Exempt from the 16px control floor: a radio has no text in it to
+      // read, and nothing zooms when it is tapped.
+      width: 1.4rem;
+      height: 1.4rem;
+      margin: 0;
+    }
+  }
+
+  @media (hover: none) and (pointer: coarse) {
+    &__radio,
+    &__switch {
+      min-height: 4.4rem;
+    }
+  }
+
+  // -------------------------------------------------------------------------
+  // Summary
+  // -------------------------------------------------------------------------
+
+  &__summary {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--space-2xs) var(--space-m);
+    padding: var(--space-s);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-m);
+    background-color: var(--color-surface);
+  }
+
+  &__score {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-2xs);
+    flex-wrap: wrap;
+  }
+
+  &__score-value {
+    font-family: var(--font-display);
+    font-size: var(--step-4);
+    font-weight: 700;
+    line-height: 1;
+    color: var(--color-accent);
+  }
+
+  &__score-label,
+  &__flaky {
+    color: var(--color-text-muted);
+    flex: 1 1 24rem;
+  }
+
+  // -------------------------------------------------------------------------
+  // Cases
+  // -------------------------------------------------------------------------
+
+  &__cases {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2xs);
+  }
+
+  &__case {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2xs);
+    padding: var(--space-s);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-m);
+    background-color: var(--color-surface);
+  }
+
+  &__case-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-2xs);
+  }
+
+  &__case-name {
+    font-size: var(--step-1);
+  }
+
+  &__case-rate strong {
+    font-family: var(--font-display);
+    font-size: var(--step-2);
+    color: var(--color-accent);
+  }
+
+  &__case-count {
+    color: var(--color-text-muted);
+    font-size: var(--step--1);
+  }
+
+  &__bar {
+    display: block;
+    height: 0.6rem;
+    border-radius: var(--radius-full);
+    background-color: var(--color-surface-sunken);
+    overflow: hidden;
+  }
+
+  &__bar-fill {
+    display: block;
+    height: 100%;
+    width: var(--rate);
+    border-radius: inherit;
+    background-color: var(--color-accent);
+  }
+
+  // A sentence, so it is body size. The colour says it is secondary; the
+  // size does not get to say it as well.
+  &__case-spread {
+    color: var(--color-text-muted);
+  }
+
+  // -------------------------------------------------------------------------
+  // Samples
+  // -------------------------------------------------------------------------
+
+  &__samples-toggle {
+    display: inline-flex;
+    align-items: center;
+    min-height: 3.6rem;
+    font-family: var(--font-display);
+    font-size: var(--step--1);
+    font-weight: 500;
+    color: var(--color-accent);
+    cursor: pointer;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  &__sample-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2xs);
+    margin-top: var(--space-2xs);
+  }
+
+  &__sample {
+    padding: var(--space-2xs) var(--space-xs);
+    border-left: 3px solid var(--color-confirm);
+    border-radius: 0 var(--radius-s) var(--radius-s) 0;
+    background-color: var(--color-surface-sunken);
+
+    &--failed {
+      border-left-color: var(--color-accent-vivid);
+    }
+  }
+
+  &__sample-head {
+    color: var(--color-text-muted);
+  }
+
+  &__verdict {
+    font-weight: 700;
+    &--pass {
+      color: var(--color-text);
+    }
+    &--fail {
+      color: var(--color-accent);
+    }
+  }
+
+  &__output,
+  &__prompt {
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
+    line-height: var(--leading-snug);
+    margin-block: var(--space-3xs);
+    padding: var(--space-2xs);
+    border-radius: var(--radius-s);
+    background-color: var(--color-bg);
+    // A long JSON line scrolls inside its own box rather than widening
+    // the page, which it would do at every width.
+    overflow-x: auto;
+    white-space: pre-wrap;
+    word-break: break-word;
+  }
+
+  &__gates {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3xs);
+  }
+
+  // Each line is a verdict with its reason — the thing the harness exists
+  // to say. It is read, so it is read at body size.
+  &__gate {
+    color: var(--color-text-muted);
+
+    &--failed {
+      color: var(--color-text);
+    }
+  }
+
+  &__gate-mark {
+    font-weight: 700;
+    color: var(--color-confirm);
+    .bench__gate--failed & {
+      color: var(--color-accent);
+    }
+  }
+
+  &__gate-name {
+    font-family: var(--font-mono);
+  }
+
+  // -------------------------------------------------------------------------
+  // Diff
+  // -------------------------------------------------------------------------
+
+  &__diff {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-s);
+  }
+
+  &__diff-headline {
+    padding: var(--space-xs) var(--space-s);
+    border-left: 3px solid var(--color-accent);
+    border-radius: 0 var(--radius-s) var(--radius-s) 0;
+    background-color: var(--color-chip-bg);
+  }
+
+  &__diff-table {
+    width: 100%;
+    border-collapse: collapse;
+    // A four-column table does not fit a phone; it scrolls in its own box.
+    display: block;
+    overflow-x: auto;
+
+    th,
+    td {
+      text-align: left;
+      padding: var(--space-2xs) var(--space-xs);
+      border-bottom: 1px solid var(--color-border);
+      white-space: nowrap;
+      font-size: var(--step--1);
+    }
+
+    thead th {
+      font-family: var(--font-mono);
+      font-size: var(--step--2);
+      letter-spacing: var(--tracking-wide);
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+    }
+
+    tbody th {
+      font-weight: 600;
+    }
+  }
+
+  &__change {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    .bench__row--regressed & {
+      color: var(--color-accent);
+    }
+  }
+
+  &__moves {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2xs);
+  }
+
+  &__move {
+    padding-left: var(--space-2xs);
+    border-left: 3px solid var(--color-confirm);
+
+    &--bad {
+      border-left-color: var(--color-accent-vivid);
+    }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Scoring your own answers
+// ---------------------------------------------------------------------------
+
+.own {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-s);
+
+  &__field {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3xs);
+  }
+
+  &__label {
+    color: var(--color-text-muted);
+  }
+
+  &__input {
+    font-family: var(--font-mono);
+    // The shared control size: under 16px, iOS zooms the page on focus.
+    font-size: var(--font-size-control);
+    line-height: var(--leading-snug);
+    padding: var(--space-2xs);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-m);
+    background-color: var(--color-surface);
+    color: var(--color-text);
+    resize: vertical;
+    // Pasted model output is full of long lines; they wrap here rather
+    // than widening the page.
+    white-space: pre-wrap;
+  }
+
+  &__count {
+    font-size: var(--step--1);
+    color: var(--color-text-muted);
+  }
+
+  &__second {
+    margin-top: var(--space-2xs);
+  }
+
+  &__gates-title {
+    font-size: var(--step-1);
+  }
+
+  &__gates-intro {
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-2xs);
+  }
+
+  &__empty {
+    padding: var(--space-s);
+    border: 1px dashed var(--color-border-strong);
+    border-radius: var(--radius-m);
+    color: var(--color-text-muted);
+  }
+}
+
+.gates {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+  align-items: flex-start;
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2xs);
+    width: 100%;
+  }
+
+  &__row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-3xs);
+    padding: var(--space-2xs);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-m);
+    background-color: var(--color-surface);
+  }
+
+  &__kind,
+  &__value,
+  &__number {
+    min-height: 3.6rem;
+    padding-inline: var(--space-2xs);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-s);
+    background-color: var(--color-bg);
+    color: var(--color-text);
+  }
+
+  &__value {
+    // Takes the rest of the row, and gives it back on a narrow screen.
+    flex: 1 1 18rem;
+    min-width: 0;
+    font-family: var(--font-mono);
+  }
+
+  &__number {
+    width: 9rem;
+    font-family: var(--font-mono);
+  }
+
+  &__to {
+    color: var(--color-text-muted);
+  }
+
+  &__remove {
+    margin-left: auto;
+    min-height: 3.6rem;
+    padding-inline: var(--space-2xs);
+    border: none;
+    border-radius: var(--radius-s);
+    background: none;
+    color: var(--color-text-muted);
+    font-size: var(--step--1);
+    cursor: pointer;
+
+    &:hover {
+      color: var(--color-accent);
+      background-color: var(--color-chip-bg);
+    }
+  }
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .gates__kind,
+  .gates__value,
+  .gates__number,
+  .gates__remove {
+    min-height: 4.4rem;
+  }
+}

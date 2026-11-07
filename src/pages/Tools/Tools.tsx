@@ -17,6 +17,7 @@ const Scratchpad = lazy(() => import('../../tools/scratchpad/Scratchpad'));
 const TextInspector = lazy(
   () => import('../../tools/textInspector/TextInspector')
 );
+const EvalBench = lazy(() => import('../../tools/evalBench/EvalBench'));
 
 const renderTool = (id: string): ReactNode => {
   if (id === 'scratchpad') {
@@ -27,6 +28,7 @@ const renderTool = (id: string): ReactNode => {
   if (id === 'text-inspector') {
     return <TextInspector variant="full" storageKey="text-inspector" />;
   }
+  if (id === 'eval-bench') return <EvalBench />;
   return null;
 };
 
