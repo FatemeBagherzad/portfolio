@@ -10,14 +10,23 @@
       "React 18",
       "JavaScript",
       "SCSS",
+      "Vite",
+      "Python",
       "Django REST Framework",
+      "OpenAPI/Swagger",
       "MySQL",
       "Redis",
       "Docker",
+      "Docker Compose",
       "Nginx",
       "AWS EC2",
       "Terraform",
-      "Playwright"
+      "Linux",
+      "Playwright",
+      "Vitest",
+      "Claude Code",
+      "GitHub Copilot",
+      "Agent skills & instructions"
     ],
     "images": [
       "project-images/rabva/Rabva-reading.gif",
@@ -56,12 +65,17 @@
       "React",
       "JavaScript",
       "SCSS",
+      "Vite",
       "Node.js",
       "Express",
+      "REST APIs",
       "MySQL",
       "Knex.js",
+      "MongoDB",
       "Stripe",
-      "GitHub OAuth"
+      "GitHub OAuth",
+      "JWT",
+      "Google Maps API"
     ],
     "images": [
       "project-images/campheaven/campheaven-gif1.gif",
@@ -104,8 +118,11 @@
       "SCSS",
       "Node.js",
       "Express",
+      "REST APIs",
       "MySQL",
-      "Jira"
+      "Knex.js",
+      "Jira",
+      "Agile/Scrum"
     ],
     "images": [
       "project-images/findfood/findfood-gif1.gif"
@@ -141,7 +158,8 @@
       "SCSS",
       "Axios",
       "Node.js",
-      "Express"
+      "Express",
+      "REST APIs"
     ],
     "images": [
       "project-images/brainflix/brainflix-gif1.gif"
@@ -174,6 +192,7 @@
       "CSS3",
       "SCSS",
       "JavaScript",
+      "DOM API",
       "REST APIs"
     ],
     "images": [
@@ -201,7 +220,8 @@
       "HTML5",
       "CSS3",
       "SCSS",
-      "Responsive layout"
+      "Responsive layout",
+      "Scroll animation"
     ],
     "images": [
       "project-images/travelsite/travelsite-gif1.gif",
@@ -227,7 +247,8 @@
       "HTML5",
       "CSS3",
       "SCSS",
-      "Mobile-first layout"
+      "Mobile-first layout",
+      "Semantic HTML"
     ],
     "images": [
       "project-images/coffeeshop/coffeeshop-gif.gif"

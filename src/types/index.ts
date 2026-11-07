@@ -44,6 +44,14 @@ export interface Challenge {
   description: string;
   /** Which project the problem came from, e.g. "Rabva". */
   project: string;
+  /**
+   * What this particular problem was solved with.
+   *
+   * Narrower than the project's stack on purpose: the write-up about Arabic
+   * rendering is a CSS and Unicode problem, not an AWS one, and tagging it
+   * with everything Rabva uses would make the technology filter useless.
+   */
+  stack: string[];
   /** Surfaced on the home page as a preview. */
   featured?: boolean;
 }

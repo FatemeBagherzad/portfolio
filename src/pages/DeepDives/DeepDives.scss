@@ -125,6 +125,10 @@
   }
 
   &__card {
+    // A linked-to card scrolls to `block: start`, which would otherwise put
+    // it underneath the fixed header.
+    scroll-margin-top: calc(var(--header-h) + var(--space-m));
+
     display: flex;
     flex-direction: column;
     gap: var(--space-2xs);
@@ -149,6 +153,24 @@
   &__card-title {
     font-size: var(--step-1);
     line-height: var(--leading-snug);
+  }
+
+  // Marks the write-up a visitor was linked to, so the click visibly lands
+  // on something rather than just moving the page. It stays until they
+  // navigate again: a timed fade would be gone before a slow reader looked
+  // up, and re-reading the URL is the only way back to it.
+  &__card--targeted {
+    border-color: var(--color-accent);
+    box-shadow:
+      0 0 0 2px var(--color-accent),
+      var(--shadow-card-hover);
+  }
+
+  &__card-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3xs);
+    margin-top: var(--space-2xs);
   }
 
   &__card-txt {

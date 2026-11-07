@@ -27,9 +27,27 @@ const Home = () => {
         <div className="home__dives-grid">
           {featured.map((challenge) => (
             <article key={challenge.id} className="home__dive">
-              <p className="chip chip--label home__dive-tag">{challenge.project}</p>
-              <h3 className="home__dive-title">{challenge.title}</h3>
+              <p className="chip chip--label home__dive-tag">
+                {challenge.project}
+              </p>
+              {/* The link is on the heading, not wrapped around the card, so
+                  it is announced as its title rather than as the whole
+                  paragraph. A pseudo-element on it covers the tile, which is
+                  what makes the entire card clickable. */}
+              <h3 className="home__dive-title">
+                <TransitionLink
+                  className="home__dive-link"
+                  to={'/deep-dives?dive=' + String(challenge.id)}
+                >
+                  {challenge.title}
+                </TransitionLink>
+              </h3>
               <p className="home__dive-txt">{challenge.description}</p>
+              {/* Decorative: the heading above is already the link, so
+                  announcing this too would just repeat it. */}
+              <p className="home__dive-more" aria-hidden="true">
+                Read more <span aria-hidden="true">&rarr;</span>
+              </p>
             </article>
           ))}
         </div>

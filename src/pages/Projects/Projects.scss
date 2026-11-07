@@ -49,9 +49,17 @@
     }
   }
 
+  // The detail view opens on a back button instead of a page title, and a
+  // full section's worth of space above a 36px control reads as a gap the
+  // page forgot to fill rather than as breathing room. It sits close under
+  // the header, the way a toolbar does.
+  &--detail {
+    padding-block-start: var(--space-s);
+  }
+
   &__back {
     align-self: flex-start;
-    margin-bottom: var(--space-l);
+    margin-bottom: var(--space-s);
   }
 }
 

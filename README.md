@@ -47,7 +47,7 @@ here rather than asserted:
   and can be used anywhere; `global` and `typography` are imported a single
   time in `src/styles/main.scss`.
 
-Every one of those claims is a test. `npm test` runs 90 Playwright checks
+Every one of those claims is a test. `npm test` runs 100 Playwright checks
 against the production build: an axe scan of all five routes plus the project
 detail view, the same scan again in dark mode, a horizontal-overflow assertion
 for each route at 320, 375, 768 and 1280px, header tap targets measured at

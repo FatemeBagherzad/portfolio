@@ -13,6 +13,16 @@ export interface VirtualWindow {
   totalHeight: number;
   /** Attach to each rendered row so its real height replaces the estimate. */
   measureRef: (index: number) => (node: HTMLElement | null) => void;
+  /**
+   * Scrolls the window so row `index` is at the top of the viewport.
+   *
+   * Approximate by nature: rows that have never been rendered are still
+   * sized by the estimate, so the further down the list the target is, the
+   * further the landing drifts. Callers that need it exact should correct
+   * with `scrollIntoView` once the row has rendered and measured — which is
+   * cheap, because this call is what puts it on screen in the first place.
+   */
+  scrollToIndex: (index: number, offsetTop?: number) => void;
 }
 
 /**
@@ -126,6 +136,21 @@ export const useWindowVirtualList = (
     tick,
   ]);
 
+  const scrollToIndex = useCallback(
+    (index: number, offsetTop = 0): void => {
+      const container = containerRef.current;
+      if (!container || index < 0 || index >= count) return;
+
+      const containerTop = container.getBoundingClientRect().top + window.scrollY;
+      const target = containerTop + (offsets[index] ?? 0) - offsetTop;
+      // 'instant', not 'auto': 'auto' means "whatever the stylesheet says",
+      // and this one says `scroll-behavior: smooth`. Animating a jump of
+      // several thousand pixels streaks the whole list past the reader.
+      window.scrollTo({ top: Math.max(0, target), behavior: 'instant' });
+    },
+    [containerRef, count, offsets]
+  );
+
   const measureRef = useCallback(
     (index: number) => (node: HTMLElement | null) => {
       const observers = observersRef.current;
@@ -168,5 +193,5 @@ export const useWindowVirtualList = (
     };
   }, []);
 
-  return { items, totalHeight, measureRef };
+  return { items, totalHeight, measureRef, scrollToIndex };
 };

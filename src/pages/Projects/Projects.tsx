@@ -35,7 +35,7 @@ const Projects = () => {
 
   if (openProject) {
     return (
-      <div className="projects container section">
+      <div className="projects projects--detail container section">
         <button
           type="button"
           className="btn btn--ghost projects__back"
@@ -64,10 +64,17 @@ const Projects = () => {
         <div className="projects__cards projects__cards--feature">
           {selectedWork.map((project, index) => (
             <Reveal key={project.id} order={index}>
-              <ProjectCard
-                project={project}
-                onViewDetails={() => openDetail(project)}
-              />
+              {/* 3 degrees, not the 7 the coursework tiles use. Perspective
+                  is a fixed 1000px whatever the element's size, so the same
+                  angle warps a 956px card three times as hard as a 303px
+                  one — measured at 12.4% edge-to-edge scale spread against
+                  3.8% — and swings its left edge out past the page gutter. */}
+              <TiltCard max={3}>
+                <ProjectCard
+                  project={project}
+                  onViewDetails={() => openDetail(project)}
+                />
+              </TiltCard>
             </Reveal>
           ))}
         </div>

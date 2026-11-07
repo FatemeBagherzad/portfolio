@@ -19,8 +19,11 @@ const ALL = 'All';
  */
 const VIRTUALIZE_ABOVE = 20;
 
+/** Breathing room between the sticky bars and a linked-to card. */
+const GAP_BELOW_BARS = 16;
+
 /** A generous estimate; real heights replace it as rows are measured. */
-const ESTIMATED_ROW_HEIGHT = 260;
+const ESTIMATED_ROW_HEIGHT = 300;
 
 const matches = (challenge: Challenge, query: string): boolean => {
   if (query.length === 0) return true;
@@ -29,7 +32,9 @@ const matches = (challenge: Challenge, query: string): boolean => {
     ' ' +
     challenge.description +
     ' ' +
-    challenge.project
+    challenge.project +
+    ' ' +
+    challenge.stack.join(' ')
   ).toLowerCase();
   // Every word must appear somewhere, in any order.
   return query
@@ -45,11 +50,22 @@ interface CardProps {
   total: number;
   /** Current search text, so matches can be marked in the card. */
   query: string;
+  /** True while this is the write-up the visitor was linked to. */
+  targeted: boolean;
 }
 
-const DeepDiveCard = ({ challenge, position, total, query }: CardProps) => (
+const DeepDiveCard = ({
+  challenge,
+  position,
+  total,
+  query,
+  targeted,
+}: CardProps) => (
   <article
-    className="deep-dives__card"
+    id={'dive-' + String(challenge.id)}
+    className={
+      'deep-dives__card' + (targeted ? ' deep-dives__card--targeted' : '')
+    }
     // A windowed list only has some of its rows in the DOM, so assistive
     // technology is told the real size and position explicitly.
     aria-setsize={total}
@@ -62,6 +78,13 @@ const DeepDiveCard = ({ challenge, position, total, query }: CardProps) => (
     <p className="deep-dives__card-txt">
       {highlight(challenge.description, query)}
     </p>
+    <ul className="deep-dives__card-stack" aria-label="Solved with">
+      {challenge.stack.map((tech) => (
+        <li className="chip" key={tech}>
+          {highlight(tech, query)}
+        </li>
+      ))}
+    </ul>
   </article>
 );
 
@@ -76,6 +99,13 @@ const DeepDives = () => {
   useEffect(() => {
     setQuery(urlQuery);
   }, [urlQuery]);
+
+  // `?dive=` is how the home page's preview cards hand this page a specific
+  // write-up. The whole list still renders — the other twenty-five are the
+  // reason to be on this page — but the one that was clicked is scrolled to
+  // and marked, so the click visibly arrives somewhere.
+  const diveParam = searchParams.get('dive');
+  const targetId = diveParam === null ? null : Number(diveParam);
   const [project, setProject] = useState<string>(ALL);
   const listRef = useRef<HTMLDivElement>(null);
   const searchId = useId();
@@ -103,6 +133,74 @@ const DeepDives = () => {
     virtualize ? results.length : 0,
     ESTIMATED_ROW_HEIGHT
   );
+
+  const { scrollToIndex } = virtual;
+
+  /**
+   * Scrolls a linked-to write-up into view.
+   *
+   * Windowing is what makes this more than one `scrollIntoView` call: a row
+   * far down the list is not in the DOM yet, so there is nothing to scroll
+   * to. The virtualiser's estimated offset gets the window close enough for
+   * that row to render, and only then can the real element correct the
+   * landing — the estimate is 300px against cards that run from 220 to 400.
+   */
+  useEffect(() => {
+    if (targetId === null) return;
+
+    const index = results.findIndex((challenge) => challenge.id === targetId);
+    // Filtered out, or not a real id: leave the page where it is rather
+    // than scrolling somewhere arbitrary.
+    if (index === -1) return;
+
+    let frame = 0;
+    let attempts = 0;
+    let lastTop = Number.NaN;
+    let stableFrames = 0;
+
+    const settle = (): void => {
+      attempts += 1;
+      const node = document.getElementById('dive-' + String(targetId));
+
+      if (node) {
+        // Two things sit over the top of the list: the fixed header, and
+        // the controls bar, which is sticky directly beneath it. Measuring
+        // both beats a CSS guess, because the controls are one row on a
+        // desktop and a taller stacked column on a phone.
+        const header = document.querySelector('.menu');
+        const controls = document.querySelector('.deep-dives__controls');
+        const obscured =
+          (header?.getBoundingClientRect().height ?? 0) +
+          (controls?.getBoundingClientRect().height ?? 0);
+
+        const top = node.getBoundingClientRect().top;
+        window.scrollTo({
+          top: Math.max(0, window.scrollY + top - obscured - GAP_BELOW_BARS),
+          behavior: 'instant',
+        });
+
+        // One pass is not enough. Every row above this one is still being
+        // measured, and each measurement that replaces the 300px estimate
+        // with a real height moves this card — so anchoring once lands
+        // close and then drifts. Re-anchor until the position holds still
+        // for three frames, which is when the measurements have finished.
+        const settled = node.getBoundingClientRect().top;
+        stableFrames = Math.abs(settled - lastTop) < 1 ? stableFrames + 1 : 0;
+        lastTop = settled;
+        if (stableFrames >= 3) return;
+      }
+
+      // Roughly a second and a half at 60fps. A phone needs most of it:
+      // the cards are two to three times taller there, so more of them are
+      // re-measured before the offsets above the target stop moving.
+      if (attempts < 90) frame = requestAnimationFrame(settle);
+    };
+
+    if (virtualize) scrollToIndex(index);
+    frame = requestAnimationFrame(settle);
+
+    return () => cancelAnimationFrame(frame);
+  }, [targetId, results, virtualize, scrollToIndex]);
 
   return (
     <div className="deep-dives container section">
@@ -199,6 +297,7 @@ const DeepDives = () => {
                   position={item.index + 1}
                   total={results.length}
                   query={query}
+                  targeted={challenge.id === targetId}
                 />
               </div>
             );
@@ -219,6 +318,7 @@ const DeepDives = () => {
                   position={index + 1}
                   total={results.length}
                   query={query}
+                  targeted={challenge.id === targetId}
                 />
               </div>
             </Reveal>

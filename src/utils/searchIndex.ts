@@ -135,8 +135,16 @@ const RECORDS: SearchRecord[] = [
     title: challenge.title,
     context: challenge.project,
     body: challenge.description,
-    tags: [challenge.project],
-    haystack: [challenge.title, challenge.description, challenge.project]
+    // The owning project first, then what the problem was actually solved
+    // with — so "terraform" finds the AWS write-up and not the other
+    // eighteen that merely belong to the same project.
+    tags: [challenge.project, ...challenge.stack],
+    haystack: [
+      challenge.title,
+      challenge.description,
+      challenge.project,
+      challenge.stack.join(' '),
+    ]
       .join(' ')
       .toLowerCase(),
     href: '/deep-dives',
