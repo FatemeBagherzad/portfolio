@@ -3,21 +3,38 @@
 
 .home {
   // The one section a visitor can act on rather than read.
-  &__tool {
-    padding-block: var(--space-2xl);
+  &__tools {
+    padding-block: var(--space-section);
     display: flex;
     flex-direction: column;
-    gap: var(--space-xs);
+    gap: var(--space-block);
   }
 
-  &__tool-title {
+  &__tools-title {
     font-size: var(--step-3);
+  }
+
+  &__tools-intro {
+    color: var(--color-text-muted);
+    max-width: 62ch;
+    // The gap on the flex parent already separates this from what follows;
+    // a margin here would add a second, different space to the same seam.
+    margin-top: calc(var(--space-block) * -0.5);
+  }
+
+  &__tool {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2xs);
+  }
+
+  &__tool-name {
+    font-size: var(--step-1);
   }
 
   &__tool-intro {
     color: var(--color-text-muted);
     max-width: 62ch;
-    margin-bottom: var(--space-2xs);
   }
 
   // Holds the space the lazily-loaded tool will occupy, so the content
@@ -27,17 +44,34 @@
     border: 1px solid var(--color-border);
     border-radius: var(--radius-l);
     background-color: var(--color-surface);
+
+    // The inspector embed is the counts and nothing else, so it reserves
+    // less than the scratchpad does.
+    &--short {
+      min-height: 20rem;
+    }
+  }
+
+  // The way out of the short version and into the full tool.
+  &__tool-more {
+    align-self: flex-start;
+    font-family: var(--font-display);
+    font-size: var(--step--1);
+    font-weight: 500;
+    color: var(--color-accent);
+    &:hover {
+      text-decoration: underline;
+    }
   }
 
   &__tool-cta {
     align-self: flex-start;
-    margin-top: var(--space-2xs);
   }
 
   &__dives {
     display: flex;
     flex-direction: column;
-    padding-bottom: var(--space-xl);
+    padding-bottom: var(--space-section);
   }
 
   &__dives-title {
@@ -125,9 +159,11 @@
     margin: 0;
   }
 
+  // On the scale like everything else: this was a hardcoded 17px/24px,
+  // which is how one card ends up a size that exists nowhere else.
   &__dive-title {
-    font-size: 1.7rem;
-    line-height: 2.4rem;
+    font-size: var(--step-1);
+    line-height: var(--leading-snug);
     margin: 0;
   }
 
