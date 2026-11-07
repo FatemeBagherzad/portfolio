@@ -44,3 +44,39 @@
 .swiper-pagination {
   bottom: -0.1rem !important;
 }
+
+// Swiper ships its own dots: black at 20% opacity for the inactive ones and
+// its stock iOS blue for the active one. Neither reads the theme, and on the
+// dark page the inactive dots measure 1.01:1 against the background — not
+// faint, invisible. The light theme only got away with it at 1.60:1.
+//
+// Both colours come from the tokens now, so the dots follow the theme and
+// the active one is the brand accent rather than a blue from another
+// design system.
+.swiper-pagination-bullet {
+  width: 0.7rem;
+  height: 0.7rem;
+  // Opacity is reset because Swiper dims the inactive dots with it; the
+  // colour alone now carries the distinction, which is what keeps them
+  // legible on both backgrounds (7.05:1 dark, 6.39:1 light).
+  opacity: 1;
+  background-color: var(--color-text-muted);
+  transition:
+    background-color var(--dur-fast) linear,
+    width var(--dur-fast) var(--ease-out-quint);
+
+  &:focus-visible {
+    outline: 2px solid var(--color-focus);
+    outline-offset: 2px;
+  }
+}
+
+// The active dot is told apart by hue AND by shape. Colour alone would
+// leave the position unreadable for anyone who cannot separate the accent
+// from the muted grey, and these are the only indication of where you are
+// in the set.
+.swiper-pagination-bullet-active {
+  width: 1.8rem;
+  border-radius: var(--radius-full);
+  background-color: var(--color-accent);
+}

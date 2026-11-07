@@ -102,3 +102,92 @@ test.describe('projects', () => {
     ).toEqual([]);
   });
 });
+
+/**
+ * The carousel dots.
+ *
+ * Swiper ships its own: black at 20% opacity for the inactive ones. On the
+ * dark page that measured 1.01:1 against the background — invisible, not
+ * faint — so the only indication of position in an eight-image set was
+ * missing for everyone who lands on the default theme.
+ *
+ * The floor here is WCAG 1.4.11's 3:1 for a meaningful non-text element.
+ */
+const CONTRAST_FLOOR = 3;
+
+const dotContrast = (page: import('@playwright/test').Page) =>
+  page.evaluate(() => {
+    const parse = (value: string) => {
+      const m = value.match(/rgba?\(([^)]+)\)/);
+      if (!m) return null;
+      const p = (m[1] ?? '').split(',').map((x) => parseFloat(x.trim()));
+      return {
+        r: p[0] ?? 0,
+        g: p[1] ?? 0,
+        b: p[2] ?? 0,
+        a: p.length > 3 ? (p[3] ?? 1) : 1,
+      };
+    };
+    const lin = (c: number) => {
+      const s = c / 255;
+      return s <= 0.04045 ? s / 12.92 : Math.pow((s + 0.055) / 1.055, 2.4);
+    };
+    const lum = (c: { r: number; g: number; b: number }) =>
+      0.2126 * lin(c.r) + 0.7152 * lin(c.g) + 0.0722 * lin(c.b);
+
+    const page = parse(getComputedStyle(document.body).backgroundColor);
+    const dots = Array.from(
+      document.querySelectorAll('.swiper-pagination-bullet')
+    );
+    const active = document.querySelector('.swiper-pagination-bullet-active');
+    const inactive = dots.find((d) => d !== active);
+    if (!page || !inactive || !active) return null;
+
+    const measure = (el: Element) => {
+      const style = getComputedStyle(el);
+      const raw = parse(style.backgroundColor);
+      if (!raw) return 0;
+      // Swiper dims its dots with opacity, so fold that in before judging.
+      const alpha = raw.a * parseFloat(style.opacity);
+      const c = {
+        r: alpha * raw.r + (1 - alpha) * page.r,
+        g: alpha * raw.g + (1 - alpha) * page.g,
+        b: alpha * raw.b + (1 - alpha) * page.b,
+      };
+      const a = lum(c);
+      const b = lum(page);
+      return (Math.max(a, b) + 0.05) / (Math.min(a, b) + 0.05);
+    };
+
+    return {
+      count: dots.length,
+      inactive: measure(inactive),
+      active: measure(active),
+      // Position must not be signalled by hue alone.
+      differentWidths:
+        getComputedStyle(active).width !==
+        getComputedStyle(inactive).width,
+    };
+  });
+
+for (const theme of ['dark', 'light'] as const) {
+  test(`every carousel dot is visible in ${theme} mode`, async ({ page }) => {
+    await page.addInitScript((t) => {
+      try {
+        window.localStorage.setItem('theme', t as string);
+      } catch {
+        /* ignore */
+      }
+    }, theme);
+    await page.goto('/projects?project=1');
+    await settleAnimations(page);
+    await expect(page.locator('.swiper-pagination-bullet').first()).toBeVisible();
+
+    const measured = await dotContrast(page);
+    expect(measured).not.toBeNull();
+    expect(measured!.count).toBeGreaterThan(1);
+    expect(measured!.inactive).toBeGreaterThanOrEqual(CONTRAST_FLOOR);
+    expect(measured!.active).toBeGreaterThanOrEqual(CONTRAST_FLOOR);
+    expect(measured!.differentWidths).toBe(true);
+  });
+}

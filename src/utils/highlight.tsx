@@ -1,5 +1,6 @@
 import { Fragment } from 'react';
 import type { ReactNode } from 'react';
+import { highlightTerms } from './synonyms';
 
 /** Escapes a user-typed term so it cannot act as a regular expression. */
 const escapeRegExp = (value: string): string =>
@@ -17,7 +18,10 @@ const escapeRegExp = (value: string): string =>
  * that, typing a bare "(" would throw and blank the page.
  */
 export const highlight = (text: string, query: string): ReactNode => {
-  const terms = query.trim().toLowerCase().split(/\s+/).filter(Boolean);
+  // The expanded forms, not the raw words: searching "js" matches a record
+  // through the word "JavaScript", and marking only the letters typed would
+  // show a result with nothing highlighted — which reads as a mis-hit.
+  const terms = highlightTerms(query);
   if (terms.length === 0) return text;
 
   const pattern = new RegExp(
