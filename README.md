@@ -5,7 +5,7 @@
 The source for my personal site: a React and TypeScript single-page app
 showing selected work, written engineering notes, and how to reach me.
 
-**Live:** https://fateme-bagherzad-portfolio.netlify.app/
+**Live:** https://fateme-bagherzad.com
 
 ## Why it is built this way
 
