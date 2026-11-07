@@ -52,6 +52,16 @@ select {
   color: inherit;
 }
 
+// The default size for anything typed into. Components may restyle these,
+// but they take the size from the same token rather than choosing their
+// own — below 16px, iOS Safari zooms the page on focus and leaves the
+// visitor scrolled sideways on a page that was fitting a moment ago.
+input,
+textarea,
+select {
+  font-size: var(--font-size-control);
+}
+
 ul,
 ol {
   list-style: none;
@@ -137,7 +147,7 @@ p {
 }
 
 .section {
-  padding-block: var(--space-2xl);
+  padding-block: var(--space-section);
 }
 
 // Vertical rhythm without margin collapsing surprises.
@@ -165,7 +175,7 @@ p {
   // reads as chunky with a mouse. Touch devices get the larger target back
   // below, where it actually matters.
   min-height: 3.6rem;
-  padding: 0.4rem var(--space-s);
+  padding: var(--space-3xs) var(--space-s);
   max-width: 100%;
   font-family: var(--font-display);
   font-size: var(--step--1);
@@ -223,20 +233,32 @@ p {
 // grown their own padding — 0.7/1, 0.6/0.9, 0.5/0.8, 0.4/0.8 — which is
 // exactly how a design drifts out of alignment with itself.
 
+// The accent-on-accent-tint pairing measures 7.8:1 in light and 8.9:1 in
+// dark against the page, so the colour was never the problem — 4.5:1 is the
+// floor for body text and 3:1 for large. What made a stack tag hard to read
+// was 11px of letter-spaced monospace: at that size a tint behind the text
+// reads as a smudge whatever its contrast. So the chip gets its own size
+// floor rather than riding the smallest step on the scale, a little more
+// weight to hold the stroke together, and line-height enough to sit on.
+
 .chip {
   display: inline-flex;
   align-items: center;
   font-family: var(--font-mono);
-  font-size: var(--step--2);
-  line-height: 1;
+  font-size: var(--step--1);
+  font-weight: 500;
+  line-height: 1.35;
   padding: var(--space-3xs) var(--space-2xs);
   border-radius: var(--radius-s);
   background-color: var(--color-chip-bg);
   color: var(--color-chip-text);
 }
 
-/* A chip used as a label rather than a value. */
+/* A chip used as a label rather than a value. Uppercase and tracked out,
+   which costs legibility, so it is the one chip that stays on the small
+   step — these are two-word category markers, not content. */
 .chip--label {
+  font-size: var(--step--2);
   letter-spacing: var(--tracking-wide);
   text-transform: uppercase;
 }

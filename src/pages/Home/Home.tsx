@@ -10,35 +10,57 @@ const featured: Challenge[] = (challengesData as Challenge[]).filter(
 );
 
 /**
- * The scratchpad is the one thing on this page a visitor can *use*, so it
- * is here rather than only behind a nav link — but it carries a parser and
- * a unit table, and none of that belongs in the bundle that has to arrive
- * before the hero paints. Lazily loaded, it costs the first view nothing.
+ * The one thing on this page a visitor can *use*, so it is here rather than
+ * only behind a nav link — but it carries a Unicode database, and none of
+ * that belongs in the bundle that has to arrive before the hero paints.
+ * Lazily loaded, it costs the first view nothing.
+ *
+ * One tool, not both. The scratchpad is a better toy and a worse argument:
+ * everyone has seen a calculator, and nobody has seen the thing she keeps
+ * being right about. The tools page is one click away for the rest.
  */
-const Scratchpad = lazy(() => import('../../tools/scratchpad/Scratchpad'));
+const TextInspector = lazy(
+  () => import('../../tools/textInspector/TextInspector')
+);
 
 const Home = () => {
   return (
     <div className="home">
       <Hero />
 
-      <section className="home__tool container" aria-labelledby="home-tool">
-        <h2 id="home-tool" className="home__tool-title">
+      <section className="home__tools container" aria-labelledby="home-tools">
+        <h2 id="home-tools" className="home__tools-title">
           Try something I built
         </h2>
-        <p className="home__tool-intro">
-          A calculator you write in sentences — units, currencies and
-          percentages, each line able to refer to the ones above it. Edit it;
-          it runs entirely in this tab.
+        <p className="home__tools-intro">
+          The Text Inspector. Paste Arabic, Persian, Hebrew or an emoji and
+          watch four honest answers to &ldquo;how long is this?&rdquo;
+          disagree with each other. It runs entirely in this tab.
         </p>
 
-        {/* A plain box of the right height, so the page does not jump when
-            the real thing arrives. */}
-        <Suspense
-          fallback={<div className="home__tool-placeholder" aria-hidden="true" />}
-        >
-          <Scratchpad variant="compact" />
-        </Suspense>
+        <div className="home__tool">
+          {/* A plain box of the right height, so the page does not jump
+              when the real thing arrives. */}
+          <Suspense
+            fallback={
+              <div className="home__tool-placeholder" aria-hidden="true" />
+            }
+          >
+            {/* Counts only here. The per-character table is as long as
+                whatever is pasted in, which would push the section below
+                off the screen — so it waits on the tools page, where this
+                same text is already in the field. */}
+            <TextInspector variant="compact" storageKey="text-inspector">
+              <TransitionLink
+                className="home__tool-more"
+                to="/tools?tool=text-inspector"
+              >
+                See the full analysis
+                <span aria-hidden="true"> &rarr;</span>
+              </TransitionLink>
+            </TextInspector>
+          </Suspense>
+        </div>
 
         <TransitionLink className="btn btn--ghost home__tool-cta" to="/tools">
           All tools

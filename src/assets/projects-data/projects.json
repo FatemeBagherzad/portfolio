@@ -58,7 +58,7 @@
     "id": 2,
     "title": "CampHeaven",
     "tagline": "A campsite booking app with real-time availability, an interactive map, GitHub OAuth and Stripe payments.",
-    "category": "selected",
+    "category": "education",
     "period": "2024",
     "description": "CampHeaven lets people find and book campsites without the usual friction: browse locations, filter by what actually matters to the trip, check real-time availability and pay in the same flow. An interactive map makes searching by area rather than by name practical. I built the React front end and a Node and Express API over MySQL, added GitHub OAuth so sign-in does not need another password, and integrated Stripe for payments. Partway through I migrated the database from MongoDB to MySQL, which meant reworking the server-side queries and the data access layer around a relational model — the right call once bookings, sites and users clearly needed joins rather than nested documents. It also taught me to read a pricing page carefully before trusting a free database tier.",
     "stack": [

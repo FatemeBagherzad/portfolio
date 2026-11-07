@@ -1,11 +1,11 @@
-import { useId, useMemo, useState } from 'react';
+import { useEffect, useId, useMemo, useState } from 'react';
+import type { ReactNode } from 'react';
 import './TextInspector.scss';
 import { inspect, type Inspection } from './inspect';
+import InspectorFindings from './InspectorFindings';
+import InspectorTable from './InspectorTable';
 
 const SAMPLE = 'بِسْمِ ٱللَّٰهِ';
-
-/** How many characters the per-character table will render before stopping. */
-const TABLE_LIMIT = 120;
 
 interface StatProps {
   label: string;
@@ -21,6 +21,36 @@ const Stat = ({ label, value, note }: StatProps) => (
   </div>
 );
 
+interface TextInspectorProps {
+  /**
+   * `compact` is the homepage embed: the field and the counts, and none of
+   * the analysis under them. The counts are the part that fits in a glance;
+   * the per-character table is as long as whatever was pasted in, and a
+   * homepage section that grows without limit pushes everything below it
+   * out of sight.
+   */
+  variant?: 'full' | 'compact';
+  /**
+   * Where the text is kept between visits. Both instances are given the
+   * same key on purpose: it is what carries a paste from the homepage to
+   * the full analysis on the tools page, with nothing in the URL. Omit it
+   * to disable persistence. It stays in this browser either way.
+   */
+  storageKey?: string;
+  /** Shown at the end of the compact variant — the link to the full tool. */
+  children?: ReactNode;
+}
+
+const read = (key: string | undefined, fallback: string): string => {
+  if (!key) return fallback;
+  try {
+    return window.localStorage.getItem(key) ?? fallback;
+  } catch {
+    // Private windows and blocked site data both throw here.
+    return fallback;
+  }
+};
+
 /**
  * Shows what a string is made of, for scripts where that is not obvious.
  *
@@ -31,15 +61,38 @@ const Stat = ({ label, value, note }: StatProps) => (
  * identically. And a right-to-left override pasted in from elsewhere is
  * invisible, survives a copy, and reorders everything after it.
  */
-const TextInspector = () => {
-  const [text, setText] = useState<string>(SAMPLE);
+const TextInspector = ({
+  variant = 'full',
+  storageKey,
+  children,
+}: TextInspectorProps) => {
+  const [text, setText] = useState<string>(() => read(storageKey, SAMPLE));
   const inputId = useId();
 
   const report = useMemo<Inspection>(() => inspect(text), [text]);
-  const shown = report.characters.slice(0, TABLE_LIMIT);
+  const compact = variant === 'compact';
+
+  // How many of the four counts actually differ. For plain ASCII they all
+  // agree and there is nothing to point out; the moment they do not, that
+  // is the finding.
+  const distinctCounts = new Set([
+    report.counts.utf16,
+    report.counts.codePoints,
+    report.counts.graphemes,
+    report.counts.utf8Bytes,
+  ]).size;
+
+  useEffect(() => {
+    if (!storageKey) return;
+    try {
+      window.localStorage.setItem(storageKey, text);
+    } catch {
+      // Nothing to do, and nothing worth telling the visitor about.
+    }
+  }, [text, storageKey]);
 
   return (
-    <div className="inspector">
+    <div className={'inspector inspector--' + variant}>
       <div className="inspector__field">
         <label className="inspector__label" htmlFor={inputId}>
           Paste any text — Arabic, Persian, Hebrew or Latin
@@ -48,7 +101,7 @@ const TextInspector = () => {
           id={inputId}
           className="inspector__input"
           value={text}
-          rows={3}
+          rows={compact ? 2 : 3}
           spellCheck={false}
           dir="auto"
           onChange={(event) => setText(event.target.value)}
@@ -74,96 +127,36 @@ const TextInspector = () => {
         <Stat label="UTF-8 bytes" value={report.counts.utf8Bytes} />
       </dl>
 
-      <div className="inspector__findings">
-        {report.counts.utf16 !== report.counts.graphemes && (
-          <p className="inspector__finding">
-            <strong>These disagree.</strong> Any index, slice or character
-            limit built on <code>.length</code> will cut this text in the
-            wrong place.
-          </p>
-        )}
+      {compact ? (
+        <>
+          {/* One line, and only when there is something to say. Anything
+              longer here and the section below stops being visible, which
+              is the whole reason the rest of the analysis is a click
+              away. */}
+          {distinctCounts > 1 && (
+            <p className="inspector__headline">
+              Four questions about one string, {distinctCounts} different
+              answers — so <code>.length</code> is not the length.
+            </p>
+          )}
+          {children}
+        </>
+      ) : (
+        <>
+          <InspectorFindings report={report} />
 
-        {report.normalisationMatters && (
-          <p className="inspector__finding">
-            <strong>Normalisation matters here.</strong> NFC is{' '}
-            {report.nfcLength} code points, NFD is {report.nfdLength}. Two
-            copies in different forms look identical and compare unequal —{' '}
-            {report.isNfc
-              ? 'this one is already NFC.'
-              : 'this one is not NFC, so normalise before storing it.'}
-          </p>
-        )}
+          {report.counts.withoutDiacritics !== report.counts.codePoints && (
+            <div className="inspector__stripped">
+              <p className="eyebrow">Diacritics removed</p>
+              <p className="inspector__stripped-text" dir="auto" lang="ar">
+                {report.strippedDiacritics}
+              </p>
+            </div>
+          )}
 
-        {report.invisibles.length > 0 && (
-          <p className="inspector__finding inspector__finding--warn">
-            <strong>
-              {report.invisibles.length} invisible character
-              {report.invisibles.length === 1 ? '' : 's'}.
-            </strong>{' '}
-            {report.invisibles.map((entry) => entry.name).join(', ')}. These
-            survive copy and paste and are a common source of &ldquo;the
-            strings look the same but do not match&rdquo;.
-          </p>
-        )}
-
-        {report.hasMixedDirection && (
-          <p className="inspector__finding">
-            <strong>Mixed direction.</strong> This has both right-to-left and
-            left-to-right runs, so the visual order is not the stored order.
-          </p>
-        )}
-      </div>
-
-      {report.counts.withoutDiacritics !== report.counts.codePoints && (
-        <div className="inspector__stripped">
-          <p className="eyebrow">Diacritics removed</p>
-          <p className="inspector__stripped-text" dir="auto" lang="ar">
-            {report.strippedDiacritics}
-          </p>
-        </div>
+          <InspectorTable characters={report.characters} />
+        </>
       )}
-
-      <div className="inspector__table-wrap">
-        <table className="inspector__table">
-          <caption className="visually-hidden">
-            Every character, with its code point and script
-          </caption>
-          <thead>
-            <tr>
-              <th scope="col">Char</th>
-              <th scope="col">Code point</th>
-              <th scope="col">Script</th>
-              <th scope="col">Note</th>
-            </tr>
-          </thead>
-          <tbody>
-            {shown.map((entry, index) => (
-              <tr
-                key={String(index) + entry.codePoint}
-                className={
-                  entry.isInvisible ? 'inspector__row--invisible' : undefined
-                }
-              >
-                <td className="inspector__char" dir="auto">
-                  {entry.display}
-                </td>
-                <td className="inspector__code">{entry.codePoint}</td>
-                <td>{entry.script}</td>
-                <td className="inspector__note">
-                  {entry.name ?? (entry.isDiacritic ? 'combining mark' : '')}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-
-        {report.characters.length > TABLE_LIMIT && (
-          <p className="inspector__truncated">
-            Showing the first {TABLE_LIMIT} of {report.characters.length}{' '}
-            characters.
-          </p>
-        )}
-      </div>
     </div>
   );
 };

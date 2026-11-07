@@ -51,7 +51,7 @@ const TITLE_WEIGHT = 24;
 const TAG_WEIGHT = 6;
 /** The tag is the search term exactly, not merely contains it. */
 const EXACT_TAG_BONUS = 4;
-/** Carried by the two projects the site leads with. */
+/** Carried by whatever the site leads with — today, Rabva alone. */
 const SELECTED_BOOST = 8;
 /** Pushes a whole page below a specific project or write-up. */
 const PAGE_PENALTY = 4;

@@ -22,7 +22,11 @@ const renderTool = (id: string): ReactNode => {
   if (id === 'scratchpad') {
     return <Scratchpad variant="full" storageKey="scratchpad:tools" />;
   }
-  if (id === 'text-inspector') return <TextInspector />;
+  // The same storage key the homepage embed writes to, which is how a
+  // paste made down there arrives up here with the analysis under it.
+  if (id === 'text-inspector') {
+    return <TextInspector variant="full" storageKey="text-inspector" />;
+  }
   return null;
 };
 

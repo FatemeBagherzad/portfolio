@@ -86,10 +86,13 @@
   // The "what was hard about this" line sits after the tool, not before:
   // the thing itself is the pitch, and the engineering note is for whoever
   // is still reading once they have played with it.
+  // A paragraph to be read, so it is body size and the muted colour alone
+  // carries the fact that it is secondary. Shrinking prose to signal rank
+  // is what made this site hard to read on a phone.
   &__panel-note {
     padding-top: var(--space-s);
     border-top: 1px solid var(--color-border);
-    font-size: var(--step--1);
+    font-size: var(--step-0);
     color: var(--color-text-muted);
     max-width: 68ch;
   }

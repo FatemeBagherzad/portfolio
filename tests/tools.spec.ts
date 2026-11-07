@@ -203,18 +203,32 @@ test.describe('tools page', () => {
 // The homepage embed
 // ---------------------------------------------------------------------------
 
-test.describe('the scratchpad on the home page', () => {
+// ---------------------------------------------------------------------------
+// The home page carries one tool: short, and it hands the text over
+// ---------------------------------------------------------------------------
+
+test.describe('the text inspector on the home page', () => {
+  const embedded = (page: Page) => page.locator('.inspector--compact');
+
+  test('is the only tool embedded there', async ({ page }) => {
+    await page.goto('/');
+    await settleAnimations(page);
+
+    await expect(embedded(page)).toBeVisible();
+    // The scratchpad is a better toy and a worse argument, so it stays on
+    // the tools page rather than doubling the length of this one.
+    await expect(page.locator('.scratchpad')).toHaveCount(0);
+  });
+
   test('is usable without leaving the page', async ({ page }) => {
     await page.goto('/');
     await settleAnimations(page);
 
-    const embedded = page.locator('.home__tool .scratchpad__input');
-    await expect(embedded).toBeVisible();
-
-    await embedded.fill('25 * 4');
+    const input = embedded(page).locator('.inspector__input');
+    await input.fill('hello');
     await expect(
-      page.locator('.home__tool .scratchpad__result-value').first()
-    ).toHaveText('100');
+      embedded(page).locator('.inspector__stat-value').first()
+    ).toHaveText('5');
   });
 
   test('is not in the bundle the first paint waits for', async ({ page }) => {
@@ -226,7 +240,67 @@ test.describe('the scratchpad on the home page', () => {
     await page.goto('/');
     await settleAnimations(page);
 
-    // It arrives as its own chunk rather than inside the main one.
-    expect(chunks.some((url) => /Scratchpad/.test(url))).toBe(true);
+    // It arrives as its own chunk rather than inside the main one...
+    expect(chunks.some((url) => /TextInspector/.test(url))).toBe(true);
+    // ...and the tool this page no longer shows is not fetched at all.
+    expect(chunks.some((url) => /Scratchpad/.test(url))).toBe(false);
+  });
+
+  test('shows the counts and not the table', async ({ page }) => {
+    await page.goto('/');
+    await settleAnimations(page);
+
+    await expect(embedded(page).locator('.inspector__stat')).toHaveCount(5);
+    // The part that grows with whatever is pasted in stays on the tools
+    // page; that is the whole reason this variant exists.
+    await expect(embedded(page).locator('.inspector__table')).toHaveCount(0);
+  });
+
+  test('a paste leaves the next section heading on screen', async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 360, height: 780 });
+    await page.goto('/');
+    await settleAnimations(page);
+
+    const input = embedded(page).locator('.inspector__input');
+    await input.scrollIntoViewIfNeeded();
+    // A real paragraph, not a word: the failure this guards against is the
+    // section growing with its input.
+    await input.fill(
+      'یک پاراگراف طولانی فارسی برای آزمایش، با چند کلمه بیشتر تا متن کوتاه نباشد.'
+    );
+    await expect(
+      embedded(page).locator('.inspector__stat-value').first()
+    ).not.toHaveText('0');
+
+    const tool = await embedded(page).boundingBox();
+    const heading = await page
+      .getByRole('heading', { name: 'Engineering deep dives' })
+      .boundingBox();
+    expect(tool).not.toBeNull();
+    expect(heading).not.toBeNull();
+    // Within a screen of the tool's own top: scroll the tool into view and
+    // the next section announces itself without hunting for it.
+    expect(heading!.y - tool!.y).toBeLessThan(780);
+  });
+
+  test('See more carries the text to the full analysis', async ({ page }) => {
+    await page.goto('/');
+    await settleAnimations(page);
+
+    const typed = 'héllo' + String.fromCodePoint(0x200b);
+    await embedded(page).locator('.inspector__input').fill(typed);
+
+    await page.getByRole('link', { name: /see the full analysis/i }).click();
+
+    await expect(page).toHaveURL(/\/tools\?tool=text-inspector$/);
+    // Same text, now with the table and the findings under it — and
+    // nothing of what was typed went into the URL to get here.
+    await expect(page.locator('.inspector__input')).toHaveValue(typed);
+    await expect(page.locator('.inspector__table')).toBeVisible();
+    await expect(page.locator('.inspector__finding--warn')).toContainText(
+      /ZERO WIDTH SPACE/
+    );
   });
 });

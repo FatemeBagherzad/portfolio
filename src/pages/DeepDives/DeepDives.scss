@@ -52,8 +52,9 @@
     outline: none;
     background: transparent;
     color: var(--color-text);
-    // Never below 16px, or iOS Safari zooms the page on focus.
-    font-size: max(1.6rem, var(--step--1));
+    // The shared control size: never below 16px, or iOS Safari zooms the
+    // page on focus.
+    font-size: var(--font-size-control);
     padding-block: var(--space-xs);
     &::placeholder {
       color: var(--color-text-muted);

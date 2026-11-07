@@ -226,28 +226,71 @@ test.describe('header search', () => {
 });
 
 test.describe('header search on a phone', () => {
-  test.use({ viewport: { width: 390, height: 844 } });
+  // 360px: a Galaxy S24 at its default zoom, and the narrowest screen worth
+  // designing for.
+  test.use({ viewport: { width: 360, height: 780 } });
 
-  test('it lives in the drawer, not the bar', async ({ page }) => {
+  test('is in the bar, not behind the menu button', async ({ page }) => {
     await page.goto('/');
     await settleAnimations(page);
 
-    // The bar is too narrow for a text field, so the inline one is hidden.
-    await expect(page.locator('.site-search--header')).toBeHidden();
+    // One field, visible without opening anything.
+    await expect(page.locator('.site-search')).toHaveCount(1);
+    await expect(field(page)).toBeVisible();
 
+    await field(page).fill('docker');
+    await expect(list(page)).toBeVisible();
+    await expect(page.getByRole('option').first()).toBeVisible();
+  });
+
+  test('the drawer no longer carries a second copy', async ({ page }) => {
+    await page.goto('/');
+    await settleAnimations(page);
     await page.getByRole('button', { name: /open main menu/i }).click();
     await expect(page.locator('#mobile-menu')).toBeVisible();
     await settleAnimations(page);
 
-    const mobileField = page.locator('.site-search--drawer input');
-    await expect(mobileField).toBeVisible();
-    await mobileField.fill('docker');
-    await expect(page.locator('.site-search--drawer [role="listbox"]')).toBeVisible();
+    await expect(page.locator('#mobile-menu .site-search')).toHaveCount(0);
+  });
 
-    // Choosing a result navigates and closes the drawer behind it.
-    await page.locator('.site-search--drawer [role="option"]').first().click();
-    await expect(page.locator('#mobile-menu')).toBeHidden();
-    await expect(page).not.toHaveURL(/\/$/);
+  test('the results list stays inside the screen', async ({ page }) => {
+    await page.goto('/');
+    await settleAnimations(page);
+    await field(page).fill('docker');
+    await expect(list(page)).toBeVisible();
+
+    // Anchored to a field that starts two thirds of the way across a phone,
+    // a list wide enough to read would hang off the right edge. This is the
+    // reason it becomes a sheet under the bar at this width.
+    const box = await list(page).boundingBox();
+    expect(box).not.toBeNull();
+    expect(box!.x).toBeGreaterThanOrEqual(0);
+    expect(box!.x + box!.width).toBeLessThanOrEqual(360);
+  });
+
+  test('the field is a 44px touch target and does not zoom the page', async ({
+    browser,
+  }) => {
+    const context = await browser.newContext({
+      viewport: { width: 360, height: 780 },
+      hasTouch: true,
+      isMobile: true,
+    });
+    const page = await context.newPage();
+    await page.goto('/');
+    await settleAnimations(page);
+
+    const box = await page.locator('.site-search__field').boundingBox();
+    expect(box).not.toBeNull();
+    expect(box!.height).toBeGreaterThanOrEqual(44);
+
+    // Below 16px, iOS Safari zooms the whole page the moment this is
+    // tapped, and leaves the visitor scrolled sideways.
+    const size = await page
+      .locator('.site-search__input')
+      .evaluate((el) => parseFloat(getComputedStyle(el).fontSize));
+    expect(size).toBeGreaterThanOrEqual(16);
+    await context.close();
   });
 });
 

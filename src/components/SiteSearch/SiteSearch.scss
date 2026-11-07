@@ -1,14 +1,22 @@
 @use '../../styles/partials/variables' as *;
-@use '../../styles/partials/mixins' as *;
 
 .site-search {
   position: relative;
+  // The field is the only flexible thing in the bar's left cluster, so it
+  // takes whatever is left after the name and yields when the navigation
+  // needs the room. On a 360px phone that leaves it about 150px, which is
+  // narrow but real — and a real field beats a magnifying glass that opens
+  // a second thing to look at.
+  flex: 1 1 10rem;
+  min-width: 0;
+  max-width: 26rem;
 
   &__field {
     display: flex;
     align-items: center;
     gap: var(--space-3xs);
-    // 36px, the same control height the buttons use.
+    // 36px with a mouse, 44px where the pointer is a finger — set below,
+    // alongside every other touch target on the site.
     min-height: 3.6rem;
     padding-inline: var(--space-2xs);
     border: 1px solid var(--color-border);
@@ -44,7 +52,9 @@
     background: none;
     border: none;
     padding: 0;
-    font-size: var(--step--1);
+    // The shared control size: anything smaller and iOS zooms the page the
+    // moment this is tapped.
+    font-size: var(--font-size-control);
     color: var(--color-text);
 
     &::placeholder {
@@ -167,41 +177,31 @@
     color: var(--color-text-muted);
   }
 
-  // -------------------------------------------------------------------------
-  // Variants
-  // -------------------------------------------------------------------------
+}
 
-  // In the bar: hidden on phones, where the drawer carries it instead.
-  &--header {
-    display: none;
-    @include tablet {
-      display: block;
-      // Grows with the window but never crowds the navigation.
-      width: clamp(16rem, 22vw, 26rem);
-    }
+// Where the pointer is a finger, the field matches every other touch
+// target on the site rather than the 36px a mouse is happy with.
+@media (hover: none) and (pointer: coarse) {
+  .site-search__field {
+    min-height: 4.4rem;
   }
+}
 
-  &--drawer {
-    display: block;
-    margin-bottom: var(--space-xs);
-    @include tablet {
-      display: none;
-    }
-
-    .site-search__field {
-      // A finger-sized target, matching every other row in the drawer.
-      min-height: 4.4rem;
-    }
-
-    .site-search__input {
-      font-size: var(--step-0);
-    }
-
-    // The drawer is already narrow; the list fills it rather than hanging
-    // off the edge.
-    .site-search__results {
-      width: 100%;
-      max-height: 50vh;
-    }
+// -------------------------------------------------------------------------
+// Narrow screens
+// -------------------------------------------------------------------------
+// The field itself fits in the bar; its results list does not. Anchored to
+// the field, a list wide enough to hold a sentence would start two thirds
+// of the way across a phone and run off the right edge. So on a phone it
+// stops being a dropdown under the field and becomes a sheet under the
+// bar, spanning the page's own gutters.
+@media (max-width: 36rem) {
+  .site-search__results {
+    position: fixed;
+    top: calc(var(--header-h) + env(safe-area-inset-top) + var(--space-3xs));
+    left: var(--gutter);
+    right: var(--gutter);
+    width: auto;
+    max-height: calc(100dvh - var(--header-h) - var(--space-xl));
   }
 }

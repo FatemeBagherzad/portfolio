@@ -5,27 +5,22 @@ import { useTransitionNavigate } from '../../hooks/useTransitionNavigate';
 import { searchSite, type SearchResult } from '../../utils/searchIndex';
 import { highlight } from '../../utils/highlight';
 
-interface SiteSearchProps {
-  /**
-   * `header` is the inline field in the bar; `drawer` is the same field at
-   * full width inside the mobile menu, where the bar has no room for it.
-   */
-  variant?: 'header' | 'drawer';
-  /** Called once a result has been chosen, so the drawer can close itself. */
-  onNavigate?: () => void;
-}
-
 /**
- * Search across everything on the site — projects and written deep dives —
- * from a single field in the header.
+ * Search across everything on the site — projects, written deep dives and
+ * the tools — from a single field in the header.
  *
  * It is a real combobox, not an input with a div under it: the input keeps
  * focus the whole time while `aria-activedescendant` moves the selection, so
  * a screen reader reads each result as you arrow through it and typing never
  * stops working. That is the pattern the ARIA spec describes for this, and
  * the reason the arrow keys do not move the caret here.
+ *
+ * One instance, in the bar, at every width. It used to be hidden on phones
+ * with a second copy inside the mobile menu, which meant the field was two
+ * taps away on the devices most likely to be looking for it — and two
+ * comboboxes on the page, only one of them reachable.
  */
-const SiteSearch = ({ variant = 'header', onNavigate }: SiteSearchProps) => {
+const SiteSearch = () => {
   const transitionNavigate = useTransitionNavigate();
   const [query, setQuery] = useState<string>('');
   const [open, setOpen] = useState<boolean>(false);
@@ -59,9 +54,8 @@ const SiteSearch = ({ variant = 'header', onNavigate }: SiteSearchProps) => {
       setQuery('');
       close();
       transitionNavigate(href);
-      onNavigate?.();
     },
-    [close, onNavigate, query, transitionNavigate]
+    [close, query, transitionNavigate]
   );
 
   // A click anywhere else dismisses the list. `pointerdown` rather than
@@ -122,11 +116,7 @@ const SiteSearch = ({ variant = 'header', onNavigate }: SiteSearchProps) => {
   const activeId = active >= 0 ? listId + '-option-' + String(active) : undefined;
 
   return (
-    <div
-      className={'site-search site-search--' + variant}
-      ref={rootRef}
-      role="search"
-    >
+    <div className="site-search" ref={rootRef} role="search">
       <div className="site-search__field">
         <svg
           className="site-search__icon"
