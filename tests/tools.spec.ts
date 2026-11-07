@@ -269,6 +269,81 @@ test.describe('eval bench', () => {
     );
   });
 
+  test('scores answers someone pastes in', async ({ page }) => {
+    await open(page);
+    await page.getByRole('button', { name: /score your own answers/i }).click();
+
+    // Opens prefilled, so there is a score before anything is typed.
+    await expect(page.locator('.bench__score-value')).toHaveText('33%');
+    await expect(page.locator('.own__count').first()).toContainText(
+      '3 runs found'
+    );
+
+    // Replace with answers that all clear the gates.
+    await page
+      .locator('.own__input')
+      .first()
+      .fill('{"ayah":1,"word":"a"}\n---\n{"ayah":2,"word":"b"}');
+    await expect(page.locator('.bench__score-value')).toHaveText('100%');
+
+    // And one that does not, which should take the rate down, not break it.
+    await page
+      .locator('.own__input')
+      .first()
+      .fill('{"ayah":1,"word":"a"}\n---\n{"ayah":900,"word":"b"}');
+    await expect(page.locator('.bench__score-value')).toHaveText('50%');
+  });
+
+  test('a gate can be added and removed', async ({ page }) => {
+    await open(page);
+    await page.getByRole('button', { name: /score your own answers/i }).click();
+    await expect(page.locator('.gates__row')).toHaveCount(2);
+
+    await page.getByRole('button', { name: 'Add a gate' }).click();
+    await expect(page.locator('.gates__row')).toHaveCount(3);
+
+    // A new gate looks for empty text, which every answer contains, so the
+    // score must not move.
+    await expect(page.locator('.bench__score-value')).toHaveText('33%');
+
+    await page.getByRole('button', { name: /remove gate 3/i }).click();
+    await expect(page.locator('.gates__row')).toHaveCount(2);
+  });
+
+  test('what you paste survives a reload and stays in the browser', async ({
+    page,
+  }) => {
+    await open(page);
+    await page.getByRole('button', { name: /score your own answers/i }).click();
+    await page.locator('.own__input').first().fill('{"ayah":5,"word":"x"}');
+
+    await page.reload();
+    await settleAnimations(page);
+    await page.getByRole('button', { name: /score your own answers/i }).click();
+    await expect(page.locator('.own__input').first()).toHaveValue(
+      '{"ayah":5,"word":"x"}'
+    );
+  });
+
+  test('the paste panel is clean at 320px and to axe', async ({ page }) => {
+    // The URL sweeps can only reach the worked example, because the panel
+    // is a mode rather than a route — so its own checks live here.
+    await page.setViewportSize({ width: 320, height: 760 });
+    await open(page);
+    await page.getByRole('button', { name: /score your own answers/i }).click();
+    await expect(page.locator('.gates__row').first()).toBeVisible();
+
+    const overflow = await page.evaluate(
+      () => document.documentElement.scrollWidth - window.innerWidth
+    );
+    expect(overflow).toBeLessThanOrEqual(0);
+
+    const results = await new AxeBuilder({ page })
+      .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa', 'wcag22aa'])
+      .analyze();
+    expect(results.violations).toEqual([]);
+  });
+
   test('a failing run can be opened and read', async ({ page }) => {
     await open(page);
     await page.locator('.bench__case').first().locator('summary').click();

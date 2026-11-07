@@ -65,8 +65,7 @@ const parseJson = (output: string): unknown => {
   }
 };
 
-const countCodePoints = (value: string): number =>
-  Array.from(value).length;
+const countCodePoints = (value: string): number => Array.from(value).length;
 
 export const evaluateAssertion = (
   assertion: Assertion,
@@ -126,9 +125,7 @@ export const evaluateAssertion = (
         ? result(true, String(measured) + ' of ' + String(assertion.limit))
         : result(
             false,
-            String(measured) +
-              ', over by ' +
-              String(measured - assertion.limit)
+            String(measured) + ', over by ' + String(measured - assertion.limit)
           );
     }
 

@@ -6,6 +6,10 @@ import {
   runVersion,
   withNormalisation,
 } from '../src/tools/evalBench/run';
+import {
+  EXAMPLE_RUNS,
+  splitRuns,
+} from '../src/tools/evalBench/parseRuns';
 import { RABVA_SUITE } from '../src/tools/evalBench/suite';
 import type { Assertion } from '../src/tools/evalBench/types';
 
@@ -212,5 +216,49 @@ test.describe('comparing two prompt versions', () => {
     const root = comparison.cases.find((entry) => entry.caseId === 'root');
     expect(root?.movement).toBe('improved');
     expect(root?.newlyPassing.length).toBeGreaterThan(0);
+  });
+});
+
+// ---------------------------------------------------------------------------
+// Splitting what someone pastes in
+// ---------------------------------------------------------------------------
+
+test.describe('pasted runs', () => {
+  test('splits on a line of dashes, not on blank lines', () => {
+    // Pretty-printed JSON has blank lines in it; a blank-line separator
+    // would cut a single answer into several.
+    const pasted = ['{', '  "a": 1', '', '}', '---', '{"a": 2}'].join('\n');
+    expect(splitRuns(pasted)).toEqual(['{\n  "a": 1\n\n}', '{"a": 2}']);
+  });
+
+  test('ignores empty blocks and stray separators', () => {
+    expect(splitRuns('---\n\none\n---\n---\ntwo\n---\n')).toEqual([
+      'one',
+      'two',
+    ]);
+    expect(splitRuns('   ')).toEqual([]);
+    expect(splitRuns('')).toEqual([]);
+  });
+
+  test('a single answer with no separator is one run', () => {
+    expect(splitRuns('just this')).toEqual(['just this']);
+  });
+
+  test('the prefilled example scores what the panel claims', () => {
+    // Three answers, two gates, one good answer: the number someone sees
+    // the first time they open the panel.
+    const runs = splitRuns(EXAMPLE_RUNS);
+    expect(runs).toHaveLength(3);
+
+    const gates: Assertion[] = [
+      { kind: 'json', requiredFields: ['ayah', 'word'] },
+      { kind: 'numberWithin', path: 'ayah', min: 1, max: 286 },
+    ];
+    const passed = runs.filter((run) =>
+      evaluateOutput(gates, run).every((entry) => entry.passed)
+    ).length;
+
+    expect(passed).toBe(1);
+    expect(asPercent(passed / runs.length)).toBe('33%');
   });
 });

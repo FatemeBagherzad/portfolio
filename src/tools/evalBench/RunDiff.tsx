@@ -30,8 +30,7 @@ const RunDiff = ({ comparison }: RunDiffProps) => {
         {regressions > 0 && (
           <>
             {' '}
-            The summary says this change is an improvement. One case
-            disagrees.
+            The summary says this change is an improvement. One case disagrees.
           </>
         )}
       </p>

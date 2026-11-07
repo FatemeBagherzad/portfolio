@@ -15,6 +15,64 @@
   }
 
   // -------------------------------------------------------------------------
+  // Mode
+  // -------------------------------------------------------------------------
+  // Two buttons rather than tabs: the tools page already owns a tablist, and
+  // nesting a second one inside a tab panel gives a screen reader two sets
+  // of tabs to tell apart.
+
+  &__modes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3xs);
+  }
+
+  &__mode {
+    min-height: 3.6rem;
+    padding-inline: var(--space-s);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-full);
+    background: none;
+    color: var(--color-text-muted);
+    font-family: var(--font-display);
+    font-size: var(--step--1);
+    font-weight: 500;
+    cursor: pointer;
+
+    &:hover {
+      border-color: var(--color-border-strong);
+      color: var(--color-text);
+    }
+
+    // After the :hover rule above, and deliberately so. `.bench__mode:hover`
+    // carries a pseudo-class and so outranks a bare modifier class — which
+    // meant hovering the *selected* button repainted its text in the body
+    // colour on top of the accent fill, at 2.67:1. It needs its own hover
+    // state rather than a higher-specificity patch.
+    &--on {
+      border-color: var(--color-accent);
+      background-color: var(--color-accent);
+      color: var(--color-on-accent);
+
+      &:hover {
+        background-color: var(--color-accent-vivid);
+        border-color: var(--color-accent-vivid);
+        color: var(--color-on-accent);
+      }
+    }
+  }
+
+  @media (hover: none) and (pointer: coarse) {
+    &__mode {
+      min-height: 4.4rem;
+    }
+  }
+
+  &__switch--loose {
+    align-self: flex-start;
+  }
+
+  // -------------------------------------------------------------------------
   // Controls
   // -------------------------------------------------------------------------
 
@@ -357,5 +415,144 @@
     &--bad {
       border-left-color: var(--color-accent-vivid);
     }
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Scoring your own answers
+// ---------------------------------------------------------------------------
+
+.own {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-s);
+
+  &__field {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3xs);
+  }
+
+  &__label {
+    color: var(--color-text-muted);
+  }
+
+  &__input {
+    font-family: var(--font-mono);
+    // The shared control size: under 16px, iOS zooms the page on focus.
+    font-size: var(--font-size-control);
+    line-height: var(--leading-snug);
+    padding: var(--space-2xs);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-m);
+    background-color: var(--color-surface);
+    color: var(--color-text);
+    resize: vertical;
+    // Pasted model output is full of long lines; they wrap here rather
+    // than widening the page.
+    white-space: pre-wrap;
+  }
+
+  &__count {
+    font-size: var(--step--1);
+    color: var(--color-text-muted);
+  }
+
+  &__second {
+    margin-top: var(--space-2xs);
+  }
+
+  &__gates-title {
+    font-size: var(--step-1);
+  }
+
+  &__gates-intro {
+    color: var(--color-text-muted);
+    margin-bottom: var(--space-2xs);
+  }
+
+  &__empty {
+    padding: var(--space-s);
+    border: 1px dashed var(--color-border-strong);
+    border-radius: var(--radius-m);
+    color: var(--color-text-muted);
+  }
+}
+
+.gates {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2xs);
+  align-items: flex-start;
+
+  &__list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2xs);
+    width: 100%;
+  }
+
+  &__row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-3xs);
+    padding: var(--space-2xs);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-m);
+    background-color: var(--color-surface);
+  }
+
+  &__kind,
+  &__value,
+  &__number {
+    min-height: 3.6rem;
+    padding-inline: var(--space-2xs);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-s);
+    background-color: var(--color-bg);
+    color: var(--color-text);
+  }
+
+  &__value {
+    // Takes the rest of the row, and gives it back on a narrow screen.
+    flex: 1 1 18rem;
+    min-width: 0;
+    font-family: var(--font-mono);
+  }
+
+  &__number {
+    width: 9rem;
+    font-family: var(--font-mono);
+  }
+
+  &__to {
+    color: var(--color-text-muted);
+  }
+
+  &__remove {
+    margin-left: auto;
+    min-height: 3.6rem;
+    padding-inline: var(--space-2xs);
+    border: none;
+    border-radius: var(--radius-s);
+    background: none;
+    color: var(--color-text-muted);
+    font-size: var(--step--1);
+    cursor: pointer;
+
+    &:hover {
+      color: var(--color-accent);
+      background-color: var(--color-chip-bg);
+    }
+  }
+}
+
+@media (hover: none) and (pointer: coarse) {
+  .gates__kind,
+  .gates__value,
+  .gates__number,
+  .gates__remove {
+    min-height: 4.4rem;
   }
 }

@@ -44,7 +44,9 @@ const runCase = (
   // one that fails sometimes is the one that reaches production.
   const flakyAssertions: Assertion[] = evalCase.assertions.filter(
     (_, index) => {
-      const outcomes = samples.map((sample) => sample.assertions[index]?.passed);
+      const outcomes = samples.map(
+        (sample) => sample.assertions[index]?.passed
+      );
       return outcomes.includes(true) && outcomes.includes(false);
     }
   );
@@ -125,7 +127,10 @@ const failingGates = (result: CaseResult | undefined): Set<string> => {
  * went up while one gate started failing is the shape of a change that
  * looks like progress in a summary and is not.
  */
-export const compareRuns = (before: RunResult, after: RunResult): Comparison => {
+export const compareRuns = (
+  before: RunResult,
+  after: RunResult
+): Comparison => {
   const cases: CaseDelta[] = after.cases.map((afterCase) => {
     const beforeCase = before.cases.find(
       (entry) => entry.case.id === afterCase.case.id
@@ -177,7 +182,9 @@ export const withNormalisation = (suite: Suite, on: boolean): Suite => ({
   cases: suite.cases.map((entry) => ({
     ...entry,
     assertions: entry.assertions.map((assertion) =>
-      assertion.kind === 'contains' ? { ...assertion, normalise: on } : assertion
+      assertion.kind === 'contains'
+        ? { ...assertion, normalise: on }
+        : assertion
     ),
   })),
 });
