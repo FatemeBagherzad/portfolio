@@ -14,14 +14,18 @@ const STORAGE_KEY = 'theme';
  * component state would mean either prop drilling or a context that re-renders
  * the whole tree; an external store read through `useSyncExternalStore` keeps
  * one source of truth and cannot tear between consumers mid-render.
+ *
+ * Dark is the default everywhere below: every read treats anything that is
+ * not an explicit `light` as dark, so a missing attribute, a refused
+ * `localStorage` and a server render all agree with the stylesheet.
  */
 
 const readApplied = (): Theme =>
-  document.documentElement.getAttribute('data-theme') === 'dark'
-    ? 'dark'
-    : 'light';
+  document.documentElement.getAttribute('data-theme') === 'light'
+    ? 'light'
+    : 'dark';
 
-let current: Theme = typeof document === 'undefined' ? 'light' : readApplied();
+let current: Theme = typeof document === 'undefined' ? 'dark' : readApplied();
 
 const listeners = new Set<() => void>();
 
@@ -29,16 +33,14 @@ const emit = (): void => {
   for (const listener of listeners) listener();
 };
 
-const apply = (next: Theme, persist: boolean): void => {
+const apply = (next: Theme): void => {
   current = next;
   document.documentElement.setAttribute('data-theme', next);
-  if (persist) {
-    try {
-      localStorage.setItem(STORAGE_KEY, next);
-    } catch {
-      // Private browsing can refuse storage. The theme still applies for
-      // this visit, it just will not be remembered.
-    }
+  try {
+    localStorage.setItem(STORAGE_KEY, next);
+  } catch {
+    // Private browsing can refuse storage. The theme still applies for
+    // this visit, it just will not be remembered.
   }
   emit();
 };
@@ -54,11 +56,11 @@ export const themeStore = {
     return current;
   },
   set(next: Theme): void {
-    apply(next, true);
+    apply(next);
   },
   toggle(): Theme {
     const next: Theme = current === 'dark' ? 'light' : 'dark';
-    apply(next, true);
+    apply(next);
     return next;
   },
   /** What a toggle would switch to, without switching to it. */
@@ -81,22 +83,11 @@ export const themeStore = {
       // Private browsing refuses storage; the theme still applies today.
     }
   },
-  /** Used by the system-preference listener: follows without persisting. */
-  follow(next: Theme): void {
-    apply(next, false);
-  },
-  hasExplicitChoice(): boolean {
-    try {
-      return localStorage.getItem(STORAGE_KEY) !== null;
-    } catch {
-      return false;
-    }
-  },
 };
 
 export const useTheme = (): Theme =>
   useSyncExternalStore(
     themeStore.subscribe,
     themeStore.getSnapshot,
-    () => 'light' as Theme
+    () => 'dark' as Theme
   );

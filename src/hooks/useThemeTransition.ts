@@ -1,4 +1,4 @@
-import { useCallback, useEffect } from 'react';
+import { useCallback } from 'react';
 import { flushSync } from 'react-dom';
 import { themeStore } from '../store/themeStore';
 import {
@@ -91,20 +91,4 @@ export const useThemeTransition = () => {
     },
     [canTransition]
   );
-};
-
-/**
- * Follows the operating system's colour scheme until the visitor has made an
- * explicit choice of their own, after which their choice wins permanently.
- */
-export const useSystemThemeSync = (): void => {
-  useEffect(() => {
-    const query = window.matchMedia('(prefers-color-scheme: dark)');
-    const handleChange = (event: MediaQueryListEvent): void => {
-      if (themeStore.hasExplicitChoice()) return;
-      themeStore.follow(event.matches ? 'dark' : 'light');
-    };
-    query.addEventListener('change', handleChange);
-    return () => query.removeEventListener('change', handleChange);
-  }, []);
 };

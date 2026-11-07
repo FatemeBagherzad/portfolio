@@ -28,11 +28,12 @@ here rather than asserted:
   WebP at 300w / 600w / 900w behind `srcset`, so a 1× phone downloads about
   32 KB where the original PNGs were 1.7 MB.
 - **Theming is a data change, not a rewrite.** Every colour is a CSS custom
-  property defined once in `_global.scss`; components reference tokens and
-  never a hex value. A light/dark toggle swaps the set at runtime, remembers
-  the choice, follows the operating system until the visitor overrides it,
-  and is applied by an inline script before first paint so the page never
-  flashes the wrong theme.
+  property defined once in `_tokens.scss`; components reference tokens and
+  never a hex value. Dark is the default — unconditionally, not as a
+  response to the operating system — and the toggle swaps the set at
+  runtime and remembers the choice. Only a saved choice of light needs
+  writing, so the inline script that runs before first paint is three lines
+  and the page never flashes the wrong theme.
 - **Search covers the whole site, not one page, at every width.** A
   technology typed in the header — which is a field on a phone too, not a
   magnifying glass behind the menu button — is matched against every
@@ -71,13 +72,14 @@ here rather than asserted:
   and can be used anywhere; `global` and `typography` are imported a single
   time in `src/styles/main.scss`.
 
-Every one of those claims is a test. `npm test` runs 232 Playwright checks
+Every one of those claims is a test. `npm test` runs 234 Playwright checks
 against the production build: an axe scan of every route plus the project
-detail view, the same scan again in dark mode, a horizontal-overflow assertion
+detail view in the default dark theme, the same scan again in light, a
+horizontal-overflow assertion
 and a type-size floor for each page state at 320, 375, 768 and 1280px —
 including each tool's own tab, where the tables and preformatted blocks live
 — header tap targets measured at 44px, keyboard coverage for the skip link, the nav and the mobile menu's
-Enter/Escape handling, theme persistence across reloads, and the search's
+Enter/Escape handling, the dark default and the toggle's persistence across reloads, and the search's
 ranking, deep links and keyboard selection, and the tools — the parser's
 arithmetic, unit and currency rules as pure unit tests, plus the pages they
 run on. CI runs them on every push.

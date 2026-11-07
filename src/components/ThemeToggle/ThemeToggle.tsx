@@ -1,16 +1,12 @@
 import { useRef } from 'react';
 import './ThemeToggle.scss';
 import { useTheme } from '../../store/themeStore';
-import {
-  useSystemThemeSync,
-  useThemeTransition,
-} from '../../hooks/useThemeTransition';
+import { useThemeTransition } from '../../hooks/useThemeTransition';
 
 const ThemeToggle = () => {
   const theme = useTheme();
   const toggleTheme = useThemeTransition();
   const buttonRef = useRef<HTMLButtonElement>(null);
-  useSystemThemeSync();
 
   const handleClick = (): void => {
     const rect = buttonRef.current?.getBoundingClientRect();
