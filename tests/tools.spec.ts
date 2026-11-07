@@ -203,18 +203,32 @@ test.describe('tools page', () => {
 // The homepage embed
 // ---------------------------------------------------------------------------
 
-test.describe('the scratchpad on the home page', () => {
+// ---------------------------------------------------------------------------
+// The home page carries one tool: short, and it hands the text over
+// ---------------------------------------------------------------------------
+
+test.describe('the text inspector on the home page', () => {
+  const embedded = (page: Page) => page.locator('.inspector--compact');
+
+  test('is the only tool embedded there', async ({ page }) => {
+    await page.goto('/');
+    await settleAnimations(page);
+
+    await expect(embedded(page)).toBeVisible();
+    // The scratchpad is a better toy and a worse argument, so it stays on
+    // the tools page rather than doubling the length of this one.
+    await expect(page.locator('.scratchpad')).toHaveCount(0);
+  });
+
   test('is usable without leaving the page', async ({ page }) => {
     await page.goto('/');
     await settleAnimations(page);
 
-    const embedded = page.locator('.home__tool .scratchpad__input');
-    await expect(embedded).toBeVisible();
-
-    await embedded.fill('25 * 4');
+    const input = embedded(page).locator('.inspector__input');
+    await input.fill('hello');
     await expect(
-      page.locator('.home__tool .scratchpad__result-value').first()
-    ).toHaveText('100');
+      embedded(page).locator('.inspector__stat-value').first()
+    ).toHaveText('5');
   });
 
   test('is not in the bundle the first paint waits for', async ({ page }) => {
@@ -226,17 +240,11 @@ test.describe('the scratchpad on the home page', () => {
     await page.goto('/');
     await settleAnimations(page);
 
-    // It arrives as its own chunk rather than inside the main one.
-    expect(chunks.some((url) => /Scratchpad/.test(url))).toBe(true);
+    // It arrives as its own chunk rather than inside the main one...
+    expect(chunks.some((url) => /TextInspector/.test(url))).toBe(true);
+    // ...and the tool this page no longer shows is not fetched at all.
+    expect(chunks.some((url) => /Scratchpad/.test(url))).toBe(false);
   });
-});
-
-// ---------------------------------------------------------------------------
-// The inspector on the home page: short, and it hands the text over
-// ---------------------------------------------------------------------------
-
-test.describe('the text inspector on the home page', () => {
-  const embedded = (page: Page) => page.locator('.inspector--compact');
 
   test('shows the counts and not the table', async ({ page }) => {
     await page.goto('/');

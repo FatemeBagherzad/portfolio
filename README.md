@@ -49,8 +49,9 @@ here rather than asserted:
   — and a Text Inspector that shows what a string is actually made of, which
   exists because "how long is this word" has four different answers in
   Arabic. Both run entirely in the browser with no backend, and both are
-  code-split so the homepage embed costs the first paint nothing. The parser
-  has 30 tests of its own that never open a browser.
+  code-split, so the Text Inspector embedded on the home page costs the
+  first paint nothing and the scratchpad is not fetched there at all. The
+  parser has 30 tests of its own that never open a browser.
 - **Type is readable on a phone, not only in a screenshot.** One fluid
   scale in `_tokens.scss` sets every size on the site: body text is 16px at
   every width, nothing visible goes below 12.5px, and anything typed into is
