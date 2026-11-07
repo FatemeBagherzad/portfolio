@@ -3,6 +3,7 @@ import challengesData from '../assets/projects-data/challenges.json';
 import type { Challenge, Project } from '../types';
 import { HERO_STACK } from '../constants/stack';
 import { TOOLS } from '../tools/registry';
+import { queryGroups } from './synonyms';
 
 export type ResultKind = 'Project' | 'Deep dive' | 'Page' | 'Tool';
 
@@ -179,12 +180,25 @@ const RECORDS: SearchRecord[] = [
   })),
 ];
 
-const terms = (query: string): string[] =>
-  query.trim().toLowerCase().split(/\s+/).filter(Boolean);
-
-/** Cuts a readable extract of `body` around the first match. */
-const snippetFor = (body: string, word: string): string => {
-  const at = body.toLowerCase().indexOf(word);
+/**
+ * Cuts a readable extract of `body` around the first match.
+ *
+ * Takes every spelling of the word and uses whichever one actually appears,
+ * earliest first. Searching "js" matches through the word "JavaScript", and
+ * an extract cut around a term the text does not contain would be a
+ * paragraph with no visible relationship to what was typed.
+ */
+const snippetFor = (body: string, forms: readonly string[]): string => {
+  const lower = body.toLowerCase();
+  let word = '';
+  let at = -1;
+  for (const form of forms) {
+    const found = lower.indexOf(form);
+    if (found !== -1 && (at === -1 || found < at)) {
+      at = found;
+      word = form;
+    }
+  }
   if (at === -1) return body.slice(0, 120).trim() + '…';
 
   const start = Math.max(0, at - 55);
@@ -206,8 +220,8 @@ const snippetFor = (body: string, word: string): string => {
  * Scoring uses the weights defined at the top of this file.
  */
 export const searchSite = (query: string, limit = 12): SearchResult[] => {
-  const words = terms(query);
-  if (words.length === 0) return [];
+  const groups = queryGroups(query);
+  if (groups.length === 0) return [];
 
   const results: SearchResult[] = [];
 
@@ -215,20 +229,40 @@ export const searchSite = (query: string, limit = 12): SearchResult[] => {
     let score = 0;
     let matchedAll = true;
 
-    for (const word of words) {
-      if (!record.haystack.includes(word)) {
+    for (const forms of groups) {
+      const present = forms.filter((form) => record.haystack.includes(form));
+      if (present.length === 0) {
         matchedAll = false;
         break;
       }
-      if (record.title.toLowerCase().includes(word)) score += TITLE_WEIGHT;
-      if (record.tags.some((tag) => tag.toLowerCase().includes(word))) {
+      // The three signals below are awarded once per QUERY WORD, not once
+      // per spelling of it. A record that happens to say both "Node.js"
+      // and "JavaScript" answers the query "js" no better than one that
+      // says "JavaScript" plainly, and should not out-rank it for an
+      // accident of vocabulary.
+      if (present.some((form) => record.title.toLowerCase().includes(form))) {
+        score += TITLE_WEIGHT;
+      }
+      if (
+        record.tags.some((tag) =>
+          present.some((form) => tag.toLowerCase().includes(form))
+        )
+      ) {
         score += TAG_WEIGHT;
       }
       // An exact tag, e.g. searching "react" against the React chip.
-      if (record.tags.some((tag) => tag.toLowerCase() === word)) {
+      if (
+        record.tags.some((tag) =>
+          present.some((form) => tag.toLowerCase() === form)
+        )
+      ) {
         score += EXACT_TAG_BONUS;
       }
-      score += record.body.toLowerCase().split(word).length - 1;
+      // Prose frequency does accumulate across spellings: each mention is
+      // a real mention, and these are tie-breakers rather than signals.
+      for (const form of present) {
+        score += record.body.toLowerCase().split(form).length - 1;
+      }
     }
 
     if (!matchedAll) continue;
@@ -236,9 +270,11 @@ export const searchSite = (query: string, limit = 12): SearchResult[] => {
     results.push({
       ...record,
       score: score + record.boost,
-      snippet: snippetFor(record.body, words[0] ?? ''),
+      snippet: snippetFor(record.body, groups[0] ?? []),
       matchedTags: record.tags.filter((tag) =>
-        words.some((word) => tag.toLowerCase().includes(word))
+        groups.some((forms) =>
+          forms.some((form) => tag.toLowerCase().includes(form))
+        )
       ),
     });
   }

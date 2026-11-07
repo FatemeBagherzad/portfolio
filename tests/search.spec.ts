@@ -48,6 +48,62 @@ test.describe('header search', () => {
     }
   });
 
+  test('an abbreviation finds the full name', async ({ page }) => {
+    await search(page, 'js');
+    const options = page.getByRole('option');
+    expect(await options.count()).toBeGreaterThan(0);
+
+    // Somewhere in the list, the word the site actually uses.
+    const text = (await options.allInnerTexts()).join(' ').toLowerCase();
+    expect(text).toContain('javascript');
+  });
+
+  test('the abbreviation marks the word it matched, not the letters typed', async ({
+    page,
+  }) => {
+    // A result that matched through "JavaScript" while highlighting only
+    // "js" would render with nothing marked and read as a mis-hit.
+    await search(page, 'js');
+    const marked = await list(page).locator('mark').allInnerTexts();
+    expect(marked.length).toBeGreaterThan(0);
+    expect(marked.some((m) => m.toLowerCase() === 'javascript')).toBe(true);
+  });
+
+  test('an abbreviation returns the same results, in the same order', async ({
+    page,
+  }) => {
+    // An abbreviation is a way of typing the query, not a different query,
+    // so it must not reorder the work.
+    await search(page, 'js');
+    const abbreviated = await page.getByRole('option').allInnerTexts();
+
+    await field(page).fill('javascript');
+    await expect(list(page)).toBeVisible();
+    const spelled = await page.getByRole('option').allInnerTexts();
+
+    expect(abbreviated.length).toBeGreaterThan(0);
+    expect(abbreviated.map((t) => t.split('\n')[0])).toEqual(
+      spelled.map((t) => t.split('\n')[0])
+    );
+  });
+
+  test('an abbreviation survives the handoff to Deep Dives', async ({
+    page,
+  }) => {
+    // The header hands that page a raw term through `?q=`. If the two
+    // matchers disagreed about "js", clicking a write-up would land on a
+    // page that then claims to find nothing.
+    await page.goto('/deep-dives?q=js');
+    await settleAnimations(page);
+    await expect(page.locator('.deep-dives__input')).toHaveValue('js');
+    await expect(page.locator('.deep-dives__count')).toContainText(
+      /write-up/
+    );
+    expect(
+      await page.locator('.deep-dives__card mark').count()
+    ).toBeGreaterThan(0);
+  });
+
   test('a project result opens that project', async ({ page }) => {
     await search(page, 'rabva');
 

@@ -6,6 +6,7 @@ import type { Challenge } from '../../types';
 import Reveal from '../../components/Reveal/Reveal';
 import { useWindowVirtualList } from '../../hooks/useWindowVirtualList';
 import { highlight } from '../../utils/highlight';
+import { matchesQuery } from '../../utils/synonyms';
 
 const challenges = challengesData as Challenge[];
 
@@ -36,12 +37,11 @@ const matches = (challenge: Challenge, query: string): boolean => {
     ' ' +
     challenge.stack.join(' ')
   ).toLowerCase();
-  // Every word must appear somewhere, in any order.
-  return query
-    .toLowerCase()
-    .split(/\s+/)
-    .filter(Boolean)
-    .every((word) => haystack.includes(word));
+  // Every word must appear somewhere, in any order, in any of its known
+  // spellings. Shared with the header search on purpose: that search hands
+  // this page a term through `?q=`, so if the two disagreed about what "js"
+  // meant, a result you clicked would land here on an empty list.
+  return matchesQuery(haystack, query);
 };
 
 interface CardProps {
