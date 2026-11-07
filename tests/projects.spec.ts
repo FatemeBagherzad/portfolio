@@ -36,6 +36,23 @@ test.describe('projects', () => {
     expect(await layoutDirection(page, 3)).toBe('column');
   });
 
+  test('one project leads, and CampHeaven sits with the practice work', async ({
+    page,
+  }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto('/projects');
+    await settleAnimations(page);
+
+    const lead = page.locator('.projects__cards--feature .project-card');
+    await expect(lead).toHaveCount(1);
+    await expect(lead).toContainText('Rabva');
+
+    const practice = page.locator('.projects__cards--compact .project-card');
+    await expect(practice.filter({ hasText: 'CampHeaven' })).toHaveCount(1);
+    // Still the full set, just arranged around one of them.
+    await expect(practice).toHaveCount(7);
+  });
+
   test('a narrow window stacks every card', async ({ page }) => {
     await page.setViewportSize({ width: 390, height: 844 });
     await page.goto('/projects');

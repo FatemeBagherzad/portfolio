@@ -53,14 +53,19 @@ const Projects = () => {
       <p className="eyebrow">Selected work</p>
       <h1 className="projects__title">Projects</h1>
       <p className="lede projects__intro">
-        The two I would want to talk through in an interview, and the
-        coursework that got me there.
+        One project I would want to walk through in an interview, and the
+        work that got me there.
       </p>
 
       <section className="projects__section" aria-labelledby="selected-work">
         <h2 id="selected-work" className="projects__section-title">
-          Selected work
+          The one I would walk through
         </h2>
+        <p className="projects__section-note">
+          If there is time for a single project, this is the one I would
+          choose — the data model, the right-to-left typography and the
+          review gates are all mine to defend.
+        </p>
         <div className="projects__cards projects__cards--feature">
           {selectedWork.map((project, index) => (
             <Reveal key={project.id} order={index}>
@@ -85,8 +90,9 @@ const Projects = () => {
           Education &amp; practice
         </h2>
         <p className="projects__section-note">
-          Coursework and self-directed builds from my BrainStation diploma,
-          kept here because the progression is part of the story.
+          CampHeaven, a team sprint, and the coursework and self-directed
+          builds from my BrainStation diploma — kept here because the
+          progression is part of the story.
         </p>
         <div className="projects__cards projects__cards--compact">
           {educationWork.map((project, index) => (

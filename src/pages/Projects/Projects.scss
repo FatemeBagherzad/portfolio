@@ -7,11 +7,17 @@
   }
 
   &__intro {
-    margin-bottom: var(--space-xl);
+    margin-bottom: var(--space-block);
   }
 
   &__section {
-    margin-bottom: var(--space-2xl);
+    margin-bottom: var(--space-section);
+
+    // The page's own bottom padding already closes the last section. Both
+    // together left 96px of nothing under the final row.
+    &:last-child {
+      margin-bottom: 0;
+    }
   }
 
   &__section-title {
@@ -23,7 +29,7 @@
 
   &__section-note {
     color: var(--color-text-muted);
-    margin-bottom: var(--space-l);
+    margin-bottom: var(--space-block);
   }
 
   &__cards {
@@ -34,8 +40,8 @@
     align-items: stretch;
   }
 
-  // One per row, spanning the page. These two carry wide screen-capture
-  // GIFs, which a side-by-side or square crop mangles.
+  // One per row, spanning the page: it carries wide screen-capture GIFs,
+  // which a side-by-side or square crop mangles.
   &__cards--feature {
     grid-template-columns: 1fr;
   }
