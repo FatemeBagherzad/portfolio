@@ -245,7 +245,7 @@ const DeepDives = () => {
             className="deep-dives__input"
             value={query}
             onChange={(event) => setQuery(event.target.value)}
-            placeholder="Search by anything — rtl, utf8mb4, agents…"
+            placeholder="Search by anything"
             autoComplete="off"
           />
         </div>

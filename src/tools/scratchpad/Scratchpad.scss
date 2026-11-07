@@ -1,0 +1,198 @@
+@use '../../styles/partials/variables' as *;
+@use '../../styles/partials/mixins' as *;
+
+// The input and the results column must agree on this exactly, or line 20
+// of the answers drifts away from line 20 of the sums.
+$pad-line-height: 2.6rem;
+
+.scratchpad {
+  --pad-line: #{$pad-line-height};
+
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-l);
+  background-color: var(--color-surface);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+
+  &__pad {
+    display: grid;
+    // The results column is sized to hold a formatted currency without
+    // wrapping, and never grows past a third of the width.
+    grid-template-columns: minmax(0, 1fr) minmax(10rem, 22%);
+  }
+
+  &__input,
+  &__results {
+    font-family: var(--font-mono);
+    font-size: var(--step--1);
+    line-height: var(--pad-line);
+    padding: var(--space-s);
+    margin: 0;
+  }
+
+  &__input {
+    border: none;
+    background: none;
+    color: var(--color-text);
+    resize: none;
+    // No wrapping: one typed line is one visual line, which is what keeps
+    // the results beside it aligned without measuring anything.
+    white-space: pre;
+    overflow-x: auto;
+    overflow-y: hidden;
+
+    &:focus-visible {
+      outline: none;
+      background-color: var(--color-chip-bg);
+    }
+  }
+
+  // The focus ring goes on the card, because the textarea fills it edge to
+  // edge and an outline inside would be clipped by the overflow.
+  &__pad:focus-within {
+    outline: 2px solid var(--color-focus);
+    outline-offset: -2px;
+    border-radius: var(--radius-l);
+  }
+
+  &__results {
+    list-style: none;
+    border-left: 1px solid var(--color-border);
+    background-color: var(--color-surface-sunken);
+    overflow: hidden;
+  }
+
+  &__result {
+    height: var(--pad-line);
+    text-align: right;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    &--value {
+      color: var(--color-accent);
+      font-weight: 600;
+    }
+
+    &--error {
+      color: var(--color-text-muted);
+      font-style: italic;
+      font-size: var(--step--2);
+    }
+
+    &--blank,
+    &--comment {
+      color: transparent;
+    }
+  }
+
+  // Beside the sums there is no need to repeat the line; it is right
+  // there. It stays in the DOM for screen readers, and becomes visible on
+  // a phone where the column moves underneath.
+  &__result-source {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+  }
+
+  &__footer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2xs);
+    padding: var(--space-xs) var(--space-s);
+    border-top: 1px solid var(--color-border);
+  }
+
+  &__hint {
+    flex: 1 1 24rem;
+    font-size: var(--step--2);
+    color: var(--color-text-muted);
+
+    code {
+      font-family: var(--font-mono);
+      background-color: var(--color-chip-bg);
+      border-radius: var(--radius-s);
+      padding: 0 var(--space-3xs);
+      white-space: nowrap;
+    }
+  }
+
+  &__actions {
+    display: flex;
+    gap: var(--space-3xs);
+  }
+
+  &__action {
+    font-size: var(--step--2);
+    min-height: 3.2rem;
+  }
+
+  &__rates {
+    padding: var(--space-2xs) var(--space-s);
+    border-top: 1px solid var(--color-border);
+    font-size: var(--step--2);
+    color: var(--color-text-muted);
+    background-color: var(--color-surface-sunken);
+  }
+
+  // The homepage embed: shorter, and the hint carries less.
+  &--compact {
+    .scratchpad__input,
+    .scratchpad__results {
+      padding: var(--space-xs);
+    }
+  }
+}
+
+// On a phone the results column would leave the sums about eight characters
+// of room, so it moves underneath instead and each answer is labelled by
+// the line it belongs to rather than by its position.
+@media (max-width: 36rem) {
+  .scratchpad__pad {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .scratchpad__results {
+    border-left: none;
+    border-top: 1px solid var(--color-border);
+  }
+
+  // Each answer now carries the line it came from, so the list still makes
+  // sense without the sums sitting next to it.
+  .scratchpad__result {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-s);
+    text-align: left;
+
+    &--blank,
+    &--comment {
+      display: none;
+    }
+  }
+
+  .scratchpad__result-source {
+    position: static;
+    width: auto;
+    height: auto;
+    margin: 0;
+    overflow: hidden;
+    clip-path: none;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    color: var(--color-text-muted);
+    min-width: 0;
+  }
+
+  .scratchpad__result-value {
+    flex: none;
+  }
+}

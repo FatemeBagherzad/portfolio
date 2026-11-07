@@ -12,6 +12,7 @@ import Menu from './components/Menu/Menu';
 import Home from './pages/Home/Home';
 import DeepDives from './pages/DeepDives/DeepDives';
 import Projects from './pages/Projects/Projects';
+import Tools from './pages/Tools/Tools';
 import AboutMe from './pages/AboutMe/AboutMe';
 import NotFound from './pages/NotFound/NotFound';
 
@@ -78,6 +79,7 @@ const AppShell = () => {
             element={<Navigate to="/deep-dives" replace />}
           />
           <Route path="/projects" element={<Projects />} />
+          <Route path="/tools" element={<Tools />} />
           <Route path="/about-me" element={<AboutMe />} />
           <Route path={'*'} element={<NotFound />} />
         </Routes>

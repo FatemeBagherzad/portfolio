@@ -1,0 +1,104 @@
+@use '../../styles/partials/variables' as *;
+@use '../../styles/partials/mixins' as *;
+
+.tools {
+  &__title {
+    margin-block: var(--space-2xs) var(--space-s);
+  }
+
+  &__intro {
+    margin-bottom: var(--space-l);
+  }
+
+  &__tabs {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3xs);
+    margin-bottom: var(--space-m);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  &__tab {
+    position: relative;
+    min-height: 4.4rem;
+    padding: 0 var(--space-s);
+    background: none;
+    border: none;
+    font-family: var(--font-display);
+    font-size: var(--step--1);
+    font-weight: 500;
+    color: var(--color-text-muted);
+    cursor: pointer;
+    transition: color var(--dur-fast) linear;
+
+    &:hover {
+      color: var(--color-text);
+    }
+
+    &--on {
+      color: var(--color-text);
+      font-weight: 600;
+
+      &::after {
+        content: '';
+        position: absolute;
+        left: var(--space-2xs);
+        right: var(--space-2xs);
+        bottom: -1px;
+        height: 2px;
+        border-radius: var(--radius-full);
+        background-color: var(--color-accent);
+      }
+    }
+  }
+
+  &__panel {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-m);
+
+    &:focus {
+      outline: none;
+    }
+  }
+
+  &__panel-head {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2xs);
+  }
+
+  &__panel-title {
+    font-size: var(--step-2);
+  }
+
+  &__panel-tagline {
+    color: var(--color-text-muted);
+    max-width: 62ch;
+  }
+
+  &__panel-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3xs);
+  }
+
+  // The "what was hard about this" line sits after the tool, not before:
+  // the thing itself is the pitch, and the engineering note is for whoever
+  // is still reading once they have played with it.
+  &__panel-note {
+    padding-top: var(--space-s);
+    border-top: 1px solid var(--color-border);
+    font-size: var(--step--1);
+    color: var(--color-text-muted);
+    max-width: 68ch;
+  }
+}
+
+.tools__loading {
+  padding: var(--space-l);
+  text-align: center;
+  color: var(--color-text-muted);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-l);
+}

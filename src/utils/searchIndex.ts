@@ -2,8 +2,9 @@ import projectsData from '../assets/projects-data/projects.json';
 import challengesData from '../assets/projects-data/challenges.json';
 import type { Challenge, Project } from '../types';
 import { HERO_STACK } from '../constants/stack';
+import { TOOLS } from '../tools/registry';
 
-export type ResultKind = 'Project' | 'Deep dive' | 'Page';
+export type ResultKind = 'Project' | 'Deep dive' | 'Page' | 'Tool';
 
 export interface SearchRecord {
   id: string;
@@ -54,6 +55,8 @@ const EXACT_TAG_BONUS = 4;
 const SELECTED_BOOST = 8;
 /** Pushes a whole page below a specific project or write-up. */
 const PAGE_PENALTY = 4;
+/** A working tool outranks writing about one. */
+const TOOL_BOOST = 10;
 
 const projects = projectsData as Project[];
 const challenges = challengesData as Challenge[];
@@ -149,6 +152,23 @@ const RECORDS: SearchRecord[] = [
       .toLowerCase(),
     href: '/deep-dives',
     boost: 0,
+  })),
+
+  // A tool is the only kind of result you can act on rather than read, so
+  // it carries a boost: someone searching "calculator" wants the thing, not
+  // the write-up about the thing.
+  ...TOOLS.map<SearchRecord>((tool) => ({
+    id: 'tool-' + tool.id,
+    kind: 'Tool',
+    title: tool.name,
+    context: 'Runs in your browser',
+    body: tool.tagline,
+    tags: tool.stack,
+    haystack: [tool.name, tool.tagline, tool.note, tool.stack.join(' ')]
+      .join(' ')
+      .toLowerCase(),
+    href: '/tools?tool=' + tool.id,
+    boost: TOOL_BOOST,
   })),
 
   ...PAGES.map<SearchRecord>((page) => ({
