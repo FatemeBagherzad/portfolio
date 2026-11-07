@@ -35,7 +35,7 @@ const Projects = () => {
       <p className="eyebrow">Selected work</p>
       <h1 className="projects__title">Projects</h1>
       <p className="lede projects__intro">
-        Three I would want to talk through in an interview, and the
+        The two I would want to talk through in an interview, and the
         coursework that got me there.
       </p>
 
@@ -46,12 +46,10 @@ const Projects = () => {
         <div className="projects__cards projects__cards--feature">
           {selectedWork.map((project, index) => (
             <Reveal key={project.id} order={index}>
-              <TiltCard>
-                <ProjectCard
-                  project={project}
-                  onViewDetails={() => setOpenProject(project)}
-                />
-              </TiltCard>
+              <ProjectCard
+                project={project}
+                onViewDetails={() => setOpenProject(project)}
+              />
             </Reveal>
           ))}
         </div>

@@ -18,6 +18,15 @@ export interface Project {
   period: string;
   /** Paths relative to `public/`, e.g. `project-images/rabva/Rabva-board.gif`. */
   images: string[];
+  /**
+   * The cover image's own ratio, as `width / height`.
+   *
+   * Driving the media box from this means `object-fit: cover` has nothing
+   * to crop and nothing to letterbox — the box is already the shape of the
+   * picture. A single shared ratio cannot do that here: the covers are
+   * 1.47 and 1.70, so one of them always loses.
+   */
+  coverAspect: string;
   /** Public GitHub repository URL. */
   repo: string;
   /** Deployed URL, when the project is publicly reachable. */

@@ -1,3 +1,4 @@
+import type { CSSProperties } from 'react';
 import './ProjectCard.scss';
 import type { Project } from '../../types';
 
@@ -16,7 +17,12 @@ const ProjectCard = ({ project, onViewDetails }: ProjectCardProps) => {
           never be styled by its own @container rule. */}
       <div className="project-card__layout">
       {cover && (
-        <div className="project-card__media">
+        <div
+          className="project-card__media"
+          // The media box takes the picture's own shape, so there is never
+          // anything to crop off or letterbox in.
+          style={{ '--cover-aspect': project.coverAspect } as CSSProperties}
+        >
           <img
             src={'/' + cover.replace(/^\/+/, '')}
             alt=""
@@ -34,7 +40,7 @@ const ProjectCard = ({ project, onViewDetails }: ProjectCardProps) => {
 
         <ul className="project-card__stack" aria-label="Built with">
           {project.stack.map((tech) => (
-            <li key={tech} className="project-card__stack-item">
+            <li key={tech} className="chip">
               {tech}
             </li>
           ))}

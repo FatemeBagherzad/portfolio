@@ -42,7 +42,8 @@
       "Amazon_Web_Services_Logo.svg",
       "git.svg",
       "github.svg"
-    ]
+    ],
+    "coverAspect": "1000 / 680"
   },
   {
     "id": 2,
@@ -86,13 +87,14 @@
       "nodedotjs.svg",
       "express.svg",
       "mysql.svg"
-    ]
+    ],
+    "coverAspect": "1000 / 588"
   },
   {
     "id": 3,
     "title": "FindFood",
     "tagline": "A dietary-filter restaurant finder, designed and shipped with UX students in a 24-hour industry sprint.",
-    "category": "selected",
+    "category": "education",
     "period": "2024",
     "description": "FindFood helps people with dietary restrictions answer a question that is harder than it sounds: what on this menu can I actually eat? Rather than filtering by cuisine or rating, it filters by ingredients a diner wants and ingredients they need to avoid, then surfaces the dishes that qualify. It was built end to end in a 24-hour industry project alongside UX and design students, which meant agreeing the data model and the API contract early and working to someone else's designs under a real deadline. I worked on the React and Ionic front end and the Express API behind it, and used Jira to keep a team that had not worked together before moving in the same direction.",
     "stack": [
@@ -122,7 +124,8 @@
       "mysql.svg",
       "jira.svg",
       "github.svg"
-    ]
+    ],
+    "coverAspect": "1000 / 588"
   },
   {
     "id": 4,
@@ -156,7 +159,8 @@
       "express.svg",
       "git.svg",
       "github.svg"
-    ]
+    ],
+    "coverAspect": "1000 / 588"
   },
   {
     "id": 5,
@@ -183,7 +187,8 @@
       "sass.svg",
       "javascript.svg",
       "git.svg"
-    ]
+    ],
+    "coverAspect": "1000 / 588"
   },
   {
     "id": 6,
@@ -208,7 +213,8 @@
       "css.svg",
       "sass.svg",
       "git.svg"
-    ]
+    ],
+    "coverAspect": "1000 / 588"
   },
   {
     "id": 7,
@@ -232,7 +238,8 @@
       "css.svg",
       "sass.svg",
       "git.svg"
-    ]
+    ],
+    "coverAspect": "1000 / 588"
   },
   {
     "id": 8,
@@ -257,6 +264,7 @@
     "icons": [
       "html5.svg",
       "css.svg"
-    ]
+    ],
+    "coverAspect": "1000 / 588"
   }
 ]

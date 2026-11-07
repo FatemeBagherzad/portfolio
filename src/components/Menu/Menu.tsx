@@ -2,10 +2,10 @@ import { useCallback, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { useTransitionNavigate } from '../../hooks/useTransitionNavigate';
 import './Menu.scss';
-import menuIcon from '../../assets/icons/menu-white.webp';
 import ThemeToggle from '../ThemeToggle/ThemeToggle';
-import BottomSheet from '../BottomSheet/BottomSheet';
+import NavDrawer from '../NavDrawer/NavDrawer';
 import { paletteStore } from '../../store/paletteStore';
+import { paletteShortcutLabel } from '../../utils/platform';
 
 interface NavItem {
   path: string;
@@ -35,8 +35,8 @@ const Menu = () => {
   };
 
   // Escape, the backdrop, the scroll lock and returning focus to this
-  // button all live in BottomSheet now, rather than being reimplemented
-  // here against document listeners.
+  // button all live in NavDrawer now, rather than being reimplemented here
+  // against document listeners.
   const closeSheet = useCallback(() => setMobileMenu(false), []);
 
   const renderItems = (variant: 'right' | 'dropdown') =>
@@ -67,7 +67,7 @@ const Menu = () => {
             className="menu-txt__home-btn"
             onClick={() => handleMenuClick('/')}
           >
-            fatemeh
+            Fatemeh
             <span className="visually-hidden"> — go to the home page</span>
           </button>
         </div>
@@ -103,8 +103,10 @@ const Menu = () => {
                 strokeLinecap="round"
               />
             </svg>
+            {/* Printed from the actual platform: a Windows keyboard has no
+                Command key, so showing it there is just wrong. */}
             <kbd className="menu-txt__kbd" aria-hidden="true">
-              &#8984;K
+              {paletteShortcutLabel()}
             </kbd>
           </button>
 
@@ -119,23 +121,46 @@ const Menu = () => {
             aria-label={mobileMenu ? 'Close main menu' : 'Open main menu'}
             onClick={() => setMobileMenu((prev) => !prev)}
           >
-            <img
-              src={menuIcon}
-              alt=""
-              width={64}
-              height={64}
+            {/* Inline rather than an image file: the old icon was baked
+                white, which was invisible against the light header and left
+                what looked like an empty gap. Drawn with currentColor it
+                follows the theme, and it is one fewer request. */}
+            <svg
               className="menu-txt__menuIcon"
-            />
+              viewBox="0 0 24 24"
+              width="22"
+              height="22"
+              aria-hidden="true"
+              focusable="false"
+            >
+              {mobileMenu ? (
+                <path
+                  d="M6 6l12 12M18 6L6 18"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                />
+              ) : (
+                <path
+                  d="M3 6h18M3 12h18M3 18h18"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                />
+              )}
+            </svg>
           </button>
 
-          <BottomSheet
+          <NavDrawer
             open={mobileMenu}
             onClose={closeSheet}
             id="mobile-menu"
-            title="Main menu"
+            title="Menu"
           >
-            <ul className="menu-txt__sheet-list">{renderItems('dropdown')}</ul>
-          </BottomSheet>
+            <ul className="menu-txt__drawer-list">{renderItems('dropdown')}</ul>
+          </NavDrawer>
         </nav>
       </div>
     </header>

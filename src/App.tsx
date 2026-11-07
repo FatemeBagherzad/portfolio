@@ -5,6 +5,7 @@ import {
   Route,
   Routes,
   useLocation,
+  useNavigationType,
 } from 'react-router-dom';
 import './App.scss';
 import Menu from './components/Menu/Menu';
@@ -16,13 +17,13 @@ import AboutMe from './pages/AboutMe/AboutMe';
 import NotFound from './pages/NotFound/NotFound';
 
 /**
- * In a single-page app a route change does not move focus, so keyboard and
- * screen-reader users stay stranded wherever they clicked. Moving focus to
- * <main> on every navigation (but not on first load) restores the behaviour
- * a normal page load would have given them.
+ * Restores the two things a real page load gives you for free and a
+ * single-page app does not: the new page starts at the top, and focus moves
+ * to its content instead of being stranded on the link that was clicked.
  */
 const AppShell = () => {
   const location = useLocation();
+  const navigationType = useNavigationType();
   const mainRef = useRef<HTMLElement>(null);
   const isInitialRender = useRef(true);
 
@@ -31,8 +32,21 @@ const AppShell = () => {
       isInitialRender.current = false;
       return;
     }
-    mainRef.current?.focus();
-  }, [location.pathname]);
+
+    // Only a new navigation starts at the top. Back and forward are a POP,
+    // and the browser already restores the position the visitor left — so
+    // overriding it there would throw away where they were.
+    if (navigationType !== 'POP') {
+      // `instant` rather than the stylesheet's smooth scrolling: animating
+      // a jump between pages is slow and disorienting, and on a long page
+      // the old content visibly streaks past.
+      window.scrollTo({ top: 0, left: 0, behavior: 'instant' });
+    }
+
+    // preventScroll matters on a POP: focusing an element scrolls it into
+    // view by default, which would undo the restoration we just preserved.
+    mainRef.current?.focus({ preventScroll: true });
+  }, [location.pathname, navigationType]);
 
   return (
     <>

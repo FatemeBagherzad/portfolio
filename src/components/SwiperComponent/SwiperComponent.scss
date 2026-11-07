@@ -3,19 +3,19 @@
 
 .swiper {
   width: 100%;
-  padding-bottom: 1rem;
+  padding-bottom: var(--space-xs);
   // &__carousel {
   // }
   &__slide {
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 1rem 0;
+    padding: var(--space-xs) 0;
   }
   &__img {
     margin: auto;
     width: 100%;
-    border-radius: 0.5rem;
+    border-radius: var(--radius-m);
     border: 1px solid $color2;
     @include tablet {
       max-width: 50rem;
@@ -29,7 +29,7 @@
   color: var(--color-on-accent);
   background: var(--color-accent);
   border-radius: 50%;
-  padding: 0.5rem;
+  padding: var(--space-2xs);
 }
 
 .swiper-button-prev::after,

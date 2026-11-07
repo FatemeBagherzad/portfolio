@@ -1,0 +1,144 @@
+.drawer {
+  position: fixed;
+  inset: 0;
+  z-index: 3000;
+  display: flex;
+  // Anchors the panel to the right edge.
+  justify-content: flex-end;
+
+  &__backdrop {
+    position: absolute;
+    inset: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    animation: drawer-fade var(--dur-fast) var(--ease-out-quint) both;
+  }
+
+  &__panel {
+    position: relative;
+    // Full height, part width: wide enough for comfortable targets, narrow
+    // enough that the page behind stays visible and the panel reads as a
+    // layer over it rather than a new screen.
+    width: min(82vw, 32rem);
+    height: 100%;
+    // A row: the grab strip is a column of its own rather than an overlay,
+    // so the content beside it needs no hand-tuned left padding to clear it.
+    display: flex;
+    flex-direction: row;
+    background-color: var(--color-bg-elevated);
+    border-left: 1px solid var(--color-border);
+    box-shadow: var(--shadow-overlay);
+    // Clears the notch at the top and the home indicator at the bottom.
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: max(var(--space-s), env(safe-area-inset-bottom));
+    padding-right: env(safe-area-inset-right);
+    animation: drawer-slide var(--dur-base) var(--ease-out-expo) both;
+    transition: transform var(--dur-base) var(--ease-spring);
+  }
+
+  // While a finger is down the panel must track it exactly; a transition
+  // here would make the drag feel laggy and rubbery.
+  &__panel--dragging {
+    transition: none;
+  }
+
+  &__grab {
+    flex-shrink: 0;
+    width: var(--space-m);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: grab;
+    // Claims the horizontal gesture, so a swipe never doubles as a scroll.
+    touch-action: none;
+    &:active {
+      cursor: grabbing;
+    }
+  }
+
+  &__grab-bar {
+    width: 0.4rem;
+    height: 4rem;
+    border-radius: var(--radius-full);
+    background-color: var(--color-border-strong);
+  }
+
+  // Everything except the grab strip. One inline padding here is the only
+  // place the drawer's gutter is set, and it is literally the page gutter,
+  // so the menu lines up with the content behind it.
+  &__body {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    padding-inline: var(--gutter);
+  }
+
+  &__head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2xs);
+    padding-block: var(--space-2xs);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  &__title {
+    font-family: var(--font-mono);
+    font-size: var(--step--2);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+  }
+
+  &__close {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    // The panel covers the header, so this is the only visible way out
+    // besides the backdrop — it gets a full touch target.
+    min-width: 4.4rem;
+    min-height: 4.4rem;
+    margin-right: calc(var(--space-2xs) * -1);
+    padding: 0;
+    background: none;
+    border: none;
+    border-radius: var(--radius-full);
+    color: var(--color-text);
+    cursor: pointer;
+    &:hover {
+      background-color: var(--color-chip-bg);
+    }
+  }
+
+  &__content {
+    flex: 1;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    padding-block: var(--space-2xs);
+    -webkit-overflow-scrolling: touch;
+  }
+}
+
+@keyframes drawer-fade {
+  from {
+    opacity: 0;
+  }
+}
+
+@keyframes drawer-slide {
+  from {
+    transform: translateX(100%);
+  }
+}
+
+// With motion reduced the panel appears rather than sliding, and the drag
+// offset is not applied at all.
+@media (prefers-reduced-motion: reduce) {
+  .drawer__panel {
+    animation: none;
+    transition: none;
+    transform: none !important;
+  }
+}

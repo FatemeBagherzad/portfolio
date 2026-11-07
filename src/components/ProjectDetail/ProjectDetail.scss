@@ -6,7 +6,7 @@
   width: 100%;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: var(--space-xs);
 
   &__title {
     margin: 0;
@@ -22,15 +22,15 @@
   &__tagline {
     font-size: 1.6rem;
     line-height: 2.4rem;
-    margin: 0 0 1rem 0;
+    margin: 0 0 var(--space-xs) 0;
   }
 
   &__subheading {
     font-size: 1.8rem;
     line-height: 2.6rem;
-    margin-top: 1.5rem;
+    margin-top: var(--space-s);
     border-bottom: 1px solid var(--color-border);
-    padding-bottom: 0.4rem;
+    padding-bottom: var(--space-3xs);
   }
 
   &__description {
@@ -40,25 +40,16 @@
   &__stack {
     display: flex;
     flex-wrap: wrap;
-    gap: 0.6rem;
+    gap: var(--space-2xs);
     margin: 0;
     padding: 0;
     list-style: none;
   }
 
-  &__stack-item {
-    font-size: 1.3rem;
-    line-height: 1;
-    padding: 0.6rem 1rem;
-    border-radius: 0.3rem;
-    background-color: var(--color-chip-bg);
-    color: var(--color-chip-text);
-  }
-
   &__actions {
     display: flex;
     flex-wrap: wrap;
-    gap: 1rem;
-    margin-top: 2rem;
+    gap: var(--space-xs);
+    margin-top: var(--space-m);
   }
 }

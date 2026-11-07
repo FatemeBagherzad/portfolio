@@ -27,7 +27,7 @@ const Home = () => {
         <div className="home__dives-grid">
           {featured.map((challenge) => (
             <article key={challenge.id} className="home__dive">
-              <p className="home__dive-tag">{challenge.project}</p>
+              <p className="chip chip--label home__dive-tag">{challenge.project}</p>
               <h3 className="home__dive-title">{challenge.title}</h3>
               <p className="home__dive-txt">{challenge.description}</p>
             </article>

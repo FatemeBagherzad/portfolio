@@ -5,24 +5,23 @@
   &__dives {
     display: flex;
     flex-direction: column;
-    padding-bottom: 4rem;
+    padding-bottom: var(--space-xl);
   }
 
   &__dives-title {
     border-bottom: 2px solid $color2;
-    padding-bottom: 0.6rem;
+    padding-bottom: var(--space-2xs);
   }
 
   &__dives-intro {
-    margin: 1.2rem 0 2rem 0;
+    margin: var(--space-xs) 0 var(--space-m) 0;
     color: var(--color-text-muted);
-    max-width: 62ch;
   }
 
   &__dives-grid {
     display: grid;
     grid-template-columns: 1fr;
-    gap: 2rem;
+    gap: var(--space-m);
     @include tablet {
       grid-template-columns: repeat(auto-fit, minmax(28rem, 1fr));
     }
@@ -31,21 +30,15 @@
   &__dive {
     display: flex;
     flex-direction: column;
-    gap: 0.6rem;
-    padding: 2rem;
+    gap: var(--space-2xs);
+    padding: var(--space-m);
     border: 1px solid var(--color-border);
-    border-radius: 0.6rem;
+    border-radius: var(--radius-l);
     box-shadow: var(--shadow-card);
   }
 
   &__dive-tag {
     align-self: flex-start;
-    font-size: 1.2rem;
-    line-height: 1;
-    padding: 0.5rem 0.8rem;
-    border-radius: 0.3rem;
-    background-color: var(--color-chip-bg);
-    color: var(--color-chip-text);
     margin: 0;
   }
 
@@ -68,6 +61,6 @@
 
   &__dives-cta {
     align-self: flex-start;
-    margin-top: 2.4rem;
+    margin-top: var(--space-m);
   }
 }
