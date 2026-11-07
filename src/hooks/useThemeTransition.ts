@@ -39,6 +39,11 @@ export const useThemeTransition = () => {
         Math.max(y, window.innerHeight - y)
       );
 
+      // Persisted BEFORE the transition opens. Everything below this line
+      // is animation, and the visitor's choice must not depend on it
+      // finishing — or even starting.
+      themeStore.remember(themeStore.nextTheme());
+
       const root = document.documentElement;
       // Scopes the CSS that suppresses the default cross-fade, so route
       // transitions keep theirs.

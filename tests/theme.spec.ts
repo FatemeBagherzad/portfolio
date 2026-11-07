@@ -95,3 +95,19 @@ test.describe('theme', () => {
     });
   }
 });
+
+test('the choice is kept even if the page reloads mid-animation', async ({
+  page,
+}) => {
+  // The toggle runs inside a View Transition, whose callback the browser
+  // defers. Persisting the choice there meant a reload in that window lost
+  // it — this reloads immediately, with no wait at all, to pin that shut.
+  await page.emulateMedia({ colorScheme: 'dark' });
+  await page.goto('/');
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'dark');
+
+  await page.getByRole('button', { name: /switch to light theme/i }).click();
+  await page.reload();
+
+  await expect(page.locator('html')).toHaveAttribute('data-theme', 'light');
+});

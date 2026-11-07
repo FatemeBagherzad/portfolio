@@ -90,6 +90,10 @@
   --color-bg: #fbfbfc;
   --color-bg-elevated: #ffffff;
   --color-surface: #ffffff;
+  // A recessed panel. Neutral on purpose: the chip tint is accent-coloured,
+  // and accent text on an accent-tinted panel measures 4.43:1 in dark mode,
+  // which is under the 4.5 floor for body text.
+  --color-surface-sunken: #f4f4f7;
   --color-text: #0b0b0f;
   --color-text-muted: #5c5c66;
   --color-border: rgba(11, 11, 15, 0.12);
@@ -135,6 +139,7 @@
   --color-bg: #0b0b0f;
   --color-bg-elevated: #141419;
   --color-surface: #141419;
+  --color-surface-sunken: #1c1c24;
   --color-text: #f4f4f5;
   --color-text-muted: #9a9aa5;
   --color-border: rgba(255, 255, 255, 0.14);

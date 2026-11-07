@@ -3,6 +3,7 @@ export const ROUTES = [
   '/',
   '/deep-dives',
   '/projects',
+  '/tools',
   '/about-me',
   '/no-such-page-here',
 ] as const;

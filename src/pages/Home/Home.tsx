@@ -1,3 +1,4 @@
+import { Suspense, lazy } from 'react';
 import Hero from '../../components/Hero/Hero';
 import TransitionLink from '../../components/TransitionLink/TransitionLink';
 import './Home.scss';
@@ -8,10 +9,41 @@ const featured: Challenge[] = (challengesData as Challenge[]).filter(
   (challenge) => challenge.featured
 );
 
+/**
+ * The scratchpad is the one thing on this page a visitor can *use*, so it
+ * is here rather than only behind a nav link — but it carries a parser and
+ * a unit table, and none of that belongs in the bundle that has to arrive
+ * before the hero paints. Lazily loaded, it costs the first view nothing.
+ */
+const Scratchpad = lazy(() => import('../../tools/scratchpad/Scratchpad'));
+
 const Home = () => {
   return (
     <div className="home">
       <Hero />
+
+      <section className="home__tool container" aria-labelledby="home-tool">
+        <h2 id="home-tool" className="home__tool-title">
+          Try something I built
+        </h2>
+        <p className="home__tool-intro">
+          A calculator you write in sentences — units, currencies and
+          percentages, each line able to refer to the ones above it. Edit it;
+          it runs entirely in this tab.
+        </p>
+
+        {/* A plain box of the right height, so the page does not jump when
+            the real thing arrives. */}
+        <Suspense
+          fallback={<div className="home__tool-placeholder" aria-hidden="true" />}
+        >
+          <Scratchpad variant="compact" />
+        </Suspense>
+
+        <TransitionLink className="btn btn--ghost home__tool-cta" to="/tools">
+          All tools
+        </TransitionLink>
+      </section>
 
       {/* The deep dives are the strongest thing on the site, so a few of them
           appear here rather than only behind a nav link. */}

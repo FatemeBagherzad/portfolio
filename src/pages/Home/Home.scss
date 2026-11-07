@@ -2,6 +2,38 @@
 @use '../../styles/partials/mixins' as *;
 
 .home {
+  // The one section a visitor can act on rather than read.
+  &__tool {
+    padding-block: var(--space-2xl);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+  }
+
+  &__tool-title {
+    font-size: var(--step-3);
+  }
+
+  &__tool-intro {
+    color: var(--color-text-muted);
+    max-width: 62ch;
+    margin-bottom: var(--space-2xs);
+  }
+
+  // Holds the space the lazily-loaded tool will occupy, so the content
+  // below it does not jump when the chunk lands.
+  &__tool-placeholder {
+    min-height: 26rem;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-l);
+    background-color: var(--color-surface);
+  }
+
+  &__tool-cta {
+    align-self: flex-start;
+    margin-top: var(--space-2xs);
+  }
+
   &__dives {
     display: flex;
     flex-direction: column;

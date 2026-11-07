@@ -1,0 +1,182 @@
+@use '../../styles/partials/variables' as *;
+@use '../../styles/partials/mixins' as *;
+
+.inspector {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-m);
+
+  &__field {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2xs);
+  }
+
+  &__label {
+    font-size: var(--step--1);
+    color: var(--color-text-muted);
+  }
+
+  &__input {
+    // Arabic at body size is genuinely hard to read; this is the one place
+    // on the site where the text itself is the subject.
+    font-size: var(--step-2);
+    line-height: 1.9;
+    padding: var(--space-s);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-m);
+    background-color: var(--color-surface);
+    color: var(--color-text);
+    resize: vertical;
+  }
+
+  // -------------------------------------------------------------------------
+  // Counts
+  // -------------------------------------------------------------------------
+
+  &__stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(13rem, 1fr));
+    gap: var(--space-2xs);
+    margin: 0;
+  }
+
+  &__stat {
+    padding: var(--space-xs);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-m);
+    background-color: var(--color-surface);
+  }
+
+  &__stat-label {
+    font-family: var(--font-mono);
+    font-size: var(--step--2);
+    letter-spacing: var(--tracking-wide);
+    text-transform: uppercase;
+    color: var(--color-text-muted);
+  }
+
+  &__stat-value {
+    margin: 0;
+    font-family: var(--font-display);
+    font-size: var(--step-3);
+    font-weight: 700;
+    color: var(--color-accent);
+    line-height: 1.1;
+  }
+
+  &__stat-note {
+    margin: 0;
+    font-size: var(--step--2);
+    color: var(--color-text-muted);
+  }
+
+  // -------------------------------------------------------------------------
+  // Findings
+  // -------------------------------------------------------------------------
+
+  &__findings {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2xs);
+
+    &:empty {
+      display: none;
+    }
+  }
+
+  &__finding {
+    padding: var(--space-xs) var(--space-s);
+    border-left: 3px solid var(--color-accent);
+    border-radius: 0 var(--radius-s) var(--radius-s) 0;
+    background-color: var(--color-chip-bg);
+    font-size: var(--step--1);
+
+    code {
+      font-family: var(--font-mono);
+      font-size: 0.95em;
+    }
+  }
+
+  &__finding--warn {
+    border-left-color: var(--color-highlight);
+  }
+
+  &__stripped {
+    padding: var(--space-s);
+    border: 1px dashed var(--color-border-strong);
+    border-radius: var(--radius-m);
+  }
+
+  &__stripped-text {
+    font-size: var(--step-2);
+    line-height: 1.9;
+    margin-top: var(--space-3xs);
+  }
+
+  // -------------------------------------------------------------------------
+  // Character table
+  // -------------------------------------------------------------------------
+
+  &__table-wrap {
+    // A long string of code points has to be able to scroll sideways on a
+    // phone rather than forcing the whole page to.
+    overflow-x: auto;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-m);
+  }
+
+  &__table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: var(--step--1);
+
+    th,
+    td {
+      text-align: left;
+      padding: var(--space-3xs) var(--space-xs);
+      border-bottom: 1px solid var(--color-border);
+      white-space: nowrap;
+    }
+
+    th {
+      font-family: var(--font-mono);
+      font-size: var(--step--2);
+      letter-spacing: var(--tracking-wide);
+      text-transform: uppercase;
+      color: var(--color-text-muted);
+      background-color: var(--color-chip-bg);
+      position: sticky;
+      top: 0;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+  }
+
+  &__char {
+    font-size: var(--step-2);
+    min-width: 4rem;
+  }
+
+  &__code {
+    font-family: var(--font-mono);
+    color: var(--color-accent);
+  }
+
+  &__note {
+    color: var(--color-text-muted);
+    font-size: var(--step--2);
+  }
+
+  &__row--invisible {
+    background-color: var(--color-chip-bg);
+  }
+
+  &__truncated {
+    padding: var(--space-2xs) var(--space-xs);
+    font-size: var(--step--2);
+    color: var(--color-text-muted);
+  }
+}

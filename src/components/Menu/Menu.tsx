@@ -17,6 +17,9 @@ const NAV_ITEMS: readonly NavItem[] = [
   { path: '/', label: 'Home' },
   { path: '/deep-dives', label: 'Deep Dives' },
   { path: '/projects', label: 'Projects' },
+  // Working apps rather than case studies, which is why it sits after the
+  // work and not in place of it.
+  { path: '/tools', label: 'Tools' },
   { path: '/about-me', label: 'About' },
 ];
 

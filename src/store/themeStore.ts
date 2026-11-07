@@ -61,6 +61,26 @@ export const themeStore = {
     apply(next, true);
     return next;
   },
+  /** What a toggle would switch to, without switching to it. */
+  nextTheme(): Theme {
+    return current === 'dark' ? 'light' : 'dark';
+  },
+  /**
+   * Records the choice without touching the page.
+   *
+   * The toggle applies the theme inside a View Transition, and the browser
+   * defers that callback until it has captured the outgoing snapshot — so
+   * the write would land a frame or more after the click. Reloading in that
+   * window used to lose the choice entirely. Remembering it up front, and
+   * animating afterwards, keeps the decision and the animation independent.
+   */
+  remember(next: Theme): void {
+    try {
+      localStorage.setItem(STORAGE_KEY, next);
+    } catch {
+      // Private browsing refuses storage; the theme still applies today.
+    }
+  },
   /** Used by the system-preference listener: follows without persisting. */
   follow(next: Theme): void {
     apply(next, false);

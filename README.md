@@ -41,19 +41,29 @@ here rather than asserted:
   you arrow through it. Results deep-link — a write-up opens Deep Dives
   already filtered, a project opens its own URL — which also means the
   browser's back button now closes a project instead of leaving the page.
+- **There are working apps on here, not only case studies.** `/tools` holds
+  two: a Scratchpad that evaluates lines like `3 nights at $180` through a
+  hand-written tokeniser and precedence-climbing parser — no parsing library
+  — and a Text Inspector that shows what a string is actually made of, which
+  exists because "how long is this word" has four different answers in
+  Arabic. Both run entirely in the browser with no backend, and both are
+  code-split so the homepage embed costs the first paint nothing. The parser
+  has 30 tests of its own that never open a browser.
 - **TypeScript runs in strict mode**, including `noUncheckedIndexedAccess`
   and `exactOptionalPropertyTypes`.
 - **Global styles are emitted once.** `variables` and `mixins` render nothing
   and can be used anywhere; `global` and `typography` are imported a single
   time in `src/styles/main.scss`.
 
-Every one of those claims is a test. `npm test` runs 100 Playwright checks
-against the production build: an axe scan of all five routes plus the project
+Every one of those claims is a test. `npm test` runs 157 Playwright checks
+against the production build: an axe scan of every route plus the project
 detail view, the same scan again in dark mode, a horizontal-overflow assertion
 for each route at 320, 375, 768 and 1280px, header tap targets measured at
 44px, keyboard coverage for the skip link, the nav and the mobile menu's
 Enter/Escape handling, theme persistence across reloads, and the search's
-ranking, deep links and keyboard selection. CI runs them on every push.
+ranking, deep links and keyboard selection, and the tools — the parser's
+arithmetic, unit and currency rules as pure unit tests, plus the pages they
+run on. CI runs them on every push.
 
 ## Stack
 
@@ -83,7 +93,9 @@ npm run dev
 ```
 src/
   components/   Hero, Menu, SiteSearch, ThemeToggle, ProjectCard, Swiper
-  pages/        Home, Projects, DeepDives, AboutMe, NotFound
+  pages/        Home, Projects, DeepDives, Tools, AboutMe, NotFound
+  tools/        scratchpad/ (tokenize, parse, evaluate, units, rates)
+                textInspector/ (inspect) — both code-split
   assets/
     projects-data/   projects.json, challenges.json — the site's content
   constants/    tech.ts — readable names for stack icons; stack.ts

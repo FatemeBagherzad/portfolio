@@ -311,5 +311,30 @@
       "API contracts"
     ],
     "description": "Running separate UI and API repositories forced decisions I had avoided while everything lived in one folder: where the contract lives, how the two stay in step, and what has to happen in which repository when a field changes shape."
+  },
+  {
+    "id": 27,
+    "title": "Writing a Parser Instead of Reaching for One",
+    "project": "Tools",
+    "stack": [
+      "TypeScript",
+      "Parser",
+      "Tokeniser",
+      "Intl.NumberFormat"
+    ],
+    "description": "The Scratchpad reads lines like “3 nights at $180”, so it needed a real tokeniser and a precedence-climbing parser rather than a regex and hope. The interesting decisions were where to be loose: unknown words are kept as labels so “+ 13% tax” works, a percent beside + or - is read against the value on its left, and multiplying a currency by a count keeps the currency instead of raising a type error. Being strict in any of those places would have been correct and useless. Thirty tests pin the behaviour, because a parser is exactly the kind of code where a fix for one input quietly breaks four others."
+  },
+  {
+    "id": 28,
+    "title": "Four Honest Answers to “How Long Is This Word?”",
+    "project": "Tools",
+    "stack": [
+      "Unicode",
+      "Intl.Segmenter",
+      "Normalisation",
+      "RTL",
+      "TypeScript"
+    ],
+    "description": "The Text Inspector exists because three Rabva bugs had the same root: in Arabic, string length is not character count. Diacritics are separate code points, so the number changes when a reader turns them on and every index built on it moves. The same word stored in NFC and NFD renders identically and compares unequal. And a right-to-left override is invisible, survives copy and paste, and silently reorders everything after it. The tool shows all four counts at once — UTF-16 units, code points, graphemes and bytes — and names the invisible characters it finds."
   }
 ]

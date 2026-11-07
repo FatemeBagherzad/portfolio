@@ -2,7 +2,24 @@ import AxeBuilder from '@axe-core/playwright';
 import { expect, test } from '@playwright/test';
 import { settleAnimations } from './settle';
 
-const TOTAL = 26;
+import { readFileSync } from 'node:fs';
+import { fileURLToPath } from 'node:url';
+
+// Read from the data rather than written down here: a hardcoded count goes
+// stale the moment a write-up is added, and fails in a way that looks like
+// a bug in the page rather than a stale number in the test. Read as a file
+// rather than imported, because Playwright runs these as ES modules and a
+// JSON import there needs an import attribute Vite does not use.
+const TOTAL: number = (
+  JSON.parse(
+    readFileSync(
+      fileURLToPath(
+        new URL('../src/assets/projects-data/challenges.json', import.meta.url)
+      ),
+      'utf8'
+    )
+  ) as unknown[]
+).length;
 
 test.describe('deep dives', () => {
   test.beforeEach(async ({ page }) => {
