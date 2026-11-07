@@ -128,10 +128,9 @@ const Menu = () => {
             id="mobile-menu"
             title="Menu"
           >
-            {/* The bar has no room for a text field at phone widths, so
-                search lives at the top of the drawer instead of being
-                dropped from small screens altogether. */}
-            <SiteSearch variant="drawer" onNavigate={closeSheet} />
+            {/* No search field here: the one in the bar is visible at every
+                width now, so a copy in the drawer would only put a second
+                combobox on the page. */}
             <ul className="menu-txt__drawer-list">{renderItems('dropdown')}</ul>
           </NavDrawer>
         </nav>

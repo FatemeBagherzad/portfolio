@@ -45,6 +45,9 @@
   display: flex;
   align-items: center;
   gap: var(--space-3xs);
+  // The navigation keeps its full width and the search field gives way, not
+  // the other way round: a cramped field is usable, a clipped nav is not.
+  flex: none;
 }
 
 .menu-txt {
@@ -60,11 +63,17 @@
   &__left {
     display: flex;
     align-items: center;
-    gap: var(--space-2xs);
+    gap: var(--space-3xs);
     // Without this the field refuses to shrink and pushes the navigation
     // off the right edge on a narrow laptop.
     min-width: 0;
     flex: 1 1 auto;
+    // Leaves the menu and theme buttons their 44px each before the field
+    // claims the rest, so nothing in the bar can be pushed off the edge.
+    margin-right: var(--space-2xs);
+    @include tablet {
+      gap: var(--space-2xs);
+    }
   }
 
   &__home-btn {
@@ -72,7 +81,13 @@
     display: inline-flex;
     align-items: center;
     min-height: 4.4rem;
-    padding-right: var(--space-2xs);
+    // Her name is the one thing in the bar that does not give up space to
+    // anything else.
+    flex: none;
+    padding-right: var(--space-3xs);
+    @include tablet {
+      padding-right: var(--space-2xs);
+    }
     font-family: var(--font-display);
     font-weight: 700;
     font-size: var(--step--1);
