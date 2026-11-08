@@ -57,10 +57,10 @@
   {
     "id": 9,
     "title": "Cheat Sheets",
-    "tagline": "Python, TypeScript, JavaScript, React and SQL cheat sheets in one offline app that opens exactly where you left it.",
+    "tagline": "AI, Kubernetes, Docker, Helm, Python, TypeScript, JavaScript, React and SQL — nine cheat sheets in one offline app that opens where you left it.",
     "category": "education",
     "period": "2026",
-    "description": "A single-page reference app with one scrollable sheet per language — Python, TypeScript, JavaScript, React and SQL — written because I wanted the notes on my phone without a network. React 18 and TypeScript on Vite, with React as the only runtime dependency: the syntax highlighting is a hand-written tokeniser rather than a highlighting library, which keeps the bundle small and the colours consistent across all five languages. The state that matters here is the state you never think about — the open tab, how far down each sheet you had scrolled, which sections you had folded, your theme and your text size all survive closing the app, and the localStorage wrapper behind that returns a fallback rather than throwing when storage is blocked. Scroll position is restored before the first paint rather than after it, so a sheet opens where you left it instead of visibly jumping there. Every size is rem-based, so the A− and A+ controls scale the whole interface from 15px to 23px rather than the body text alone. Search filters the current sheet as you type and marks the matches; section headings fold; each snippet has a copy button. A service worker caches the build, so it keeps working with no connection once it has been opened.",
+    "description": "A single-page reference app with one scrollable sheet per topic — AI, Kubernetes, Docker, Helm, Python, TypeScript, JavaScript, React and SQL — written because I wanted the notes on my phone without a network. React 18 and TypeScript on Vite, with React as the only runtime dependency: the syntax highlighting is a hand-written tokeniser rather than a highlighting library, which keeps the bundle small and lets one sheet mix languages, so a shell command and a YAML file sit inside the Python sheet without either losing its colours. The state that matters here is the state you never think about — the open tab, how far down each sheet you had scrolled, which sections you had folded, your theme and your text size all survive closing the app, and the localStorage wrapper behind that returns a fallback rather than throwing when storage is blocked. Scroll position is restored before the first paint rather than after it, so a sheet opens where you left it instead of visibly jumping there. Every size is rem-based, so the A− and A+ controls scale the whole interface from 15px to 23px rather than the body text alone. Search filters the current sheet as you type and marks the matches; section headings fold; each snippet has a copy button. A service worker caches the build, so it keeps working with no connection once it has been opened.",
     "stack": [
       "React 18",
       "TypeScript",
@@ -71,10 +71,15 @@
       "Service worker"
     ],
     "images": [
-      "project-images/learning/learning-python.jpg",
-      "project-images/learning/learning-react-search.jpg",
-      "project-images/learning/learning-typescript.jpg",
-      "project-images/learning/learning-sql-dark.jpg"
+      "project-images/learning/learning-1-ai.jpg",
+      "project-images/learning/learning-2-kubernetes.jpg",
+      "project-images/learning/learning-3-docker.jpg",
+      "project-images/learning/learning-4-helm.jpg",
+      "project-images/learning/learning-5-python.jpg",
+      "project-images/learning/learning-6-typescript.jpg",
+      "project-images/learning/learning-7-javascript.jpg",
+      "project-images/learning/learning-8-react.jpg",
+      "project-images/learning/learning-9-sql.jpg"
     ],
     "repo": "https://github.com/FatemeBagherzad/Learning-app",
     "icons": [
