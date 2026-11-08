@@ -72,7 +72,7 @@ here rather than asserted:
   and can be used anywhere; `global` and `typography` are imported a single
   time in `src/styles/main.scss`.
 
-Every one of those claims is a test. `npm test` runs 234 Playwright checks
+Every one of those claims is a test. `npm test` runs 254 Playwright checks
 against the production build: an axe scan of every route plus the project
 detail view in the default dark theme, the same scan again in light, a
 horizontal-overflow assertion
@@ -80,7 +80,8 @@ and a type-size floor for each page state at 320, 375, 768 and 1280px —
 including each tool's own tab, where the tables and preformatted blocks live
 — header tap targets measured at 44px, keyboard coverage for the skip link, the nav and the mobile menu's
 Enter/Escape handling, the dark default and the toggle's persistence across reloads, and the search's
-ranking, deep links and keyboard selection, and the tools — the parser's
+ranking, deep links, keyboard selection and the abbreviations people actually
+type ("js" finds JavaScript, in the header and on Deep Dives alike), and the tools — the parser's
 arithmetic, unit and currency rules as pure unit tests, plus the pages they
 run on. CI runs them on every push.
 
