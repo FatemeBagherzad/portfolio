@@ -90,8 +90,8 @@ const Projects = () => {
           Education &amp; practice
         </h2>
         <p className="projects__section-note">
-          CampHeaven, a team sprint, and the coursework and self-directed
-          builds from my BrainStation diploma — kept here because the
+          Things I built for myself, CampHeaven from a team sprint, and the
+          coursework from my BrainStation diploma — kept here because the
           progression is part of the story.
         </p>
         <div className="projects__cards projects__cards--compact">

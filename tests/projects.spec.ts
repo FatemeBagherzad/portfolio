@@ -50,7 +50,45 @@ test.describe('projects', () => {
     const practice = page.locator('.projects__cards--compact .project-card');
     await expect(practice.filter({ hasText: 'CampHeaven' })).toHaveCount(1);
     // Still the full set, just arranged around one of them.
-    await expect(practice).toHaveCount(7);
+    await expect(practice).toHaveCount(8);
+  });
+
+  test('the practice section runs newest first', async ({ page }) => {
+    await page.setViewportSize({ width: 1440, height: 900 });
+    await page.goto('/projects');
+    await settleAnimations(page);
+
+    // Order comes from position in projects.json, not from the period
+    // shown on the card, so nothing stops the two drifting apart. The
+    // dates are the thing a reader actually follows down the section.
+    const years = await page
+      .locator('.projects__cards--compact .project-card__period')
+      .allInnerTexts();
+
+    const parsed = years.map((text) => Number(text.trim().slice(0, 4)));
+    expect(parsed).toHaveLength(8);
+    expect(parsed.every((year) => Number.isFinite(year))).toBe(true);
+
+    const descending = [...parsed].sort((a, b) => b - a);
+    expect(parsed).toEqual(descending);
+  });
+
+  test('a live link is shown only where there is something to open', async ({
+    page,
+  }) => {
+    await page.goto('/projects');
+    await settleAnimations(page);
+
+    // `liveUrl` is optional and most projects have none, so the button has
+    // to be absent rather than present-and-dead. Cheat Sheets is the only
+    // one deployed.
+    const live = page.getByRole('link', { name: /^Live demo of / });
+    await expect(live).toHaveCount(1);
+    await expect(live).toHaveAttribute('href', /^https:\/\//);
+    await expect(live).toHaveAccessibleName(/Cheat Sheets/);
+
+    const cards = page.locator('.project-card');
+    await expect(cards).toHaveCount(9);
   });
 
   test('a narrow window stacks every card', async ({ page }) => {

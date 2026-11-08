@@ -20,6 +20,21 @@ const search = async (page: Page, query: string) => {
   await expect(list(page)).toBeVisible();
 };
 
+/**
+ * The same, without waiting for the page to stop moving.
+ *
+ * `settleAnimations` exists so axe and layout measurements are not taken
+ * mid-fade. A test that only reads the text of the results needs none of
+ * that, and the wait is not free: it holds a worker for up to ten seconds
+ * on a page full of entrance animations, which is enough to make the whole
+ * suite flaky when several tests do it at once.
+ */
+const typeInSearch = async (page: Page, query: string) => {
+  await page.goto('/');
+  await field(page).fill(query);
+  await expect(list(page)).toBeVisible();
+};
+
 test.describe('header search', () => {
   test('a technology finds both projects and write-ups', async ({ page }) => {
     await search(page, 'docker');
@@ -49,7 +64,7 @@ test.describe('header search', () => {
   });
 
   test('an abbreviation finds the full name', async ({ page }) => {
-    await search(page, 'js');
+    await typeInSearch(page, 'js');
     const options = page.getByRole('option');
     expect(await options.count()).toBeGreaterThan(0);
 
@@ -63,7 +78,7 @@ test.describe('header search', () => {
   }) => {
     // A result that matched through "JavaScript" while highlighting only
     // "js" would render with nothing marked and read as a mis-hit.
-    await search(page, 'js');
+    await typeInSearch(page, 'js');
     const marked = await list(page).locator('mark').allInnerTexts();
     expect(marked.length).toBeGreaterThan(0);
     expect(marked.some((m) => m.toLowerCase() === 'javascript')).toBe(true);
@@ -74,7 +89,7 @@ test.describe('header search', () => {
   }) => {
     // An abbreviation is a way of typing the query, not a different query,
     // so it must not reorder the work.
-    await search(page, 'js');
+    await typeInSearch(page, 'js');
     const abbreviated = await page.getByRole('option').allInnerTexts();
 
     await field(page).fill('javascript');

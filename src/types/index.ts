@@ -1,4 +1,11 @@
-/** Where a project sits on the projects page. */
+/**
+ * Where a project sits on the projects page.
+ *
+ * `selected` is deliberately a section of one: the page is built around a
+ * single project to walk through, and a second card there would contradict
+ * both the heading and the wide one-per-row layout. Everything else sits
+ * under `education`, whether or not it came from a course.
+ */
 export type ProjectCategory = 'selected' | 'education';
 
 /**
